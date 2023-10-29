@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Title>Span Extensions</Title>
+    <Authors>dragon-cs</Authors>
+    <Company>draconware</Company>
+    <Description>SpanExtensions aims to make ReadOnlySpan&lt;T&gt; and Span&lt;T&gt; more accessible and overall better integrated into the .Net Ecosystem, by providing alternatives for many missing Extension Methods for ReadOnlySpan&lt;T&gt; and Span&lt;t&gt;, ranging from string.Split() over Enumerable.Skip() and Enumerable.Take() to an improved ReadOnlySpan&lt;T&gt;.IndexOf().
+
+Following Methods are contained:</Description>
+    <RepositoryUrl>https://github.com/dragon7307/SpanExtensions.Net</RepositoryUrl>
+    <PackAsTool>False</PackAsTool>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+
+</Project>
