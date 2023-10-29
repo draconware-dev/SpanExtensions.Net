@@ -9,7 +9,7 @@ public static partial class ReadOnlySpanExtensions
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam>
     /// <param name="span">The <see cref="ReadOnlySpan{T}"/> to be split.</param>
-    /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in the <see cref="ReadOnlySpan{T}"/></param>
+    /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in the <see cref="ReadOnlySpan{T}"/>.</param>
     /// <returns>An instance of the ref struct <see cref="SpanSplitEnumerator{T}"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
     public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> span, T delimiter) where T : IEquatable<T>
     {
