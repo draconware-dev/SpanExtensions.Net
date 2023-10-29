@@ -9,10 +9,14 @@ public ref struct SpanSplitStringSplitOptionsEnumerator
     readonly char Delimiter;  
     readonly StringSplitOptions Options;
     public ReadOnlySpan<char> Current { get; internal set; }
-     
-    public SpanSplitStringSplitOptionsEnumerator(ReadOnlySpan<char> span, char delimiter, StringSplitOptions options)
+
+    /// <summary>
+    /// Constructs a <see cref="SpanSplitEnumerator{Char}"/> from a span and a delimiter. ONLY CONSUME THIS CLASS THROUGH <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, StringSplitOptions)"/>. 
+    /// </summary>
+    /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>  
+    public SpanSplitStringSplitOptionsEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options)
     {
-        Span = span;
+        Span = source;
         Delimiter = delimiter;
         Options = options;
     }
@@ -28,7 +32,7 @@ public ref struct SpanSplitStringSplitOptionsEnumerator
     /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
     public bool MoveNext()
     {
-        var span = Span;
+        ReadOnlySpan<char> span = Span;
         if (span.IsEmpty)
         {
             return false;

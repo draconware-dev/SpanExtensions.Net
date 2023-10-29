@@ -5,8 +5,8 @@ public ref struct SpanSplitAnyStringSplitOptionsEnumerator
     ReadOnlySpan<char> Span;
     readonly ReadOnlySpan<char> Delimiters;
     readonly StringSplitOptions Options;
+
     public ReadOnlySpan<char> Current { get; internal set; }
-    readonly ReadOnlySpan<char> WhiteSpace = " \r\n";
 
     public SpanSplitAnyStringSplitOptionsEnumerator(ReadOnlySpan<char> span, ReadOnlySpan<char> delimiters, StringSplitOptions options)
     {
@@ -20,6 +20,10 @@ public ref struct SpanSplitAnyStringSplitOptionsEnumerator
         return this;
     }
 
+    /// <summary>
+    /// Advances the enumerator to the next element of the collection.
+    /// </summary>
+    /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
     public bool MoveNext()
     {
         var span = Span;
@@ -49,7 +53,7 @@ public ref struct SpanSplitAnyStringSplitOptionsEnumerator
                 return MoveNext();
             }
         }
-        Span = span.Slice(index + 1);
+        Span = span[(index + 1)..];
         return true;
     }
 
