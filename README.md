@@ -1,4 +1,5 @@
 # SpanExtensions
+
 ## About
 **`ReadonlySpan<T>`** and **`Span<T>`** are great Types in _C#_, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.  
  
@@ -38,6 +39,15 @@ The following **Extension Methods** are contained:
 - `(ReadOnly-)Span<T>.Take(int count)`
 - `(ReadOnly-)Span<T>.SkipLast(int count)` 
 - `(ReadOnly-)Span<T>.Takelast(int count)`
+
+## Contributing
+
+Thank you for your interest in contributing to this project!
+## License
+
+Copyright (c) draconware-dev. All rights reserved. 
+
+Licensed under the [MIT](LICENSE) license.
 # Performance   
 | Method       | Size | Mean         | Error      | StdDev     | Allocated | Ratio |
 |------------- |----- |-------------:|-----------:|-----------:|----------:|------:|
