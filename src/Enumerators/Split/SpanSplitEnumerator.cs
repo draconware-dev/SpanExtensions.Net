@@ -33,7 +33,7 @@ public ref struct SpanSplitEnumerator<T> where T : IEquatable<T>
     /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
     public bool MoveNext()
     {
-        var span = Span;
+        ReadOnlySpan<T> span = Span;
         if (span.IsEmpty)
         { 
             return false;

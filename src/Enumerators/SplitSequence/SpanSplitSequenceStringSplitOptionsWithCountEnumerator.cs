@@ -1,5 +1,8 @@
 ﻿namespace SpanExtensions;
 
+/// <summary> 
+/// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>  with an upper limit of splits performed.  
+/// </summary>   
 public ref struct SpanSplitSequenceStringSplitOptionsWithCountEnumerator
 {
     ReadOnlySpan<char> Span;

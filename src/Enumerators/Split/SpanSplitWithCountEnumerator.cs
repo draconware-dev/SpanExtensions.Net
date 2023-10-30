@@ -1,7 +1,7 @@
 ﻿namespace SpanExtensions;
 
 /// <summary>
-/// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
+/// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it a a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
 /// </summary>
 /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>
 public ref struct SpanSplitWithCountEnumerator<T> where T : IEquatable<T>

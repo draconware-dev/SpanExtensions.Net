@@ -1,5 +1,8 @@
 ﻿namespace SpanExtensions;
 
+/// <summary> 
+/// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at specified delimiters and based on specified <see cref="StringSplitOptions"/>.  
+/// </summary>   
 public ref struct SpanSplitAnyStringSplitOptionsEnumerator
 {
     ReadOnlySpan<char> Span;
@@ -26,7 +29,7 @@ public ref struct SpanSplitAnyStringSplitOptionsEnumerator
     /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
     public bool MoveNext()
     {
-        var span = Span;
+        ReadOnlySpan<char> span = Span;
         if (span.IsEmpty)
         {
             return false;
@@ -49,7 +52,7 @@ public ref struct SpanSplitAnyStringSplitOptionsEnumerator
         {
             if (Current.IsEmpty)
             {
-                Span = span.Slice(index + 1);
+                Span = span[(index + 1)..];
                 return MoveNext();
             }
         }

@@ -1,9 +1,9 @@
 ﻿namespace SpanExtensions;
- 
+
 /// <summary>
-/// Allows for use in a foreach construct
+/// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at specified delimiters of type <typeparamref name="T"/> with an upper limit of splits performed.  
 /// </summary>
-/// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>
+/// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>  
 public ref struct SpanSplitAnyWithCountEnumerator<T> where T : IEquatable<T>
 {
     ReadOnlySpan<T> Span;
@@ -31,7 +31,7 @@ public ref struct SpanSplitAnyWithCountEnumerator<T> where T : IEquatable<T>
     /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
     public bool MoveNext()
     {
-        var span = Span;
+        ReadOnlySpan<T> span = Span;
         if (span.IsEmpty)
         {
             return false;
@@ -49,7 +49,7 @@ public ref struct SpanSplitAnyWithCountEnumerator<T> where T : IEquatable<T>
         }
         currentCount++;
         Current = span[..index];
-        Span = span.Slice(index + 1);
+        Span = span[(index + 1)..];
         return true;
     }
 

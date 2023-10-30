@@ -13,7 +13,9 @@ public ref struct SpanSplitStringSplitOptionsEnumerator
     /// <summary>
     /// Constructs a <see cref="SpanSplitEnumerator{Char}"/> from a span and a delimiter. ONLY CONSUME THIS CLASS THROUGH <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, StringSplitOptions)"/>. 
     /// </summary>
-    /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>  
+    /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>  
+    /// <param name="delimiter">An <see cref="char"/> that delimits the various sub-ReadOnlySpans in the <see cref="ReadOnlySpan{Char}"/>.</param>
+    /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
     public SpanSplitStringSplitOptionsEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options)
     {
         Span = source;
