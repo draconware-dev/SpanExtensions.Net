@@ -23,6 +23,7 @@ Never again switch back to using string instead of ReadonlySpan&lt;T&gt;, just b
     <PackageReleaseNotes>First Release</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Version>1.0.0</Version>
+    <PackageId>SpanExtensions.Net</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
