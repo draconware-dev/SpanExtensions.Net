@@ -15,6 +15,11 @@ Following Methods are contained:</Description>
     <RepositoryUrl>https://github.com/dragon7307/SpanExtensions.Net</RepositoryUrl>
     <PackAsTool>False</PackAsTool>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright (c) 2023 draconware-dev</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>Span;Performance;Extension;String</PackageTags>
+    <PackageReleaseNotes>First Release</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,5 +37,16 @@ Following Methods are contained:</Description>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebugType>portable</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.github\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
