@@ -9,7 +9,7 @@ Never again switch back to using `string` instead of `ReadonlySpan<T>`, just bec
  
 **SpanExtensions.Net** provides alternatives for many missing Extension Methods for **`ReadonlySpan<T>`** and **`Span<T>`**, ranging from `string.Split()` over `Enumerable.Skip()` and `Enumerable.Take()` to an improved `ReadOnlySpan<T>.IndexOf()`.
 
-**SpanExtensions.Net** may also be found on [Nuget]().   
+**SpanExtensions.Net** may also be found on [NuGet](https://www.nuget.org/packages/SpanExtensions.Net/1.0.0).   
   
 ## Methods 
 The following **Extension Methods** are contained: 
