@@ -1,56 +1,60 @@
-﻿namespace SpanExtensions;
+﻿using System;
 
-/// <summary>
-/// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at specified delimiters of type <typeparamref name="T"/> with an upper limit of splits performed.  
-/// </summary>
-/// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>  
-public ref struct SpanSplitAnyWithCountEnumerator<T> where T : IEquatable<T>
+namespace SpanExtensions
 {
-    ReadOnlySpan<T> Span;
-    readonly ReadOnlySpan<T> Delimiters;
-    readonly int Count;
-    int currentCount;
-
-    public ReadOnlySpan<T> Current { get; internal set; }
-
-    public SpanSplitAnyWithCountEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiters, int count)
-    {
-        Span = span;
-        Delimiters = delimiters;
-        Count = count;
-
-    }
-    public SpanSplitAnyWithCountEnumerator<T> GetEnumerator()
-    {
-        return this;
-    }
-
     /// <summary>
-    /// Advances the enumerator to the next element of the collection.
+    /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at specified delimiters of type <typeparamref name="T"/> with an upper limit of splits performed.  
     /// </summary>
-    /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
-    public bool MoveNext()
+    /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>  
+    public ref struct SpanSplitAnyWithCountEnumerator<T> where T : IEquatable<T>
     {
-        ReadOnlySpan<T> span = Span;
-        if (span.IsEmpty)
+        ReadOnlySpan<T> Span;
+        readonly ReadOnlySpan<T> Delimiters;
+        readonly int Count;
+        int currentCount;
+
+        public ReadOnlySpan<T> Current { get; internal set; }
+
+        public SpanSplitAnyWithCountEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiters, int count)
         {
-            return false;
+            Span = span;
+            Delimiters = delimiters;
+            Count = count;
+            Current = default;
+            currentCount = 0;
         }
-        if (currentCount == Count)
+        public SpanSplitAnyWithCountEnumerator<T> GetEnumerator()
         {
-            return false;
+            return this;
         }
-        int index = span.IndexOfAny(Delimiters);
-        if (index == -1 || index >= span.Length)
+
+        /// <summary>
+        /// Advances the enumerator to the next element of the collection.
+        /// </summary>
+        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        public bool MoveNext()
         {
-            Span = ReadOnlySpan<T>.Empty;
-            Current = span;
+            ReadOnlySpan<T> span = Span;
+            if(span.IsEmpty)
+            {
+                return false;
+            }
+            if(currentCount == Count)
+            {
+                return false;
+            }
+            int index = span.IndexOfAny(Delimiters);
+            if(index == -1 || index >= span.Length)
+            {
+                Span = ReadOnlySpan<T>.Empty;
+                Current = span;
+                return true;
+            }
+            currentCount++;
+            Current = span[..index];
+            Span = span[(index + 1)..];
             return true;
         }
-        currentCount++;
-        Current = span[..index];
-        Span = span[(index + 1)..];
-        return true;
-    }
 
+    }
 }

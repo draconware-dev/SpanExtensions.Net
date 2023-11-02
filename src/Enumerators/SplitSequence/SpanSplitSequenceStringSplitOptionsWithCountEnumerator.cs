@@ -1,71 +1,78 @@
-﻿namespace SpanExtensions;
+﻿using System;
 
-/// <summary> 
-/// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>  with an upper limit of splits performed.  
-/// </summary>   
-public ref struct SpanSplitSequenceStringSplitOptionsWithCountEnumerator
+namespace SpanExtensions
 {
-    ReadOnlySpan<char> Span;
-    readonly ReadOnlySpan<char> Delimiter;
-    readonly StringSplitOptions Options;
-    readonly int Count;
-    int currentCount;
-
-    public ReadOnlySpan<char> Current { get; internal set; }
-
-    public SpanSplitSequenceStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, StringSplitOptions options, int count)
+    /// <summary> 
+    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>  with an upper limit of splits performed.  
+    /// </summary>   
+    public ref struct SpanSplitSequenceStringSplitOptionsWithCountEnumerator
     {
-        Span = span;
-        Delimiter = delimiter;
-        Options = options;
-        Count = count;
-    }
+        ReadOnlySpan<char> Span;
+        readonly ReadOnlySpan<char> Delimiter;
+        readonly StringSplitOptions Options;
+        readonly int Count;
+        int currentCount;
 
-    public SpanSplitSequenceStringSplitOptionsWithCountEnumerator GetEnumerator()
-    {
-        return this;
-    }
+        public ReadOnlySpan<char> Current { get; internal set; }
 
-    /// <summary>
-    /// Advances the enumerator to the next element of the collection.
-    /// </summary>
-    /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
-    public bool MoveNext()
-    {
-        ReadOnlySpan<char> span = Span;
-        if (span.IsEmpty)
+        public SpanSplitSequenceStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, StringSplitOptions options, int count)
         {
-            return false;
+            Span = span;
+            Delimiter = delimiter;
+            Options = options;
+            Count = count;
+            Current = default;
+            currentCount = 0;
         }
-        if (currentCount == Count)
-        {
-            return false;
-        }
-        int index = span.IndexOf(Delimiter);
 
-        if (index == -1 || index >= span.Length)
+        public SpanSplitSequenceStringSplitOptionsWithCountEnumerator GetEnumerator()
         {
-            Span = ReadOnlySpan<char>.Empty;
-            Current = span;
+            return this;
+        }
+
+        /// <summary>
+        /// Advances the enumerator to the next element of the collection.
+        /// </summary>
+        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        public bool MoveNext()
+        {
+            ReadOnlySpan<char> span = Span;
+            if(span.IsEmpty)
+            {
+                return false;
+            }
+            if(currentCount == Count)
+            {
+                return false;
+            }
+            int index = span.IndexOf(Delimiter);
+
+            if(index == -1 || index >= span.Length)
+            {
+                Span = ReadOnlySpan<char>.Empty;
+                Current = span;
+                return true;
+            }
+            currentCount++;
+            Current = span[..index];
+
+#if NET5_0_OR_GREATER
+            if(Options.HasFlag(StringSplitOptions.TrimEntries))
+            {
+                Current = Current.Trim();
+            }
+#endif
+            if(Options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
+            {
+                if(Current.IsEmpty)
+                {
+                    Span = span[(index + Delimiter.Length)..];
+                    return MoveNext();
+                }
+            }
+            Span = span[(index + Delimiter.Length)..];
             return true;
         }
-        currentCount++;
-        Current = span[..index];
 
-        if (Options.HasFlag(StringSplitOptions.TrimEntries))
-        {
-            Current = Current.Trim();
-        }
-        if (Options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-        {
-            if (Current.IsEmpty)
-            {
-                Span = span[(index + Delimiter.Length)..];
-                return MoveNext();
-            }
-        }
-        Span = span[(index + Delimiter.Length)..];
-        return true;
     }
-
 }

@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <TargetFrameworks>net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <Title>Span Extensions</Title>
     <Authors>dragon-cs</Authors>
     <Company>draconware</Company>
@@ -14,8 +14,7 @@
 SpanExtensions.Net aims to help developers use ReadonlySpan&lt;T&gt; and Span&lt;T&gt; more productively, efficiently and safely and write overall more performant Programs.
 
 Never again switch back to using string instead of ReadonlySpan&lt;T&gt;, just because the method you seek is not supported.</Description>
-    <RepositoryUrl>https://github.com/dragon7307/SpanExtensions.Net</RepositoryUrl>
-    <PackAsTool>False</PackAsTool>
+    <RepositoryUrl>https://github.com/draconware-dev/SpanExtensions.Net</RepositoryUrl>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Copyright>Copyright (c) 2023 draconware-dev</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>

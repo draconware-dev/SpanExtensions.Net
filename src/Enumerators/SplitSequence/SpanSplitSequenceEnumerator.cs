@@ -1,48 +1,52 @@
-﻿namespace SpanExtensions;
+﻿using System;
 
-/// <summary> 
-/// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at specified delimiters and based on specified <see cref="StringSplitOptions"/>.  
-/// </summary>   
-public ref struct SpanSplitSequenceEnumerator<T> where T : IEquatable<T>
+namespace SpanExtensions
 {
-    ReadOnlySpan<T> Span;
-    readonly ReadOnlySpan<T> Delimiter;
-
-    public ReadOnlySpan<T> Current { get; internal set; }
-
-    public SpanSplitSequenceEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiter)
+    /// <summary> 
+    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at specified delimiters and based on specified <see cref="StringSplitOptions"/>.  
+    /// </summary>   
+    public ref struct SpanSplitSequenceEnumerator<T> where T : IEquatable<T>
     {
-        Span = span;
-        Delimiter = delimiter;
-    }
+        ReadOnlySpan<T> Span;
+        readonly ReadOnlySpan<T> Delimiter;
 
-    public SpanSplitSequenceEnumerator<T> GetEnumerator()
-    {
-        return this;
-    }
+        public ReadOnlySpan<T> Current { get; internal set; }
 
-    /// <summary>
-    /// Advances the enumerator to the next element of the collection.
-    /// </summary>
-    /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
-    public bool MoveNext()
-    {
-        ReadOnlySpan<T> span = Span;
-        if (span.IsEmpty)
+        public SpanSplitSequenceEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiter)
         {
-            return false;
+            Span = span;
+            Delimiter = delimiter;
+            Current = default;
         }
-        int index = span.IndexOf(Delimiter);
 
-        if (index == -1 || index >= span.Length)
+        public SpanSplitSequenceEnumerator<T> GetEnumerator()
         {
-            Span = ReadOnlySpan<T>.Empty;
-            Current = span;
+            return this;
+        }
+
+        /// <summary>
+        /// Advances the enumerator to the next element of the collection.
+        /// </summary>
+        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        public bool MoveNext()
+        {
+            ReadOnlySpan<T> span = Span;
+            if(span.IsEmpty)
+            {
+                return false;
+            }
+            int index = span.IndexOf(Delimiter);
+
+            if(index == -1 || index >= span.Length)
+            {
+                Span = ReadOnlySpan<T>.Empty;
+                Current = span;
+                return true;
+            }
+            Current = span[..index];
+            Span = span[(index + Delimiter.Length)..];
             return true;
         }
-        Current = span[..index];
-        Span = span[(index + Delimiter.Length)..];
-        return true;
-    }
 
+    }
 }
