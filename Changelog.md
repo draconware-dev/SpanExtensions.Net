@@ -17,9 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `(Readonly-)Span<T>.TakeWhile(Predicate<T> predicate)`
 - `(Readonly-)Span<T>.TakeWhile(Func<T, int, bool> predicate)`
 - Missing documentation comments
-
+- Changelog
 
 ### Fixed 
 
-- Grammatical Issues in some documentation comments 
+- Grammatical issues in some documentation comments 
 - Broken link to the repository on nuget (#3)
