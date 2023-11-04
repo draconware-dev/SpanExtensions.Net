@@ -44,7 +44,7 @@ The following **Extension Methods** are contained:
 
 ## Contributing
 
-Thank you for your interest in contributing to this project!
+Thank you for your interest in contributing to this project - Please see [Contributing](.github/CONTRIBUTING.md)!
 ## License
 
 Copyright (c) draconware-dev. All rights reserved. 
