@@ -10,6 +10,10 @@ namespace SpanExtensions
         ReadOnlySpan<char> Span;
         readonly char Delimiter;
         readonly StringSplitOptions Options;
+
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator. 
+        /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
         /// <summary>

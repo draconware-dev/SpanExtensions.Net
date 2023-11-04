@@ -10,6 +10,9 @@ namespace SpanExtensions
         ReadOnlySpan<T> Span;
         readonly ReadOnlySpan<T> Delimiter;
 
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator. 
+        /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
         public SpanSplitSequenceEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiter)

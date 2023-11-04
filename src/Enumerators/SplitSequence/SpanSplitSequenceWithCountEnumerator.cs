@@ -13,13 +13,16 @@ namespace SpanExtensions
         readonly int Count;
         int currentCount;
 
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator. 
+        /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
         public SpanSplitSequenceWithCountEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiter, int count)
         {
             Span = span;
             Delimiter = delimiter;
-            Count = count; 
+            Count = count;
             Current = default;
             currentCount = 0;
         }

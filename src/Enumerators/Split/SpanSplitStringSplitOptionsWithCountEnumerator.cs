@@ -13,6 +13,9 @@ namespace SpanExtensions
         readonly int Count;
         int currentCount;
 
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator. 
+        /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
         public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> span, char delimiter, StringSplitOptions options, int count)

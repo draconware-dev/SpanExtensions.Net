@@ -245,8 +245,8 @@ namespace SpanExtensions
         }
 #endif
 
-#if NET5_0_OR_GREATER   
-  
+#if NET5_0_OR_GREATER
+
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
         /// </summary>
@@ -257,7 +257,7 @@ namespace SpanExtensions
             float number = 0;
             for(int i = 0; i < source.Length; i++)
             {
-                number += (float) source[i];
+                number += (float)source[i];
             }
             return (Half)number;
         }
@@ -335,6 +335,20 @@ namespace SpanExtensions
             return sum / T.CreateChecked(source.Length);
         }
 #else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static Half Average(this ReadOnlySpan<Half> source)
+        {
+            Half sum = source.Sum();
+            return (Half)((float)sum / source.Length);
+        }
+#endif
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -343,7 +357,7 @@ namespace SpanExtensions
         public static byte Average(this ReadOnlySpan<byte> source)
         {
             byte sum = source.Sum();
-            return (byte) (sum / source.Length);
+            return (byte)(sum / source.Length);
         }
 
         /// <summary> 
@@ -376,7 +390,7 @@ namespace SpanExtensions
         public static ulong Average(this ReadOnlySpan<ulong> source)
         {
             ulong sum = source.Sum();
-            return (sum / (ulong) source.Length);
+            return sum / (ulong)source.Length;
         }
 
         /// <summary> 
@@ -409,7 +423,7 @@ namespace SpanExtensions
         public static int Average(this ReadOnlySpan<int> source)
         {
             int sum = source.Sum();
-            return (int)(sum / source.Length);
+            return sum / source.Length;
         }
 
         /// <summary> 
@@ -453,7 +467,7 @@ namespace SpanExtensions
         public static decimal Average(this ReadOnlySpan<decimal> source)
         {
             decimal sum = source.Sum();
-            return (sum / source.Length);
+            return sum / source.Length;
         }
 
         /// <summary> 
@@ -464,21 +478,7 @@ namespace SpanExtensions
         public static BigInteger Average(this ReadOnlySpan<BigInteger> source)
         {
             BigInteger sum = source.Sum();
-            return (BigInteger)(sum / source.Length);
-        }
-#endif
-
-#if NET5_0_OR_GREATER   
-  
-        /// <summary> 
-        /// Computes the Average of all the values in <paramref name="source"/>. 
-        /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
-        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
-        public static Half Average(this ReadOnlySpan<Half> source)
-        {
-            Half sum = source.Sum();
-            return (Half)((float)sum / source.Length);
+            return sum / source.Length;
         }
 #endif
     }

@@ -237,7 +237,6 @@ namespace SpanExtensions
             return source[(source.Length - count)..];
         }
 
-
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -252,125 +251,6 @@ namespace SpanExtensions
             return sum / T.CreateChecked(source.Length);
         }
 #else
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Byte}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static byte Average(this Span<byte> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{UInt16}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static ushort Average(this Span<ushort> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{UInt32}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static uint Average(this Span<uint> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{UInt64}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static ulong Average(this Span<ulong> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{SByte}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static sbyte Average(this Span<sbyte> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Int16}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static short Average(this Span<short> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Int32}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static int Average(this Span<int> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Int64}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static long Average(this Span<long> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Single}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static float Average(this Span<float> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Double}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static double Average(this Span<double> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Decimal}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static decimal Average(this Span<decimal> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{BigInteger}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        public static BigInteger Average(this Span<BigInteger> source)
-        {
-            return ReadOnlySpanExtensions.Average(source);
-        }
-#endif
 
 #if NET5_0_OR_GREATER
 
@@ -384,5 +264,125 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Average(source);
         }
 #endif
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static byte Average(this Span<byte> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static ushort Average(this Span<ushort> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static uint Average(this Span<uint> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static ulong Average(this Span<ulong> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static sbyte Average(this Span<sbyte> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static short Average(this Span<short> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static int Average(this Span<int> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static long Average(this Span<long> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static float Average(this Span<float> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static double Average(this Span<double> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static decimal Average(this Span<decimal> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+
+        /// <summary> 
+        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
+        public static BigInteger Average(this Span<BigInteger> source)
+        {
+            return ReadOnlySpanExtensions.Average(source);
+        }
+#endif
+
     }
 }

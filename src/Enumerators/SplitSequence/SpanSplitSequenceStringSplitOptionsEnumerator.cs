@@ -11,6 +11,9 @@ namespace SpanExtensions
         readonly ReadOnlySpan<char> Delimiter;
         readonly StringSplitOptions Options;
 
+        /// <summary>
+        /// Gets the element in the collection at the current position of the enumerator. 
+        /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
         public SpanSplitSequenceStringSplitOptionsEnumerator(ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, StringSplitOptions options)
