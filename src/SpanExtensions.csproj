@@ -19,12 +19,12 @@
 		<RepositoryUrl>https://github.com/draconware-dev/SpanExtensions.Net</RepositoryUrl>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<Copyright>Copyright (c) 2023 draconware-dev</Copyright>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>Span;Performance;Extension;String</PackageTags>
 		<PackageReleaseNotes>Version 1.1 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<Version>1.1.0</Version>
 		<PackageId>SpanExtensions.Net</PackageId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
 
@@ -45,26 +45,22 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<None Include="README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="Changelog.md">
-			<PackagePath>\</PackagePath>
-			<Pack>True</Pack>
-		</None>
-		<None Update="icon.png">
-		  <Pack>True</Pack>
-			<Visible>False</Visible>
-		  <PackagePath>\</PackagePath>
-		</None>
-		<None Update="README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
+	  <None Include="icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
