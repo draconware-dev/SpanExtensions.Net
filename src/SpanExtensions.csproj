@@ -56,10 +56,6 @@
 			<PackagePath>\</PackagePath>
 			<Pack>True</Pack>
 		</None>
-		<None Update="DALL_E_2023-11-02_13.13.24_-_an_icon_showing_various_tools_in_a_circle-removebg-preview.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
 		<None Update="icon.png">
 		  <Pack>True</Pack>
 		  <PackagePath>\</PackagePath>
