@@ -21,6 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed 
 
-- Grammatical Issues in some documentation comments 
+- Grammatical issues in some documentation comments 
 - Broken link to the repository on nuget (#3)
-- Grammatical Issues in respository description
