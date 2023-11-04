@@ -58,6 +58,7 @@
 		</None>
 		<None Update="icon.png">
 		  <Pack>True</Pack>
+			<Visible>False</Visible>
 		  <PackagePath>\</PackagePath>
 		</None>
 		<None Update="README.md">
