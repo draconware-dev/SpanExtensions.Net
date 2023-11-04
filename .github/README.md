@@ -2,7 +2,7 @@
 
 ## About
 **`ReadonlySpan<T>`** and **`Span<T>`** are great Types in _C#_, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.  
- 
+  
 **SpanExtensions.Net** aims to help developers use `ReadonlySpan<T>` and `Span<T>` more **productively**, **efficiently** and **safely** and write overall more **performant** Programs.  
  
 Never again switch back to using `string` instead of `ReadonlySpan<T>`, just because the method you seek is not supported.  
