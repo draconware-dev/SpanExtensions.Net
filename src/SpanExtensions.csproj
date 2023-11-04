@@ -23,7 +23,7 @@
 		<PackageTags>Span;Performance;Extension;String</PackageTags>
 		<PackageReleaseNotes>Version 1.1 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<PackageId>SpanExtensions.Net</PackageId>
 		<PackageIcon>DALL_E_2023-11-02_13.13.24_-_an_icon_showing_various_tools_in_a_circle-removebg-preview.png</PackageIcon>
 	</PropertyGroup>
