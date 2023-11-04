@@ -14,7 +14,7 @@ namespace SpanExtensions
         int currentCount;
 
         public ReadOnlySpan<T> Current { get; internal set; }
-
+        
         public SpanSplitAnyWithCountEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiters, int count)
         {
             Span = span;
