@@ -49,4 +49,4 @@ Thank you for your interest in contributing to this project - Please see [Contri
 
 Copyright (c) draconware-dev. All rights reserved. 
 
-Licensed under the [MIT](LICENSE) license.
+Licensed under the [MIT](../LICENSE) license.
