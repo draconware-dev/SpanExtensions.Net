@@ -21,5 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed 
 
-- Grammatical issues in some documentation comments 
-- Broken link to the repository on nuget (#3)
+- Grammatical issues in some documentation comments
+- Broken link to the repository on nuget ([#3](https://github.com/draconware-dev/SpanExtensions.Net/pull/3))
