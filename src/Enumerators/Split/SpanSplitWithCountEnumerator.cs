@@ -59,6 +59,5 @@ namespace SpanExtensions
             Span = span[(index + 1)..];
             return true;
         }
-
     }
 }

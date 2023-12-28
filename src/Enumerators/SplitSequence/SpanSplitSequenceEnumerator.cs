@@ -50,6 +50,5 @@ namespace SpanExtensions
             Span = span[(index + Delimiter.Length)..];
             return true;
         }
-
     }
 }
