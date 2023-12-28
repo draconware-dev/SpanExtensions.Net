@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpanExtensions
+namespace SpanExtensions.Enumerators
 {
     /// <summary>
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it a a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
