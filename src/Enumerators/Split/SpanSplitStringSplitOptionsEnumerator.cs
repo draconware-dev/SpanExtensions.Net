@@ -29,12 +29,12 @@ namespace SpanExtensions
             Options = options;
             Current = default;
         }
-
-        public SpanSplitStringSplitOptionsEnumerator GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitStringSplitOptionsEnumerator GetEnumerator()
         {
             return this;
         }
-
+        
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
         /// </summary>

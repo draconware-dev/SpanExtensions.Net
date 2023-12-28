@@ -23,8 +23,8 @@ namespace SpanExtensions
             Delimiters = delimiters;
             Current = default;
         }
-
-        public SpanSplitAnyEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitAnyEnumerator<T> GetEnumerator()
         {
             return this;
         }

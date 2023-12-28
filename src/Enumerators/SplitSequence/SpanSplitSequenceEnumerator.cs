@@ -21,8 +21,8 @@ namespace SpanExtensions
             Delimiter = delimiter;
             Current = default;
         }
-
-        public SpanSplitSequenceEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitSequenceEnumerator<T> GetEnumerator()
         {
             return this;
         }

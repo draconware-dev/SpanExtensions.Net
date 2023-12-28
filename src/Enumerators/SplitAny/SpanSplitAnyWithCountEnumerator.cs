@@ -25,8 +25,8 @@ namespace SpanExtensions
             Count = count;
             Current = default;
             currentCount = 0;
-        }
-        public SpanSplitAnyWithCountEnumerator<T> GetEnumerator()
+        }/// <summary></summary>
+        public readonly SpanSplitAnyWithCountEnumerator<T> GetEnumerator()
         {
             return this;
         }

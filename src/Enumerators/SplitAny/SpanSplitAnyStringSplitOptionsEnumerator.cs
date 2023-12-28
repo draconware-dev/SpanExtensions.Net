@@ -23,8 +23,8 @@ namespace SpanExtensions
             Options = options;
             Current = default;
         }
-
-        public SpanSplitAnyStringSplitOptionsEnumerator GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitAnyStringSplitOptionsEnumerator GetEnumerator()
         {
             return this;
         }
