@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SpanExtensions
 {
@@ -27,8 +28,8 @@ namespace SpanExtensions
             Delimiter = delimiter;
             Current = default;
         }
-
-        public SpanSplitEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitEnumerator<T> GetEnumerator()
         {
             return this;
         }
