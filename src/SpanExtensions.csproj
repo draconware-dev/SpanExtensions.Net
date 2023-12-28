@@ -20,9 +20,9 @@
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 		<Copyright>Copyright (c) 2023 draconware-dev</Copyright>
 		<PackageTags>Span;Performance;Extension;String</PackageTags>
-		<PackageReleaseNotes>Version 1.1 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
+		<PackageReleaseNotes>Version 1.2 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<PackageId>SpanExtensions.Net</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
