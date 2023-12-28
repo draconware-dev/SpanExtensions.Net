@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpanExtensions
+namespace SpanExtensions.Enumerators
 {
     /// <summary>
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it a a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
@@ -18,16 +18,16 @@ namespace SpanExtensions
         /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
-        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> span, T delimiter, int count)
+        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count)
         {
-            Span = span;
+            Span = source;
             Delimiter = delimiter;
             Count = count;
             Current = default;
             currentCount = 0;
         }
-
-        public SpanSplitWithCountEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitWithCountEnumerator<T> GetEnumerator()
         {
             return this;
         }
@@ -59,6 +59,5 @@ namespace SpanExtensions
             Span = span[(index + 1)..];
             return true;
         }
-
     }
 }

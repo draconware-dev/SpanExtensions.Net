@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpanExtensions.Enumerators;
+using System;
 using System.Collections;
 
 namespace SpanExtensions
