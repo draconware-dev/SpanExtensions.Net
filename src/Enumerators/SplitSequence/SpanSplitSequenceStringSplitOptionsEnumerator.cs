@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpanExtensions
+namespace SpanExtensions.Enumerators
 {
     /// <summary> 
     /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>.  
@@ -16,15 +16,15 @@ namespace SpanExtensions
         /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
-        public SpanSplitSequenceStringSplitOptionsEnumerator(ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, StringSplitOptions options)
+        public SpanSplitSequenceStringSplitOptionsEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiter, StringSplitOptions options)
         {
-            Span = span;
+            Span = source;
             Delimiter = delimiter;
             Options = options;
             Current = default;
         }
-
-        public SpanSplitSequenceStringSplitOptionsEnumerator GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitSequenceStringSplitOptionsEnumerator GetEnumerator()
         {
             return this;
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpanExtensions
+namespace SpanExtensions.Enumerators
 {
 
     /// <summary>
@@ -17,14 +17,14 @@ namespace SpanExtensions
         /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
-        public SpanSplitAnyEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> delimiters)
+        public SpanSplitAnyEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> delimiters)
         {
-            Span = span;
+            Span = source;
             Delimiters = delimiters;
             Current = default;
         }
-
-        public SpanSplitAnyEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitAnyEnumerator<T> GetEnumerator()
         {
             return this;
         }

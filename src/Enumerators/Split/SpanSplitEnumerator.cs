@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace SpanExtensions
+namespace SpanExtensions.Enumerators
 {
     /// <summary>
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at a specified delimiter of type <typeparamref name="T"/>.
@@ -27,8 +28,8 @@ namespace SpanExtensions
             Delimiter = delimiter;
             Current = default;
         }
-
-        public SpanSplitEnumerator<T> GetEnumerator()
+        /// <summary></summary>
+        public readonly SpanSplitEnumerator<T> GetEnumerator()
         {
             return this;
         }
