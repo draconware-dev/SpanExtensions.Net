@@ -18,9 +18,15 @@ namespace SpanExtensions
         /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
-        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> span, T delimiter, int count)
+        /// <summary>
+        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. ONLY CONSUME THIS CLASS THROUGH <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, StringSplitOptions, int)"/>. 
+        /// </summary>
+        /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>  
+        /// <param name="delimiter">An <see cref="char"/> that delimits the various sub-ReadOnlySpans in the <see cref="ReadOnlySpan{Char}"/>.</param>
+        /// <param name="count">the upper limit of results returned. </param>
+        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count)
         {
-            Span = span;
+            Span = source;
             Delimiter = delimiter;
             Count = count;
             Current = default;

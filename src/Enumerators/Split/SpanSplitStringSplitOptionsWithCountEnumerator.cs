@@ -18,9 +18,9 @@ namespace SpanExtensions
         /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
-        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> span, char delimiter, StringSplitOptions options, int count)
+        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options, int count)
         {
-            Span = span;
+            Span = source;
             Delimiter = delimiter;
             Options = options;
             Count = count;
