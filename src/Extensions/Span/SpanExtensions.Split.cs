@@ -1,6 +1,6 @@
-﻿using SpanExtensions.Enumerators;
-using System;
+﻿using System;
 using System.Collections;
+using SpanExtensions.Enumerators; 
 
 namespace SpanExtensions
 {
