@@ -409,7 +409,7 @@ namespace SpanExtensions
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
         /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
-        /// <returns>The Average of all the values in <paramref name="source"/>.</returns
+        /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static Half Average(this ReadOnlySpan<Half> source)
         {
