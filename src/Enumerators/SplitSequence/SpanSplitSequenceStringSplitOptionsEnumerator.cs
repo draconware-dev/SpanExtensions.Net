@@ -2,9 +2,9 @@
 
 namespace SpanExtensions.Enumerators
 {
-    /// <summary> 
-    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>.  
-    /// </summary>   
+    /// <summary>
+    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>.
+    /// </summary>
     public ref struct SpanSplitSequenceStringSplitOptionsEnumerator
     {
         ReadOnlySpan<char> Span;
@@ -12,10 +12,16 @@ namespace SpanExtensions.Enumerators
         readonly StringSplitOptions Options;
 
         /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator. 
+        /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
+        /// <summary>
+        /// Constructs a <see cref="SpanSplitSequenceStringSplitOptionsEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, ReadOnlySpan{char}, StringSplitOptions)"/></strong>.
+        /// </summary>
+        /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
+        /// <param name="delimiter">An instance of <see cref="ReadOnlySpan{Char}"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         public SpanSplitSequenceStringSplitOptionsEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiter, StringSplitOptions options)
         {
             Span = source;
@@ -23,7 +29,8 @@ namespace SpanExtensions.Enumerators
             Options = options;
             Current = default;
         }
-        /// <summary></summary>
+
+        /// <summary>Returns an enumerator that iterates through a collection.</summary>
         public readonly SpanSplitSequenceStringSplitOptionsEnumerator GetEnumerator()
         {
             return this;
@@ -32,7 +39,7 @@ namespace SpanExtensions.Enumerators
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
             ReadOnlySpan<char> span = Span;

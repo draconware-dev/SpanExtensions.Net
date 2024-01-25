@@ -2,9 +2,9 @@
 
 namespace SpanExtensions.Enumerators
 {
-    /// <summary> 
-    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>  with an upper limit of splits performed.  
-    /// </summary>   
+    /// <summary>
+    /// Supports iteration over a <see cref="ReadOnlySpan{Char}"/> by splitting it at a specified delimiter and based on specified <see cref="StringSplitOptions"/>  with an upper limit of splits performed.
+    /// </summary>
     public ref struct SpanSplitStringSplitOptionsWithCountEnumerator
     {
         ReadOnlySpan<char> Span;
@@ -14,10 +14,17 @@ namespace SpanExtensions.Enumerators
         int currentCount;
 
         /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator. 
+        /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         public ReadOnlySpan<char> Current { get; internal set; }
 
+        /// <summary>
+        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, StringSplitOptions)"/></strong>.
+        /// </summary>
+        /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
+        /// <param name="delimiter">A <see cref="char"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
+        /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options, int count)
         {
             Span = source;
@@ -27,7 +34,8 @@ namespace SpanExtensions.Enumerators
             Current = default;
             currentCount = 0;
         }
-        /// <summary></summary>
+
+        /// <summary>Returns an enumerator that iterates through a collection.</summary>
         public readonly SpanSplitStringSplitOptionsWithCountEnumerator GetEnumerator()
         {
             return this;
@@ -36,7 +44,7 @@ namespace SpanExtensions.Enumerators
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
             ReadOnlySpan<char> span = Span;
