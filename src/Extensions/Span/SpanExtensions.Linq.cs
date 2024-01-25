@@ -287,7 +287,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Byte}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static byte Average(this Span<byte> source)
@@ -298,7 +298,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{UInt16}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ushort Average(this Span<ushort> source)
@@ -309,7 +309,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{uint32}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static uint Average(this Span<uint> source)
@@ -319,7 +319,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{UInt64}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ulong Average(this Span<ulong> source)
@@ -330,7 +330,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{SByte}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static sbyte Average(this Span<sbyte> source)
@@ -341,7 +341,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Int16}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static short Average(this Span<short> source)
@@ -352,7 +352,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Int32}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static int Average(this Span<int> source)
@@ -363,7 +363,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Int64}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static long Average(this Span<long> source)
@@ -374,7 +374,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Single}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static float Average(this Span<float> source)
@@ -385,7 +385,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Double}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static double Average(this Span<double> source)
@@ -396,7 +396,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{Decimal}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static decimal Average(this Span<decimal> source)
@@ -407,7 +407,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Average of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="Span{BigInteger}"/> to operate on.</param>    
         /// <returns>The Average of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static BigInteger Average(this Span<BigInteger> source)
