@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
+		<TargetFrameworks>netnet8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings> 
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -18,11 +18,11 @@
 		</Description>
 		<RepositoryUrl>https://github.com/draconware-dev/SpanExtensions.Net</RepositoryUrl>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright (c) 2023 draconware-dev</Copyright>
+		<Copyright>Copyright (c) 2024 draconware-dev</Copyright>
 		<PackageTags>Span;Performance;Extension;String</PackageTags>
-		<PackageReleaseNotes>Version 1.2 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
+		<PackageReleaseNotes>Version 1.2.1 - see [Changelog](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md)</PackageReleaseNotes>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.2.0</Version>
+		<Version>1.2.1</Version>
 		<PackageId>SpanExtensions.Net</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
