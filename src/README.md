@@ -39,6 +39,8 @@ The following **Extension Methods** are contained:
 - `(ReadOnly-)Span<T>.Take(int count)`
 - `(ReadOnly-)Span<T>.SkipLast(int count)` 
 - `(ReadOnly-)Span<T>.Takelast(int count)`
+- `(ReadOnly-)Span<T>.SkipWhile(Predicate<T> condition)` 
+- `(ReadOnly-)Span<T>.TakeWhile(Predicate<T> condition)`
 
 ## Contributing
 
