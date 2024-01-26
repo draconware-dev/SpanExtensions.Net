@@ -202,6 +202,34 @@ namespace Tests
         }
 #endif
 
+        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="span"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="span">The span to search.</param>
+        /// <param name="values">The values for which to search.</param>
+        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="span"/>.</returns>
+        public static int Count<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values) where T : IEquatable<T>
+        {
+            int count = 0;
+            foreach(T item in span)
+            {
+                if(values.Contains(item))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="span"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="span">The span to search.</param>
+        /// <param name="values">The values for which to search.</param>
+        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="span"/>.</returns>
+        public static int Count<T>(this Span<T> span, ReadOnlySpan<T> values) where T : IEquatable<T>
+        {
+            return Count((ReadOnlySpan<T>)span, values);
+        }
+
         /// <summary>
         /// Splits a sequence into a maximum number of subsequences based on a specified delimiter.
         /// </summary>

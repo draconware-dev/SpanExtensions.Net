@@ -55,5 +55,53 @@ namespace Tests
 
             return list;
         }
+
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        {
+            List<T[]> list = [];
+
+            foreach(ReadOnlySpan<T> element in spanEnumerator)
+            {
+                list.Add(element.ToArray());
+            }
+
+            return list;
+        }
+
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyWithCountEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        {
+            List<T[]> list = [];
+
+            foreach(ReadOnlySpan<T> element in spanEnumerator)
+            {
+                list.Add(element.ToArray());
+            }
+
+            return list;
+        }
+
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsEnumerator spanEnumerator)
+        {
+            List<char[]> list = [];
+
+            foreach(ReadOnlySpan<char> element in spanEnumerator)
+            {
+                list.Add(element.ToArray());
+            }
+
+            return list;
+        }
+
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsWithCountEnumerator spanEnumerator)
+        {
+            List<char[]> list = [];
+
+            foreach(ReadOnlySpan<char> element in spanEnumerator)
+            {
+                list.Add(element.ToArray());
+            }
+
+            return list;
+        }
     }
 }
