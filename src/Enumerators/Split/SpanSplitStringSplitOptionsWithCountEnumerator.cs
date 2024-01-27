@@ -19,23 +19,25 @@ namespace SpanExtensions.Enumerators
         public ReadOnlySpan<char> Current { get; internal set; }
 
         /// <summary>
-        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, StringSplitOptions, int)"/></strong>.
+        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, int, StringSplitOptions)"/></strong>.
         /// </summary>
         /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">A <see cref="char"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
-        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options, int count)
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
+        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, int count, StringSplitOptions options)
         {
             Span = source;
             Delimiter = delimiter;
-            Options = options;
             Count = count;
+            Options = options;
             Current = default;
             currentCount = 0;
         }
 
-        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
         public readonly SpanSplitStringSplitOptionsWithCountEnumerator GetEnumerator()
         {
             return this;

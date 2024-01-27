@@ -51,12 +51,12 @@ namespace SpanExtensions
         /// </summary>
         /// <param name="span">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">A <see cref="char"/> that delimits the various sub-ReadOnlySpans in <paramref name="span"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitAnyStringSplitOptionsWithCountEnumerator"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
-        public static SpanSplitStringSplitOptionsWithCountEnumerator Split(this ReadOnlySpan<char> span, char delimiter, StringSplitOptions options, int count)
+        public static SpanSplitStringSplitOptionsWithCountEnumerator Split(this ReadOnlySpan<char> span, char delimiter, int count, StringSplitOptions options)
         {
-            return new SpanSplitStringSplitOptionsWithCountEnumerator(span, delimiter, options, count);
+            return new SpanSplitStringSplitOptionsWithCountEnumerator(span, delimiter, count, options);
         }
 
         /// <summary>
@@ -101,12 +101,12 @@ namespace SpanExtensions
         /// </summary>
         /// <param name="span">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiters">A <see cref="ReadOnlySpan{Char}"/>, that delimit the various sub-ReadOnlySpans in <paramref name="span"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitAnyStringSplitOptionsWithCountEnumerator"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
-        public static SpanSplitAnyStringSplitOptionsWithCountEnumerator SplitAny(this ReadOnlySpan<char> span, ReadOnlySpan<char> delimiters, StringSplitOptions options, int count)
+        public static SpanSplitAnyStringSplitOptionsWithCountEnumerator SplitAny(this ReadOnlySpan<char> span, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options)
         {
-            return new SpanSplitAnyStringSplitOptionsWithCountEnumerator(span, delimiters, options, count);
+            return new SpanSplitAnyStringSplitOptionsWithCountEnumerator(span, delimiters, count, options);
         }
 
         /// <summary>
@@ -151,12 +151,12 @@ namespace SpanExtensions
         /// </summary>
         /// <param name="span">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">An instance of <see cref="ReadOnlySpan{Char}"/> that delimits the various sub-ReadOnlySpans in <paramref name="span"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitSequenceStringSplitOptionsWithCountEnumerator"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
-        public static SpanSplitSequenceStringSplitOptionsWithCountEnumerator Split(this ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, StringSplitOptions options, int count)
+        public static SpanSplitSequenceStringSplitOptionsWithCountEnumerator Split(this ReadOnlySpan<char> span, ReadOnlySpan<char> delimiter, int count, StringSplitOptions options)
         {
-            return new SpanSplitSequenceStringSplitOptionsWithCountEnumerator(span, delimiter, options, count);
+            return new SpanSplitSequenceStringSplitOptionsWithCountEnumerator(span, delimiter, count, options);
         }
     }
 }

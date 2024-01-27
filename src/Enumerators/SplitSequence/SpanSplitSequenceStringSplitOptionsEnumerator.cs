@@ -30,7 +30,9 @@ namespace SpanExtensions.Enumerators
             Current = default;
         }
 
-        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
         public readonly SpanSplitSequenceStringSplitOptionsEnumerator GetEnumerator()
         {
             return this;

@@ -33,7 +33,9 @@ namespace SpanExtensions.Enumerators
             currentCount = 0;
         }
 
-        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
         public readonly SpanSplitSequenceWithCountEnumerator<T> GetEnumerator()
         {
             return this;
