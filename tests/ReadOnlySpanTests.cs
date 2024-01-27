@@ -580,6 +580,38 @@ namespace Tests
                             args: [("delimiter", charDelimiter), ("options", options)]
                         );
                     }
+
+                    [Fact]
+                    public void DelimiterAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpan()
+                    {
+                        const string @string = "aab";
+                        ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                        const char charDelimiter = 'b';
+                        const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, options),
+                            actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("options", options)]
+                        );
+                    }
+
+                    [Fact]
+                    public void ConsecutiveDelimitersAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpans()
+                    {
+                        const string @string = "aabb";
+                        ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                        const char charDelimiter = 'b';
+                        const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, options),
+                            actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("options", options)]
+                        );
+                    }
                 }
 
                 public sealed class SplitAny
