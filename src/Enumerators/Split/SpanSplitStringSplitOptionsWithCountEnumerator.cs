@@ -11,8 +11,10 @@ namespace SpanExtensions.Enumerators
         readonly char Delimiter;
         readonly StringSplitOptions Options;
         readonly int Count;
+        readonly CountExceedingBehaviour CountExceedingBehaviour;
         int currentCount;
         bool enumerationDone;
+        readonly int CountMinusOne;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -20,21 +22,24 @@ namespace SpanExtensions.Enumerators
         public ReadOnlySpan<char> Current { get; internal set; }
 
         /// <summary>
-        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, int, StringSplitOptions)"/></strong>.
+        /// Constructs a <see cref="SpanSplitStringSplitOptionsWithCountEnumerator"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split(ReadOnlySpan{char}, char, int, StringSplitOptions, CountExceedingBehaviour)"/></strong>.
         /// </summary>
         /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">A <see cref="char"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
-        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, int count, StringSplitOptions options)
+        /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
+        public SpanSplitStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, char delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.CutLastElements)
         {
             Span = source;
             Delimiter = delimiter;
             Count = count;
+            CountExceedingBehaviour = countExceedingBehaviour;
             Options = options;
             Current = default;
             currentCount = 0;
             enumerationDone = false;
+            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -63,6 +68,26 @@ namespace SpanExtensions.Enumerators
             }
             int index = span.IndexOf(Delimiter);
 
+            switch(CountExceedingBehaviour)
+            {
+                case CountExceedingBehaviour.CutLastElements:
+                    break;
+                case CountExceedingBehaviour.AppendLastElements:
+                    if(currentCount == CountMinusOne)
+                    {
+                        ReadOnlySpan<char> lower = span[..index];
+                        ReadOnlySpan<char> upper = span[(index + 1)..];
+                        Span<char> temp = new char[lower.Length + upper.Length];
+                        lower.CopyTo(temp[..index]);
+                        upper.CopyTo(temp[index..]);
+                        Current = temp;
+                        currentCount++;
+                        return true;
+                    }
+                    break;
+                default:
+                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
+            }
             if(index == -1 || index >= span.Length)
             {
                 enumerationDone = true;
