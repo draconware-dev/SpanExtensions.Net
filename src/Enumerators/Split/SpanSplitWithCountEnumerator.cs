@@ -13,6 +13,7 @@ namespace SpanExtensions.Enumerators
         readonly int Count;
         readonly CountExceedingBehaviour CountExceedingBehaviour; 
         int currentCount;
+        bool enumerationDone;
         readonly int CountMinusOne;
 
         /// <summary>
@@ -35,6 +36,7 @@ namespace SpanExtensions.Enumerators
             CountExceedingBehaviour = countExceedingBehaviour;
             Current = default;
             currentCount = 0;
+            enumerationDone = false;
             CountMinusOne = Math.Max(Count - 1, 0);
         }
 
@@ -52,11 +54,12 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            ReadOnlySpan<T> span = Span;
-            if(span.IsEmpty)
+            if(enumerationDone)
             {
                 return false;
             }
+
+            ReadOnlySpan<T> span = Span;
             if(currentCount == Count)
             {
                 return false;
@@ -84,7 +87,7 @@ namespace SpanExtensions.Enumerators
             }
             if(index == -1 || index >= span.Length)
             {
-                Span = ReadOnlySpan<T>.Empty;
+                enumerationDone = true;
                 Current = span;
                 return true;
             }
