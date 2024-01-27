@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Tests
 {
@@ -231,6 +234,34 @@ namespace Tests
         }
 
         /// <summary>
+        /// Counts the number of times any of the specified <paramref name="substring"/> occur in the <paramref name="string"/>.
+        /// </summary>
+        /// <param name="string">The string to search.</param>
+        /// <param name="substring">The substring for which to search.</param>
+        /// <returns>The number of times any of the <paramref name="substring"/> was found in the <paramref name="string"/>.</returns>
+        public static int Count(this string @string, string substring)
+        {
+#if NET7_0_OR_GREATER
+            return Regex.Count(@string, substring);
+#else
+            return Regex.Matches(@string, substring).Count;
+#endif
+        }
+
+        /// <summary>Counts the number of times the specified <paramref name="value"/> subsequence occurs in the <paramref name="span"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="span">The span to search.</param>
+        /// <param name="value">The value subsequence for which to search.</param>
+        /// <returns>The number of times <paramref name="value"/> subsequence was found in the <paramref name="span"/>.</returns>
+        public static int CountSequence<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> value)
+        {
+            string source = string.Join(",", span.ToArray());
+            string substring = string.Join(",", value.ToArray());
+
+            return source.Count(substring);
+        }
+
+        /// <summary>
         /// Splits a sequence into a maximum number of subsequences based on a specified delimiter.
         /// </summary>
         /// <typeparam name="T">The element type of the sequence.</typeparam>
@@ -275,7 +306,7 @@ namespace Tests
         /// <typeparam name="T">The element type of the sequence.</typeparam>
         /// <param name="source">The sequence to be split.</param>
         /// <param name="delimiters">A <see cref="IEnumerable{T}"/> with the instances of <typeparamref name="T"/> that delimit the subsequences in <paramref name="source"/>.</param>
-        /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
+        /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiters"/>.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
         public static IEnumerable<IEnumerable<T>> SplitAny<T>(IEnumerable<T> source, IEnumerable<T> delimiters, int count = 0) where T : IEquatable<T>
@@ -306,6 +337,60 @@ namespace Tests
             }
 
             yield return segment;
+        }
+
+        /// <summary>
+        /// Splits a sequence into a maximum number of subsequences based on specified delimiter subsequence.
+        /// </summary>
+        /// <param name="source">The sequence to be split.</param>
+        /// <param name="delimiter">A <see cref="IEnumerable{int}"/> that delimits the subsequences in <paramref name="source"/>.</param>
+        /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
+        /// <returns>A sequence of split subsequences.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
+        public static IEnumerable<IEnumerable<int>> Split(IEnumerable<int> source, IEnumerable<int> delimiter, int count = 0)
+        {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(count);
+#else
+            if(count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+#endif
+
+            string _source = string.Join(",", source);
+            string _delimiter = string.Join(",", delimiter);
+
+            string[] splits = _source.Split(_delimiter, count == 0 ? int.MaxValue : count, StringSplitOptions.None);
+
+            return splits.Select(s => s.Trim(',').Split(',').Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
+        }
+
+        /// <summary>
+        /// Splits a sequence into a maximum number of subsequences based on specified delimiter subsequence.
+        /// </summary>
+        /// <param name="source">The sequence to be split.</param>
+        /// <param name="delimiter">A <see cref="IEnumerable{char}"/> that delimits the subsequences in <paramref name="source"/>.</param>
+        /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
+        /// <returns>A sequence of split subsequences.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
+        public static IEnumerable<IEnumerable<char>> Split(IEnumerable<char> source, IEnumerable<char> delimiter, int count = 0)
+        {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(count);
+#else
+            if(count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+#endif
+
+            string _source = string.Join(",", source);
+            string _delimiter = string.Join(",", delimiter);
+
+            string[] splits = _source.Split(_delimiter, count == 0 ? int.MaxValue : count, StringSplitOptions.None);
+
+            return splits.Select(s => s.Trim(',').Split(',').Select(x => x[0]));
         }
 
         /// <summary>

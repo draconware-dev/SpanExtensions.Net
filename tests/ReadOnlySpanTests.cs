@@ -364,6 +364,185 @@ namespace Tests
                         AssertOptions(_options);
                     }
                 }
+
+                [Fact]
+                public void TestSplitSequence()
+                {
+                    int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
+                    ReadOnlySpan<int> integerSpan = integerArray;
+
+                    // source contains delimiter
+                    int startIndex = random.Next(integerArray.Length - 3);
+                    int[] integerSequenceDelimiter = integerArray[startIndex..(startIndex + 3)];
+                    AssertMethodResults(
+                        expected: Split(integerArray, integerSequenceDelimiter),
+                        actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
+                        source: integerArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: ("delimiter", integerSequenceDelimiter)
+                    );
+
+                    // source does not contain delimiter
+                    integerSequenceDelimiter[^1] = maxValue;
+                    AssertMethodResults(
+                        expected: Split(integerArray, integerSequenceDelimiter),
+                        actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
+                        source: integerArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: ("delimiter", integerSequenceDelimiter)
+                    );
+
+                    char[] charArray = GenerateRandomString(length).ToCharArray();
+                    ReadOnlySpan<char> charSpan = charArray;
+
+                    // source contains delimiter
+                    startIndex = random.Next(charArray.Length - 3);
+                    char[] charSequenceDelimiter = charArray[startIndex..(startIndex + 3)];
+                    AssertMethodResults(
+                        expected: Split(charArray, charSequenceDelimiter),
+                        actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: ("delimiter", charSequenceDelimiter)
+                    );
+
+                    // source does not contain delimiter
+                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                    AssertMethodResults(
+                        expected: Split(charArray, charSequenceDelimiter),
+                        actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: ("delimiter", charSequenceDelimiter)
+                    );
+                }
+
+                [Fact]
+                public void TestSplitSequenceWithCount()
+                {
+                    int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
+                    ReadOnlySpan<int> integerSpan = integerArray;
+
+                    // source contains delimiter
+                    int startIndex = random.Next(integerArray.Length - 3);
+                    int[] integerSequenceDelimiter = integerArray[startIndex..(startIndex + 3)];
+                    int countDelimiters = integerSpan.CountSequence(integerSequenceDelimiter);
+                    AssertMethodResults(
+                        expected: Split(integerArray, integerSequenceDelimiter, countDelimiters),
+                        actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: integerArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters)]
+                    );
+
+                    // source does not contain delimiter
+                    integerSequenceDelimiter[^1] = maxValue;
+                    AssertMethodResults(
+                        expected: Split(integerArray, integerSequenceDelimiter, countDelimiters),
+                        actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: integerArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters)]
+                    );
+
+                    char[] charArray = GenerateRandomString(length).ToCharArray();
+                    ReadOnlySpan<char> charSpan = charArray;
+
+                    // source contains delimiter
+                    startIndex = random.Next(charArray.Length - 3);
+                    char[] charSequenceDelimiter = charArray[startIndex..(startIndex + 3)];
+                    countDelimiters = charSpan.CountSequence(charSequenceDelimiter);
+                    AssertMethodResults(
+                        expected: Split(charArray, charSequenceDelimiter, countDelimiters),
+                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters)]
+                    );
+
+                    // source does not contain delimiter
+                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                    AssertMethodResults(
+                        expected: Split(charArray, charSequenceDelimiter, countDelimiters),
+                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters)]
+                    );
+                }
+
+                [Fact]
+                public void TestSplitSequenceString()
+                {
+                    static void AssertOptions(StringSplitOptions options)
+                    {
+                        string @string = GenerateRandomString(length);
+                        ReadOnlySpan<char> charSpan = @string;
+
+                        // source contains delimiter
+                        int startIndex = random.Next(@string.Length - 3);
+                        char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
+                        AssertMethodResults(
+                            expected: @string.Split(new string(charSequenceDelimiter), options),
+                            actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charSequenceDelimiter), ("options", options)]
+                        );
+
+                        // source does not contain delimiter
+                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                        AssertMethodResults(
+                            expected: @string.Split(new string(charSequenceDelimiter), options),
+                            actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charSequenceDelimiter), ("options", options)]
+                        );
+                    }
+
+                    foreach(StringSplitOptions _options in stringSplitOptions)
+                    {
+                        AssertOptions(_options);
+                    }
+                }
+
+                [Fact]
+                public void TestSplitSequenceStringWithCount()
+                {
+                    static void AssertOptions(StringSplitOptions options)
+                    {
+                        string @string = GenerateRandomString(length);
+                        ReadOnlySpan<char> charSpan = @string;
+
+                        // source contains delimiter
+                        int startIndex = random.Next(@string.Length - 3);
+                        char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
+                        int countDelimiters = @string.Count(new string(charSequenceDelimiter));
+                        AssertMethodResults(
+                            expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
+                            actual: charSpan.Split(charSequenceDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
+                        );
+
+                        // source does not contain delimiter
+                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                        AssertMethodResults(
+                            expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
+                            actual: charSpan.Split(charSequenceDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
+                        );
+                    }
+
+                    foreach(StringSplitOptions _options in stringSplitOptions)
+                    {
+                        AssertOptions(_options);
+                    }
+                }
             }
 
             public static class Facts
