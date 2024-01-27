@@ -12,6 +12,7 @@ namespace SpanExtensions.Enumerators
         readonly StringSplitOptions Options;
         readonly int Count;
         int currentCount;
+        bool enumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -33,6 +34,7 @@ namespace SpanExtensions.Enumerators
             Options = options;
             Current = default;
             currentCount = 0;
+            enumerationDone = false;
         }
 
         /// <summary>
@@ -49,11 +51,12 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            ReadOnlySpan<char> span = Span;
-            if(span.IsEmpty)
+            if(enumerationDone)
             {
                 return false;
             }
+
+            ReadOnlySpan<char> span = Span;
             if(currentCount == Count)
             {
                 return false;
@@ -62,7 +65,7 @@ namespace SpanExtensions.Enumerators
 
             if(index == -1 || index >= span.Length)
             {
-                Span = ReadOnlySpan<char>.Empty;
+                enumerationDone = true;
                 Current = span;
                 return true;
             }
@@ -80,8 +83,20 @@ namespace SpanExtensions.Enumerators
                 if(Current.IsEmpty)
                 {
                     Span = span[(index + Delimiter.Length)..];
+                    if(Span.IsEmpty)
+                    {
+                        enumerationDone = true;
+                        return false;
+                    }
                     return MoveNext();
                 }
+
+                Span = span[(index + 1)..];
+                if(Span.IsEmpty)
+                {
+                    enumerationDone = true;
+                }
+                return true;
             }
             Span = span[(index + Delimiter.Length)..];
             return true;

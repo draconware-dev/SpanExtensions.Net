@@ -12,6 +12,7 @@ namespace SpanExtensions.Enumerators
         readonly ReadOnlySpan<T> Delimiter;
         readonly int Count;
         int currentCount;
+        bool enumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -31,6 +32,7 @@ namespace SpanExtensions.Enumerators
             Count = count;
             Current = default;
             currentCount = 0;
+            enumerationDone = false;
         }
 
         /// <summary>
@@ -47,11 +49,12 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            ReadOnlySpan<T> span = Span;
-            if(span.IsEmpty)
+            if(enumerationDone)
             {
                 return false;
             }
+
+            ReadOnlySpan<T> span = Span;
             if(currentCount == Count)
             {
                 return false;
@@ -59,7 +62,7 @@ namespace SpanExtensions.Enumerators
             int index = span.IndexOf(Delimiter);
             if(index == -1 || index >= span.Length)
             {
-                Span = ReadOnlySpan<T>.Empty;
+                enumerationDone = true;
                 Current = span;
                 return true;
             }
