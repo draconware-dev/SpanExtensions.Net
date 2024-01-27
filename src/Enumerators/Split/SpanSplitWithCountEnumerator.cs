@@ -28,7 +28,7 @@ namespace SpanExtensions.Enumerators
         /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
-        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.CutLastElements)
+        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
         {
             Span = source;
             Delimiter = delimiter;
