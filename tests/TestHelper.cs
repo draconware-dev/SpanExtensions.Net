@@ -261,6 +261,16 @@ namespace Tests
             return source.Count(substring);
         }
 
+        /// <summary>Counts the number of times the specified <paramref name="value"/> subsequence occurs in the <paramref name="span"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="span">The span to search.</param>
+        /// <param name="value">The value subsequence for which to search.</param>
+        /// <returns>The number of times <paramref name="value"/> subsequence was found in the <paramref name="span"/>.</returns>
+        public static int CountSequence<T>(this Span<T> span, ReadOnlySpan<T> value)
+        {
+            return CountSequence((ReadOnlySpan<T>)span, value);
+        }
+
         /// <summary>
         /// Splits a sequence into a maximum number of subsequences based on a specified delimiter.
         /// </summary>
