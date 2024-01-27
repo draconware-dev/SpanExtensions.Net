@@ -6,12 +6,14 @@ namespace SpanExtensions.Enumerators
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it a a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
     /// </summary>
     /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/>.</typeparam>
-    public ref struct SpanSplitWithCountEnumerator<T> where T : IEquatable<T>
+    public ref struct SpanSplitWithCountEnumerator<T> where T : IEquatable<T> 
     {
         ReadOnlySpan<T> Span;
         readonly T Delimiter;
         readonly int Count;
+        readonly CountExceedingBehaviour CountExceedingBehaviour; 
         int currentCount;
+        readonly int CountMinusOne;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -24,13 +26,16 @@ namespace SpanExtensions.Enumerators
         /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>
         /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
-        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count)
+        /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
+        public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.CutLastElements)
         {
             Span = source;
             Delimiter = delimiter;
             Count = count;
+            CountExceedingBehaviour = countExceedingBehaviour;
             Current = default;
             currentCount = 0;
+            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -57,6 +62,26 @@ namespace SpanExtensions.Enumerators
                 return false;
             }
             int index = span.IndexOf(Delimiter);
+            switch(CountExceedingBehaviour)
+            {
+                case CountExceedingBehaviour.CutLastElements:
+                    break; 
+                case CountExceedingBehaviour.AppendLastElements:
+                    if(currentCount == CountMinusOne) 
+                    {
+                        ReadOnlySpan<T> lower  = span[..index]; 
+                        ReadOnlySpan<T> upper = span[(index + 1)..]; 
+                        Span<T> temp = new T[lower.Length + upper.Length];  
+                        lower.CopyTo(temp[..index]); 
+                        upper.CopyTo(temp[index..]);
+                        Current = temp;  
+                        currentCount++;
+                        return true; 
+                    }
+                    break;
+                default:
+                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
+            }
             if(index == -1 || index >= span.Length)
             {
                 Span = ReadOnlySpan<T>.Empty;
