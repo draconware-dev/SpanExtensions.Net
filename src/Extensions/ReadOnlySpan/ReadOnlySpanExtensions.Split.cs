@@ -28,7 +28,7 @@ namespace SpanExtensions
         /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>
         /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
-        /// /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
+        /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitWithCountEnumerator{T}"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
         public static SpanSplitWithCountEnumerator<T> Split<T>(this ReadOnlySpan<T> source, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.CutLastElements) where T : IEquatable<T>
         {
