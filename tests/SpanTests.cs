@@ -169,7 +169,7 @@ namespace Tests
                         int countDelimiters = charSpan.Count(charDelimiter);
                         AssertMethodResults(
                             expected: @string.Split(charDelimiter, countDelimiters, options),
-                            actual: charSpan.Split(charDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.Split),
                             args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
@@ -179,7 +179,7 @@ namespace Tests
                         charDelimiter = '!'; // the generated array only consists of lowercase letters and numbers
                         AssertMethodResults(
                             expected: @string.Split(charDelimiter, countDelimiters, options),
-                            actual: charSpan.Split(charDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.Split),
                             args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
@@ -342,7 +342,7 @@ namespace Tests
                         int countDelimiters = charSpan.Count(charDelimiters);
                         AssertMethodResults(
                             expected: @string.Split(charDelimiters, countDelimiters, options),
-                            actual: charSpan.SplitAny(charDelimiters, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.SplitAny),
                             args: [("delimiters", charDelimiters), ("options", options), ("count", countDelimiters)]
@@ -352,7 +352,7 @@ namespace Tests
                         charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters and numbers
                         AssertMethodResults(
                             expected: @string.Split(charDelimiters, countDelimiters, options),
-                            actual: charSpan.SplitAny(charDelimiters, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.SplitAny),
                             args: [("delimiters", charDelimiters), ("options", options), ("count", countDelimiters)]
@@ -521,7 +521,7 @@ namespace Tests
                         int countDelimiters = @string.Count(new string(charSequenceDelimiter));
                         AssertMethodResults(
                             expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
-                            actual: charSpan.Split(charSequenceDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.Split),
                             args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
@@ -531,7 +531,7 @@ namespace Tests
                         charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
                         AssertMethodResults(
                             expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
-                            actual: charSpan.Split(charSequenceDelimiter, options, countDelimiters).ToSystemEnumerable(),
+                            actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                             source: @string,
                             method: nameof(ReadOnlySpanExtensions.Split),
                             args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
