@@ -4,18 +4,18 @@ using System.Globalization;
 namespace SpanExtensions
 {
     /// <summary>
-    /// Defines the behaviour of a split operation when there are more split instances than there may be.
+    /// Defines the behaviour of a split operation when there are more split instances than desired.
     /// </summary>
     public enum CountExceedingBehaviour
     {
         /// <summary>
-        /// The last element returned will be all the remaining elements appended as one.
+        /// The last split returned will include all the remaining elements.
         /// </summary>
-        AppendLastElements,
+        IncludeRemainingElements,
         /// <summary>
-        /// Every split instance more than permitted will not be returned.
+        /// Splits after the desired split count will be dropped..
         /// </summary>
-        CutLastElements
+        DropRemainingElements
     }
 
     /// <summary>
