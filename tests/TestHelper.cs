@@ -27,13 +27,13 @@ namespace Tests
         }
 
         /// <summary>
-        /// Generates a random string of a specified length. The string is generated from an alphabet of lowercase letters and numbers.
+        /// Generates a random string of a specified length. The string is generated from an alphabet of lowercase letters, numbers, and white spaces.
         /// </summary>
         /// <param name="length">The length of the generated string.</param>
         /// <returns>A random string.</returns>
         public static string GenerateRandomString(int length)
         {
-            const string alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
+            const string alphabet = "abcdefghijklmnopqrstuvwxyz0123456789 ";
 
             StringBuilder builder = new(length);
             for(int i = 0; i < length; i++)

@@ -60,7 +60,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charDelimiter = '!'; // the generated array only consists of lowercase letters and numbers
+                    charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: Split(charArray, charDelimiter),
                         actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
@@ -111,7 +111,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charDelimiter = '!'; // the generated array only consists of lowercase letters and numbers
+                    charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: Split(charArray, charDelimiter, countDelimiters),
                         actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
@@ -140,7 +140,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charDelimiter = '!'; // the generated array only consists of lowercase letters and numbers
+                        charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(charDelimiter, options),
                             actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
@@ -176,7 +176,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charDelimiter = '!'; // the generated array only consists of lowercase letters and numbers
+                        charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(charDelimiter, countDelimiters, options),
                             actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
@@ -232,7 +232,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters and numbers
+                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: SplitAny(charArray, charDelimiters),
                         actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
@@ -284,7 +284,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters and numbers
+                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: SplitAny(charArray, charDelimiters, countDelimiters),
                         actual: charSpan.SplitAny(charDelimiters, countDelimiters).ToSystemEnumerable(),
@@ -313,7 +313,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters and numbers
+                        charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(charDelimiters, options),
                             actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
@@ -349,7 +349,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters and numbers
+                        charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(charDelimiters, countDelimiters, options),
                             actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
@@ -407,7 +407,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: Split(charArray, charSequenceDelimiter),
                         actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
@@ -461,7 +461,7 @@ namespace Tests
                     );
 
                     // source does not contain delimiter
-                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                     AssertMethodResults(
                         expected: Split(charArray, charSequenceDelimiter, countDelimiters),
                         actual: charSpan.Split(charSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
@@ -491,7 +491,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(new string(charSequenceDelimiter), options),
                             actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
@@ -528,7 +528,7 @@ namespace Tests
                         );
 
                         // source does not contain delimiter
-                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters and numbers
+                        charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
                         AssertMethodResults(
                             expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
                             actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
