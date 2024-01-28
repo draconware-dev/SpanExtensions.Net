@@ -57,27 +57,49 @@ namespace Tests
         /// <returns>The message to be displayed when assertion fails.</returns>
         public static string GenerateAssertionMessage<T>(IEnumerable<T> source, IEnumerable<IEnumerable<T>> expected, IEnumerable<IEnumerable<T>> actual, string method, params (string argName, object? argValue)[] args)
         {
-            static IEnumerable<object?> Enumerate(IEnumerable enumerable)
+            static void AppendKeyValues(StringBuilder builder, string key, params (string subkey, object? value)[] keyValues)
             {
-                List<object?> list = [];
-
-                IEnumerator enumerator = enumerable.GetEnumerator();
-                while(enumerator.MoveNext())
+                static IEnumerable<object?> Enumerate(IEnumerable enumerable)
                 {
-                    list.Add(enumerator.Current);
+                    List<object?> list = [];
+
+                    IEnumerator enumerator = enumerable.GetEnumerator();
+                    while(enumerator.MoveNext())
+                    {
+                        list.Add(enumerator.Current);
+                    }
+
+                    return list;
                 }
 
-                return list;
+                static string ToString(object? obj)
+                {
+                    return obj switch
+                    {
+                        null => "null",
+                        IEnumerable enumerable => '[' + string.Join(", ", Enumerate(enumerable).Select(x => ToString(x))) + ']',
+                        _ => obj.ToString()
+                    } ?? "null";
+                }
+
+                builder.Append(key).AppendLine(":");
+                foreach((string subkey, object ? value) in keyValues)
+                {
+                    builder.Append('\t').Append(subkey).Append(": ").AppendLine(ToString(value));
+                }
             }
 
-            static string ToString(object? obj)
+            static void AppendNestedEnumerable(StringBuilder builder, string key, IEnumerable<IEnumerable<T>> nestedEnumerable)
             {
-                return obj switch
+                builder.Append(key).AppendLine(": [");
+                bool emptyCollection = true;
+                foreach(IEnumerable<T> enumerable in nestedEnumerable)
                 {
-                    null => "null",
-                    IEnumerable enumerable => '[' + string.Join(", ", Enumerate(enumerable).Select(x => ToString(x))) + ']',
-                    _ => obj.ToString()
-                } ?? "null";
+                    emptyCollection = false;
+                    builder.Append("\t[").AppendJoin(", ", enumerable).AppendLine("],");
+                }
+                builder.Length -= Environment.NewLine.Length + (!emptyCollection ? 1 : 0); // remove the last endline and comma
+                builder.AppendLine().AppendLine("]");
             }
 
             StringBuilder builder = new();
@@ -86,25 +108,9 @@ namespace Tests
             builder.Append("Runtime Version: ").AppendLine(Environment.Version.ToString());
             builder.Append("Source: [").AppendJoin(", ", source).AppendLine("]");
             builder.Append("Method: ").AppendLine(method);
-            builder.AppendLine("Arguments:");
-            foreach((string argName, object? argValue) in args)
-            {
-                builder.Append('\t').Append(argName).Append(": ").AppendLine(ToString(argValue));
-            }
-            builder.AppendLine("Expected: [");
-            foreach(IEnumerable<T> subExpected in expected)
-            {
-                builder.Append("\t[").AppendJoin(", ", subExpected).AppendLine("],");
-            }
-            builder.Length -= Environment.NewLine.Length + 1; // remove the last endline and comma
-            builder.AppendLine().AppendLine("]");
-            builder.AppendLine("Actual: [");
-            foreach(IEnumerable<T> subActual in actual)
-            {
-                builder.Append("\t[").AppendJoin(", ", subActual).AppendLine("],");
-            }
-            builder.Length -= Environment.NewLine.Length + 1; // remove the last endline and comma
-            builder.AppendLine().AppendLine("]");
+            AppendKeyValues(builder, "Arguments", args);
+            AppendNestedEnumerable(builder, "Expected", expected);
+            AppendNestedEnumerable(builder, "Actual", actual);
 
             return builder.ToString();
         }
