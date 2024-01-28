@@ -10,11 +10,10 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<T> Span;
         readonly ReadOnlySpan<T> Delimiters;
-        readonly int Count;
+        const int DelimiterLength = 1;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
-        int currentCount;
-        bool enumerationDone;
-        readonly int CountMinusOne;
+        int CurrentCount;
+        bool EnumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -32,12 +31,10 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiters = delimiters;
-            Count = count;
-            CountExceedingBehaviour = countExceedingBehaviour;
+            CurrentCount = Math.Max(1, count);
+            CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
+            EnumerationDone = false;
             Current = default;
-            currentCount = 0;
-            enumerationDone = false;
-            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -54,46 +51,26 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<T> span = Span;
-            if(currentCount == Count)
+            int delimiterIndex = Span.IndexOfAny(Delimiters);
+
+            if(delimiterIndex == -1 || CurrentCount == 1)
             {
-                return false;
-            }
-            int index = span.IndexOfAny(Delimiters);
-            switch(CountExceedingBehaviour)
-            {
-                case CountExceedingBehaviour.CutLastElements:
-                    break;
-                case CountExceedingBehaviour.AppendLastElements:
-                    if(currentCount == CountMinusOne)
-                    {
-                        ReadOnlySpan<T> lower = span[..index];
-                        ReadOnlySpan<T> upper = span[(index + 1)..];
-                        Span<T> temp = new T[lower.Length + upper.Length];
-                        lower.CopyTo(temp[..index]);
-                        upper.CopyTo(temp[index..]);
-                        Current = temp;
-                        currentCount++;
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
-            }
-            if(index == -1 || index >= span.Length)
-            {
-                enumerationDone = true;
-                Current = span;
+                EnumerationDone = true;
+
+                Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendLastElements ? Span : Span[..delimiterIndex];
+
                 return true;
             }
-            currentCount++;
-            Current = span[..index];
-            Span = span[(index + 1)..];
+
+            Current = Span[..delimiterIndex];
+            Span = Span[(delimiterIndex + DelimiterLength)..];
+
+            CurrentCount--;
             return true;
         }
     }

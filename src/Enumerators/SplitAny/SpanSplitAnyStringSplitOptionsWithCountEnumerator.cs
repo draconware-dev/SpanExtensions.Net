@@ -9,12 +9,12 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<char> Span;
         readonly ReadOnlySpan<char> Delimiters;
-        readonly StringSplitOptions Options;
-        readonly int Count;
+        const int DelimiterLength = 1;
+        readonly bool TrimEntries;
+        readonly bool RemoveEmptyEntries;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
-        int currentCount;
-        bool enumerationDone;
-        readonly int CountMinusOne;
+        int CurrentCount;
+        bool EnumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -33,13 +33,16 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiters = delimiters;
-            Count = count;
-            Options = options;
-            CountExceedingBehaviour = countExceedingBehaviour;
+            CurrentCount = Math.Max(1, count);
+#if NET5_0_OR_GREATER
+            TrimEntries = options.HasFlag(StringSplitOptions.TrimEntries);
+#else
+            TrimEntries = false;
+#endif
+            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
+            CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
+            EnumerationDone = false;
             Current = default;
-            currentCount = 0;
-            enumerationDone = false;
-            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -56,75 +59,68 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<char> span = Span;
-            if(currentCount == Count)
+            while(true) // if RemoveEmptyEntries options flag is set, repeat until a non-empty span is found, or the end is reached
             {
-                return false;
-            }
-            int index = span.IndexOfAny(Delimiters);
+                int delimiterIndex = Span.IndexOfAny(Delimiters);
 
-            switch(CountExceedingBehaviour)
-            {
-                case CountExceedingBehaviour.CutLastElements:
-                    break;
-                case CountExceedingBehaviour.AppendLastElements:
-                    if(currentCount == CountMinusOne)
-                    {
-                        ReadOnlySpan<char> lower = span[..index];
-                        ReadOnlySpan<char> upper = span[(index + 1)..];
-                        Span<char> temp = new char[lower.Length + upper.Length];
-                        lower.CopyTo(temp[..index]);
-                        upper.CopyTo(temp[index..]);
-                        Current = temp;
-                        currentCount++;
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
-            }
-            if(index == -1 || index >= span.Length)
-            {
-                enumerationDone = true;
-                Current = span;
-                return true;
-            }
-            currentCount++;
-            Current = span[..index];
-
-#if NET5_0_OR_GREATER
-            if(Options.HasFlag(StringSplitOptions.TrimEntries))
-            {
-                Current = Current.Trim();
-            }
-#endif
-            if(Options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-            {
-                if(Current.IsEmpty)
+                if(delimiterIndex == -1 || CurrentCount == 1)
                 {
-                    Span = span[(index + 1)..];
-                    if(Span.IsEmpty)
+                    EnumerationDone = true;
+
+                    if(delimiterIndex != -1 && RemoveEmptyEntries && CountExceedingBehaviour == CountExceedingBehaviour.AppendLastElements) // skip all empty (after trimming if necessary) entries from the left
                     {
-                        enumerationDone = true;
-                        return false;
+                        do
+                        {
+                            ReadOnlySpan<char> beforeDelimiter = Span[..delimiterIndex];
+
+                            if(TrimEntries ? beforeDelimiter.IsWhiteSpace() : beforeDelimiter.IsEmpty)
+                            {
+                                Span = Span[(delimiterIndex + DelimiterLength)..];
+                                delimiterIndex = Span.IndexOfAny(Delimiters);
+
+                                continue;
+                            }
+
+                            break;
+                        }
+                        while(delimiterIndex != -1);
+
+                        Current = Span;
                     }
-                    return MoveNext();
+                    else
+                    {
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendLastElements ? Span : Span[..delimiterIndex];
+                    }
+
+                    if(TrimEntries)
+                    {
+                        Current = Current.Trim();
+                    }
+
+                    return !(RemoveEmptyEntries && Current.IsEmpty);
                 }
 
-                Span = span[(index + 1)..];
-                if(Span.IsEmpty)
+                Current = Span[..delimiterIndex];
+                Span = Span[(delimiterIndex + DelimiterLength)..];
+
+                if(TrimEntries)
                 {
-                    enumerationDone = true;
+                    Current = Current.Trim();
                 }
+
+                if(RemoveEmptyEntries && Current.IsEmpty)
+                {
+                    continue;
+                }
+
+                CurrentCount--;
                 return true;
             }
-            Span = span[(index + 1)..];
-            return true;
         }
     }
 }

@@ -9,8 +9,10 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<char> Span;
         readonly ReadOnlySpan<char> Delimiter;
-        readonly StringSplitOptions Options;
-        bool enumerationDone;
+        readonly int DelimiterLength;
+        readonly bool TrimEntries;
+        readonly bool RemoveEmptyEntries;
+        bool EnumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -27,9 +29,15 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
-            Options = options;
+            DelimiterLength = delimiter.Length;
+#if NET5_0_OR_GREATER
+            TrimEntries = options.HasFlag(StringSplitOptions.TrimEntries);
+#else
+            TrimEntries = false;
+#endif
+            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
+            EnumerationDone = false;
             Current = default;
-            enumerationDone = false;
         }
 
         /// <summary>
@@ -46,50 +54,44 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<char> span = Span;
-            int index = span.IndexOf(Delimiter);
+            while(true) // if RemoveEmptyEntries options flag is set, repeat until a non-empty span is found, or the end is reached
+            {
+                int delimiterIndex = Span.IndexOf(Delimiter);
 
-            if(index == -1 || index >= span.Length)
-            {
-                enumerationDone = true;
-                Current = span;
-                return true;
-            }
-            Current = span[..index];
-
-#if NET5_0_OR_GREATER
-            if(Options.HasFlag(StringSplitOptions.TrimEntries))
-            {
-                Current = Current.Trim();
-            }
-#endif
-            if(Options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-            {
-                if(Current.IsEmpty)
+                if(delimiterIndex == -1)
                 {
-                    Span = span[(index + Delimiter.Length)..];
-                    if(Span.IsEmpty)
+                    EnumerationDone = true;
+
+                    Current = Span;
+
+                    if(TrimEntries)
                     {
-                        enumerationDone = true;
-                        return false;
+                        Current = Current.Trim();
                     }
-                    return MoveNext();
+
+                    return !(RemoveEmptyEntries && Current.IsEmpty);
                 }
 
-                Span = span[(index + 1)..];
-                if(Span.IsEmpty)
+                Current = Span[..delimiterIndex];
+                Span = Span[(delimiterIndex + DelimiterLength)..];
+
+                if(TrimEntries)
                 {
-                    enumerationDone = true;
+                    Current = Current.Trim();
                 }
+
+                if(RemoveEmptyEntries && Current.IsEmpty)
+                {
+                    continue;
+                }
+
                 return true;
             }
-            Span = span[(index + Delimiter.Length)..];
-            return true;
         }
     }
 }
