@@ -547,6 +547,87 @@ namespace Tests
 
             public static class Facts
             {
+                public sealed class Split
+                {
+                    [Fact]
+                    public void ConsecutiveDelimitersResultInEmptySpan()
+                    {
+                        const string charArray = "abba";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        const char charDelimiter = 'b';
+                        AssertMethodResults(
+                            expected: Split(charArray, charDelimiter),
+                            actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: ("delimiter", charDelimiter)
+                        );
+                    }
+
+                    [Fact]
+                    public void DelimiterAtTheEndResultInEmptySpan()
+                    {
+                        const string charArray = "aab";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        const char charDelimiter = 'b';
+                        AssertMethodResults(
+                            expected: Split(charArray, charDelimiter),
+                            actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: ("delimiter", charDelimiter)
+                        );
+                    }
+
+                    [Fact]
+                    public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter()
+                    {
+                        const string charArray = "aab";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        const char charDelimiter = 'b';
+                        int countDelimiters = charSpan.Count(charDelimiter);
+                        AssertMethodResults(
+                            expected: Split(charArray, charDelimiter, countDelimiters),
+                            actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                        );
+                    }
+
+                    [Fact]
+                    public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter()
+                    {
+                        const string charArray = "aabaa";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        const char charDelimiter = 'b';
+                        int countDelimiters = charSpan.Count(charDelimiter);
+                        AssertMethodResults(
+                            expected: Split(charArray, charDelimiter, countDelimiters),
+                            actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                        );
+                    }
+
+                    [Fact]
+                    public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut()
+                    {
+                        const string charArray = "aabaa";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        const char charDelimiter = 'b';
+                        int countDelimiters = charSpan.Count(charDelimiter);
+                        AssertMethodResults(
+                            expected: Split(charArray, charDelimiter, countDelimiters, CountExceedingBehaviour.CutLastElements),
+                            actual: charSpan.Split(charDelimiter, countDelimiters, CountExceedingBehaviour.CutLastElements).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                        );
+                    }
+                }
+
                 public sealed class SplitString
                 {
                     [Fact]
@@ -588,6 +669,71 @@ namespace Tests
                         ReadOnlySpan<char> charSpan = @string.ToCharArray();
                         const char charDelimiter = 'b';
                         const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, options),
+                            actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("options", options)]
+                        );
+                    }
+
+                    [Fact]
+                    public void ConsecutiveDelimitersAtTheEndWithCountEqualDelimiterCountWithRemoveEmptyEntriesOptionResultInNoSpanWithDelimiter()
+                    {
+                        const string @string = "aabb";
+                        ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                        const char charDelimiter = 'b';
+                        int countDelimiters = charSpan.Count(charDelimiter);
+                        const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, countDelimiters, options),
+                            actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
+                        );
+                    }
+
+                    [Fact]
+                    public void TrimEntriesOptionShouldTrimLastSpan()
+                    {
+                        const string @string = " a b a ";
+                        ReadOnlySpan<char> charSpan = @string;
+                        const char charDelimiter = 'b';
+                        const StringSplitOptions options = StringSplitOptions.TrimEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, options),
+                            actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("options", options)]
+                        );
+                    }
+
+                    [Fact]
+                    public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                    {
+                        const string @string = "";
+                        ReadOnlySpan<char> charSpan = @string;
+                        const char charDelimiter = '_';
+                        const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                        AssertMethodResults(
+                            expected: @string.Split(charDelimiter, options),
+                            actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                            source: @string,
+                            method: nameof(ReadOnlySpanExtensions.Split),
+                            args: [("delimiter", charDelimiter), ("options", options)]
+                        );
+                    }
+
+                    [Fact]
+                    public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                    {
+                        const string @string = "  ";
+                        ReadOnlySpan<char> charSpan = @string;
+                        const char charDelimiter = '_';
+                        const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
                         AssertMethodResults(
                             expected: @string.Split(charDelimiter, options),
                             actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
@@ -643,6 +789,25 @@ namespace Tests
                             source: charArray,
                             method: nameof(ReadOnlySpanExtensions.SplitAny),
                             args: ("delimiters", charDelimiters)
+                        );
+                    }
+                }
+
+                public sealed class SplitAnyString
+                {
+                    [Fact]
+                    public void WhiteSpaceCharactersAssumedWhenDelimitersCollectionIsEmpty()
+                    {
+                        const string charArray = "a b c d";
+                        ReadOnlySpan<char> charSpan = charArray;
+                        char[] charDelimiters = [];
+                        const StringSplitOptions options = StringSplitOptions.None;
+                        AssertMethodResults(
+                            expected: charArray.Split(charDelimiters, options),
+                            actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
+                            source: charArray,
+                            method: nameof(ReadOnlySpanExtensions.SplitAny),
+                            args: [("delimiters", charDelimiters), ("options", options)]
                         );
                     }
                 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using SpanExtensions;
+using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -286,7 +287,7 @@ namespace Tests
         /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = 0) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -301,6 +302,11 @@ namespace Tests
 
             foreach(T element in source)
             {
+                if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && element.Equals(delimiter))
+                {
+                    break;
+                }
+
                 if(count == 1 || !element.Equals(delimiter))
                 {
                     segment.Add(element);
