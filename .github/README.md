@@ -1,5 +1,7 @@
 # SpanExtensions
 
+[![NuGet Badge](https://buildstats.info/nuget/SpanExtensions.Net)](https://www.nuget.org/packages/SpanExtensions.Net)
+
 ## About
 **`ReadonlySpan<T>`** and **`Span<T>`** are great Types in _C#_, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.  
 
@@ -9,8 +11,6 @@ Never again switch back to using `string` instead of `ReadonlySpan<T>`, just bec
  
 **SpanExtensions.Net** provides alternatives for many missing Extension Methods for **`ReadonlySpan<T>`** and **`Span<T>`**, ranging from `string.Split()` over `Enumerable.Skip()` and `Enumerable.Take()` to an improved `ReadOnlySpan<T>.IndexOf()`.
 
-**SpanExtensions.Net** may also be found on [NuGet](https://www.nuget.org/packages/SpanExtensions.Net).   
-  
 ## Methods 
 The following **Extension Methods** are contained: 
  
