@@ -2,11 +2,10 @@
 using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Tests
+namespace SpanExtensions.Testing
 {
     public static class TestHelper
     {
@@ -84,7 +83,7 @@ namespace Tests
                 }
 
                 builder.Append(key).AppendLine(":");
-                foreach((string subkey, object ? value) in keyValues)
+                foreach((string subkey, object? value) in keyValues)
                 {
                     builder.Append('\t').Append(subkey).Append(": ").AppendLine(ToString(value));
                 }
@@ -176,7 +175,7 @@ namespace Tests
         /// <param name="args">The argument names and values of the method that was called.</param>
         public static void AssertMethodResults<T>(IEnumerable<IEnumerable<T>> expected, IEnumerable<IEnumerable<T>> actual, IEnumerable<T> source, string method, params (string argName, object? argValue)[] args) where T : IEquatable<T>
         {
-            if (!SequencesEqual(expected, actual))
+            if(!SequencesEqual(expected, actual))
             {
                 Assert.Fail(GenerateAssertionMessage(source, expected, actual, method, args));
             }
