@@ -3,7 +3,6 @@ using static Tests.TestHelper;
 
 namespace Tests
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S3878:Arrays should not be created for params parameters", Justification = "Readability")]
     public static class SpanTests
     {
         const int count = 250;
