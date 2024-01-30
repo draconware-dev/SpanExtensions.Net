@@ -1,6 +1,6 @@
 ﻿using SpanExtensions.Enumerators;
 
-namespace Tests
+namespace SpanExtensions.Testing
 {
     /// <summary>
     /// Extension methods to convert <see langword="ref struct"/> enumerators into <see cref="IEnumerable{T}"/>.
