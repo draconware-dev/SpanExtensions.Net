@@ -415,42 +415,30 @@ namespace SpanExtensions.Testing
         }
 
         /// <summary>
-        /// Get an <see cref="IEnumerable{StringSplitOptions}"/> with all permutations of the <see cref="StringSplitOptions"/> enum flags.
+        /// Get an array with all permutations of the <see cref="StringSplitOptions"/> enum flags.
         /// </summary>
         /// <returns>All permutations of the <see cref="StringSplitOptions"/> enum flags.</returns>
-        /// <remarks>This implementation assumes that all bits below the largest flag are used.</remarks>
-        public static IEnumerable<StringSplitOptions> GetAllStringSplitOptions()
+        public static StringSplitOptions[] GetAllStringSplitOptions()
         {
-            static bool IsPowerOfTwo(int value)
-            {
-                return value != 0 && (value & (value - 1)) == 0;
-            }
+#if NET5_0_OR_GREATER
+            // ensure that no new option was added in an update
+            Debug.Assert(Enumerable.SequenceEqual(
+                (StringSplitOptions[])Enum.GetValues(typeof(StringSplitOptions)),
+                [StringSplitOptions.None, StringSplitOptions.RemoveEmptyEntries, StringSplitOptions.TrimEntries]
+            ));
 
-            static int GetNearestPowerOfTwo(int value) // nearest down, i.e. highest power of 2 less than or equal to the given number
-            {
-                int power = (int)Math.Log2(value);
-                return (int)Math.Pow(2, power);
-            }
-
-            static IEnumerable<int> PowersOfTwo(int max)
-            {
-                while(max != 0)
-                {
-                    yield return max;
-                    max /= 2;
-                }
-                yield return 0;
-            }
-
-            int largestEnumValue = Enum.GetValues(typeof(StringSplitOptions)).Cast<int>().Max();
-            int largestOneBitFlag = IsPowerOfTwo(largestEnumValue) ? largestEnumValue : GetNearestPowerOfTwo(largestEnumValue);
-
-            Debug.Assert(PowersOfTwo(largestOneBitFlag).All(x => Enum.IsDefined(typeof(StringSplitOptions), x))); // ensure that all bits below highestEnumValue are used, otherwise the following is not valid
-
-            for(int flag = 0; flag < largestOneBitFlag * 2; flag++)
-            {
-                yield return (StringSplitOptions)flag;
-            }
+            return [
+                StringSplitOptions.None,
+                StringSplitOptions.RemoveEmptyEntries,
+                StringSplitOptions.TrimEntries,
+                StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
+            ];
+#else
+            return [
+                StringSplitOptions.None,
+                StringSplitOptions.RemoveEmptyEntries
+            ];
+#endif
         }
     }
 }
