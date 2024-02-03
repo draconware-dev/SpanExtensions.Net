@@ -24,7 +24,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerDelimiter),
                     actual: integerSpan.Split(integerDelimiter).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", integerDelimiter)
                 );
 
@@ -34,7 +34,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerDelimiter),
                     actual: integerSpan.Split(integerDelimiter).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", integerDelimiter)
                 );
 
@@ -47,7 +47,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charDelimiter),
                     actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", charDelimiter)
                 );
 
@@ -57,7 +57,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charDelimiter),
                     actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", charDelimiter)
                 );
             }
@@ -75,7 +75,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerDelimiter, countDelimiters),
                     actual: integerSpan.Split(integerDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", integerDelimiter), ("count", countDelimiters)]
                 );
 
@@ -85,7 +85,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerDelimiter, countDelimiters),
                     actual: integerSpan.Split(integerDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", integerDelimiter), ("count", countDelimiters)]
                 );
 
@@ -98,7 +98,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charDelimiter, countDelimiters),
                     actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", charDelimiter), ("count", countDelimiters)]
                 );
 
@@ -108,7 +108,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charDelimiter, countDelimiters),
                     actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", charDelimiter), ("count", countDelimiters)]
                 );
             }
@@ -127,7 +127,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
 
@@ -137,7 +137,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
@@ -163,7 +163,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, countDelimiters, options),
                         actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
                     );
 
@@ -173,7 +173,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, countDelimiters, options),
                         actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
                     );
                 }
@@ -196,7 +196,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(integerArray, integerDelimiters),
                     actual: integerSpan.SplitAny(integerDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: ("delimiters", integerDelimiters)
                 );
 
@@ -206,7 +206,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(integerArray, integerDelimiters),
                     actual: integerSpan.SplitAny(integerDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: ("delimiters", integerDelimiters)
                 );
 
@@ -219,7 +219,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(charArray, charDelimiters),
                     actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: ("delimiters", charDelimiters)
                 );
 
@@ -229,7 +229,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(charArray, charDelimiters),
                     actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: ("delimiters", charDelimiters)
                 );
             }
@@ -247,7 +247,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(integerArray, integerDelimiters, countDelimiters),
                     actual: integerSpan.SplitAny(integerDelimiters, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: [("delimiters", integerDelimiters), ("count", countDelimiters)]
                 );
 
@@ -257,7 +257,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(integerArray, integerDelimiters, countDelimiters),
                     actual: integerSpan.SplitAny(integerDelimiters, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: [("delimiters", integerDelimiters), ("count", countDelimiters)]
                 );
 
@@ -271,7 +271,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(charArray, charDelimiters, countDelimiters),
                     actual: charSpan.SplitAny(charDelimiters, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: [("delimiters", charDelimiters), ("count", countDelimiters)]
                 );
 
@@ -281,7 +281,7 @@ namespace SpanExtensions.Testing
                     expected: SplitAny(charArray, charDelimiters, countDelimiters),
                     actual: charSpan.SplitAny(charDelimiters, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.SplitAny),
+                    method: nameof(SpanExtensions.SplitAny),
                     args: [("delimiters", charDelimiters), ("count", countDelimiters)]
                 );
             }
@@ -300,7 +300,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiters, options),
                         actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("options", options)]
                     );
 
@@ -310,7 +310,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiters, options),
                         actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("options", options)]
                     );
                 }
@@ -336,7 +336,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiters, countDelimiters, options),
                         actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options)]
                     );
 
@@ -346,7 +346,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiters, countDelimiters, options),
                         actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options)]
                     );
                 }
@@ -370,7 +370,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerSequenceDelimiter),
                     actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", integerSequenceDelimiter)
                 );
 
@@ -380,7 +380,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerSequenceDelimiter),
                     actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", integerSequenceDelimiter)
                 );
 
@@ -394,7 +394,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charSequenceDelimiter),
                     actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", charSequenceDelimiter)
                 );
 
@@ -404,7 +404,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charSequenceDelimiter),
                     actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: ("delimiter", charSequenceDelimiter)
                 );
             }
@@ -423,7 +423,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerSequenceDelimiter, countDelimiters),
                     actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters)]
                 );
 
@@ -433,7 +433,7 @@ namespace SpanExtensions.Testing
                     expected: Split(integerArray, integerSequenceDelimiter, countDelimiters),
                     actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: integerArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters)]
                 );
 
@@ -448,7 +448,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charSequenceDelimiter, countDelimiters),
                     actual: charSpan.Split(charSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters)]
                 );
 
@@ -458,7 +458,7 @@ namespace SpanExtensions.Testing
                     expected: Split(charArray, charSequenceDelimiter, countDelimiters),
                     actual: charSpan.Split(charSequenceDelimiter, countDelimiters).ToSystemEnumerable(),
                     source: charArray,
-                    method: nameof(ReadOnlySpanExtensions.Split),
+                    method: nameof(SpanExtensions.Split),
                     args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters)]
                 );
             }
@@ -478,7 +478,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(new string(charSequenceDelimiter), options),
                         actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charSequenceDelimiter), ("options", options)]
                     );
 
@@ -488,7 +488,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(new string(charSequenceDelimiter), options),
                         actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charSequenceDelimiter), ("options", options)]
                     );
                 }
@@ -515,7 +515,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
                         actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options)]
                     );
 
@@ -525,7 +525,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options),
                         actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options)]
                     );
                 }
@@ -552,7 +552,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
@@ -568,7 +568,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
@@ -584,7 +584,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
@@ -600,7 +600,7 @@ namespace SpanExtensions.Testing
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
                         source: @string,
-                        method: nameof(ReadOnlySpanExtensions.Split),
+                        method: nameof(SpanExtensions.Split),
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
@@ -618,7 +618,7 @@ namespace SpanExtensions.Testing
                         expected: SplitAny(charArray, charDelimiters),
                         actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
                         source: charArray,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: ("delimiters", charDelimiters)
                     );
                 }
@@ -633,7 +633,7 @@ namespace SpanExtensions.Testing
                         expected: SplitAny(charArray, charDelimiters),
                         actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
                         source: charArray,
-                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        method: nameof(SpanExtensions.SplitAny),
                         args: ("delimiters", charDelimiters)
                     );
                 }
