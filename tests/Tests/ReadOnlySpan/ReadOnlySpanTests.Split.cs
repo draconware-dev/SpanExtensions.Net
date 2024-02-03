@@ -337,7 +337,7 @@ namespace SpanExtensions.Testing
                         actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(ReadOnlySpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("options", options), ("count", countDelimiters)]
+                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options)]
                     );
 
                     // source does not contain delimiter
@@ -347,7 +347,7 @@ namespace SpanExtensions.Testing
                         actual: charSpan.SplitAny(charDelimiters, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(ReadOnlySpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("options", options), ("count", countDelimiters)]
+                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options)]
                     );
                 }
 
@@ -516,7 +516,7 @@ namespace SpanExtensions.Testing
                         actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(ReadOnlySpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
+                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options)]
                     );
 
                     // source does not contain delimiter
@@ -526,7 +526,7 @@ namespace SpanExtensions.Testing
                         actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(ReadOnlySpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("options", options), ("count", countDelimiters)]
+                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options)]
                     );
                 }
 
