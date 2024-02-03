@@ -539,6 +539,87 @@ namespace SpanExtensions.Testing
 
         public static class Facts
         {
+            public sealed class Split
+            {
+                [Fact]
+                public void ConsecutiveDelimitersResultInEmptySpan()
+                {
+                    const string charArray = "abba";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    AssertMethodResults(
+                        expected: Split(charArray, charDelimiter),
+                        actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: ("delimiter", charDelimiter)
+                    );
+                }
+
+                [Fact]
+                public void DelimiterAtTheEndResultInEmptySpan()
+                {
+                    const string charArray = "aab";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    AssertMethodResults(
+                        expected: Split(charArray, charDelimiter),
+                        actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: ("delimiter", charDelimiter)
+                    );
+                }
+
+                [Fact]
+                public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter()
+                {
+                    const string charArray = "aab";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    int countDelimiters = charSpan.Count(charDelimiter);
+                    AssertMethodResults(
+                        expected: Split(charArray, charDelimiter, countDelimiters),
+                        actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter()
+                {
+                    const string charArray = "aabaa";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    int countDelimiters = charSpan.Count(charDelimiter);
+                    AssertMethodResults(
+                        expected: Split(charArray, charDelimiter, countDelimiters),
+                        actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut()
+                {
+                    const string charArray = "aabaa";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    int countDelimiters = charSpan.Count(charDelimiter);
+                    AssertMethodResults(
+                        expected: Split(charArray, charDelimiter, countDelimiters, CountExceedingBehaviour.CutLastElements),
+                        actual: charSpan.Split(charDelimiter, countDelimiters, CountExceedingBehaviour.CutLastElements).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", countDelimiters)]
+                    );
+                }
+            }
+
             public sealed class SplitString
             {
                 [Fact]
@@ -580,6 +661,71 @@ namespace SpanExtensions.Testing
                     Span<char> charSpan = @string.ToCharArray();
                     const char charDelimiter = 'b';
                     const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, options),
+                        actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void ConsecutiveDelimitersAtTheEndWithCountEqualDelimiterCountWithRemoveEmptyEntriesOptionResultInNoSpanWithDelimiter()
+                {
+                    const string @string = "aabb";
+                    Span<char> charSpan = @string.ToCharArray();
+                    const char charDelimiter = 'b';
+                    int countDelimiters = charSpan.Count(charDelimiter);
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, countDelimiters, options),
+                        actual: charSpan.Split(charDelimiter, countDelimiters, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void TrimEntriesOptionShouldTrimLastSpan()
+                {
+                    const string @string = " a b a ";
+                    ReadOnlySpan<char> charSpan = @string;
+                    const char charDelimiter = 'b';
+                    const StringSplitOptions options = StringSplitOptions.TrimEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, options),
+                        actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                {
+                    const string @string = "";
+                    Span<char> charSpan = @string.ToCharArray();
+                    const char charDelimiter = '_';
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, options),
+                        actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                {
+                    const string @string = "  ";
+                    Span<char> charSpan = @string.ToCharArray();
+                    const char charDelimiter = '_';
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
                     AssertMethodResults(
                         expected: @string.Split(charDelimiter, options),
                         actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
@@ -635,6 +781,25 @@ namespace SpanExtensions.Testing
                         source: charArray,
                         method: nameof(SpanExtensions.SplitAny),
                         args: ("delimiters", charDelimiters)
+                    );
+                }
+            }
+
+            public sealed class SplitAnyString
+            {
+                [Fact]
+                public void WhiteSpaceCharactersAssumedWhenDelimitersCollectionIsEmpty()
+                {
+                    const string charArray = "a b c d";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    char[] charDelimiters = [];
+                    const StringSplitOptions options = StringSplitOptions.None;
+                    AssertMethodResults(
+                        expected: charArray.Split(charDelimiters, options),
+                        actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.SplitAny),
+                        args: [("delimiters", charDelimiters), ("options", options)]
                     );
                 }
             }
