@@ -658,7 +658,7 @@ namespace SpanExtensions.Testing
                 public void DelimiterAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpan()
                 {
                     const string @string = "aab";
-                    ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                    ReadOnlySpan<char> charSpan = @string;
                     const char charDelimiter = 'b';
                     const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
                     AssertMethodResults(
@@ -674,7 +674,7 @@ namespace SpanExtensions.Testing
                 public void ConsecutiveDelimitersAtTheEndWithCountEqualDelimiterCountWithRemoveEmptyEntriesOptionResultInNoSpanWithDelimiter()
                 {
                     const string @string = "aabb";
-                    ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                    ReadOnlySpan<char> charSpan = @string;
                     const char charDelimiter = 'b';
                     int countDelimiters = charSpan.Count(charDelimiter);
                     const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
@@ -739,7 +739,7 @@ namespace SpanExtensions.Testing
                 public void ConsecutiveDelimitersAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpans()
                 {
                     const string @string = "aabb";
-                    ReadOnlySpan<char> charSpan = @string.ToCharArray();
+                    ReadOnlySpan<char> charSpan = @string;
                     const char charDelimiter = 'b';
                     const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
                     AssertMethodResults(
