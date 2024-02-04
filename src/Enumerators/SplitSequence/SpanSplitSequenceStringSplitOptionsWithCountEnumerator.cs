@@ -73,7 +73,7 @@ namespace SpanExtensions.Enumerators
                 {
                     EnumerationDone = true;
 
-                    if(delimiterIndex != -1 && RemoveEmptyEntries && CountExceedingBehaviour == CountExceedingBehaviour.AppendLastElements) // skip all empty (after trimming if necessary) entries from the left
+                    if(delimiterIndex != -1 && RemoveEmptyEntries) // skip all empty (after trimming if necessary) entries from the left
                     {
                         do
                         {
@@ -87,6 +87,10 @@ namespace SpanExtensions.Enumerators
                                 continue;
                             }
 
+                            if(CountExceedingBehaviour == CountExceedingBehaviour.CutLastElements)
+                            {
+                                Span = beforeDelimiter;
+                            }
                             break;
                         }
                         while(delimiterIndex != -1);
