@@ -43,6 +43,11 @@ namespace SpanExtensions.Enumerators
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;
             Current = default;
+
+            if(count == 1) // special case
+            {
+                CurrentCount = 0;
+            }
         }
 
         /// <summary>
@@ -68,11 +73,11 @@ namespace SpanExtensions.Enumerators
             {
                 int delimiterIndex = Span.IndexOf(Delimiter);
 
-                if(delimiterIndex == -1 || CurrentCount == 1)
+                if(delimiterIndex == -1 || CurrentCount <= 1)
                 {
                     EnumerationDone = true;
 
-                    if(delimiterIndex != -1 && RemoveEmptyEntries) // skip all empty (after trimming if necessary) entries from the left
+                    if(CurrentCount != 0 && delimiterIndex != -1 && RemoveEmptyEntries) // skip all empty (after trimming if necessary) entries from the left
                     {
                         do
                         {
