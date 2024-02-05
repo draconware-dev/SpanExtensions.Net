@@ -703,6 +703,40 @@ namespace SpanExtensions.Testing
                     const int count = -1;
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.AsSpan().Split(charDelimiter, count).ToSystemEnumerable());
                 }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesOptionDoesNotRecursivelyRemoveEmptySpansAtTheStart()
+                {
+                    const string charArray = "bbaa";
+                    ReadOnlySpan<char> charSpan = charArray;
+                    const char charDelimiter = 'b';
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: [charArray],
+                        actual: charSpan.Split(charDelimiter, count, options).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsDoesNotRecursivelyRemoveWhiteSpaceSpansAtTheStart()
+                {
+                    const string charArray = " b b aa";
+                    ReadOnlySpan<char> charSpan = charArray;
+                    const char charDelimiter = 'b';
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+                    AssertMethodResults(
+                        expected: [charArray.Trim()],
+                        actual: charSpan.Split(charDelimiter, count, options).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count), ("options", options)]
+                    );
+                }
             }
 
             public sealed class SplitString
@@ -915,6 +949,40 @@ namespace SpanExtensions.Testing
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.Split(charDelimiter, count, options));
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.AsSpan().Split(charDelimiter, count, options).ToSystemEnumerable());
                 }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesOptionDoesNotRecursivelyRemoveEmptySpansAtTheStart()
+                {
+                    const string @string = "bbaa";
+                    ReadOnlySpan<char> charSpan = @string;
+                    const char charDelimiter = 'b';
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, count, options),
+                        actual: charSpan.Split(charDelimiter, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsDoesNotRecursivelyRemoveWhiteSpaceSpansAtTheStart()
+                {
+                    const string @string = " b b aa";
+                    ReadOnlySpan<char> charSpan = @string;
+                    const char charDelimiter = 'b';
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, count, options),
+                        actual: charSpan.Split(charDelimiter, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(ReadOnlySpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count), ("options", options)]
+                    );
+                }
             }
 
             public sealed class SplitAny
@@ -1021,6 +1089,40 @@ namespace SpanExtensions.Testing
                     char[] charDelimiters = ['b', 'c'];
                     const int count = -1;
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.AsSpan().SplitAny(charDelimiters, count).ToSystemEnumerable());
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesOptionDoesNotRecursivelyRemoveEmptySpansAtTheStart()
+                {
+                    const string charArray = "bcaa";
+                    ReadOnlySpan<char> charSpan = charArray;
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: [charArray],
+                        actual: charSpan.SplitAny(charDelimiters, count, options).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        args: [("delimiter", charDelimiters), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsDoesNotRecursivelyRemoveWhiteSpaceSpansAtTheStart()
+                {
+                    const string charArray = " b c aa";
+                    ReadOnlySpan<char> charSpan = charArray;
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+                    AssertMethodResults(
+                        expected: [charArray.Trim()],
+                        actual: charSpan.SplitAny(charDelimiters, count, options).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        args: [("delimiter", charDelimiters), ("count", count), ("options", options)]
+                    );
                 }
             }
 
@@ -1233,6 +1335,40 @@ namespace SpanExtensions.Testing
                     const StringSplitOptions options = StringSplitOptions.None;
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.Split(charDelimiters, count, options));
                     Assert.Throws<ArgumentOutOfRangeException>(() => @string.AsSpan().SplitAny(charDelimiters, count, options).ToSystemEnumerable());
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesOptionDoesNotRecursivelyRemoveEmptySpansAtTheStart()
+                {
+                    const string @string = "bcaa";
+                    ReadOnlySpan<char> charSpan = @string;
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiters, count, options),
+                        actual: charSpan.SplitAny(charDelimiters, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        args: [("delimiter", charDelimiters), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsDoesNotRecursivelyRemoveWhiteSpaceSpansAtTheStart()
+                {
+                    const string @string = " b c aa";
+                    ReadOnlySpan<char> charSpan = @string;
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 1;
+                    const StringSplitOptions options = StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiters, count, options),
+                        actual: charSpan.SplitAny(charDelimiters, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(ReadOnlySpanExtensions.SplitAny),
+                        args: [("delimiter", charDelimiters), ("count", count), ("options", options)]
+                    );
                 }
             }
         }
