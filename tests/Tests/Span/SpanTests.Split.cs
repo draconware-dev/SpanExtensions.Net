@@ -817,7 +817,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void TrimEntriesOptionShouldTrimLastSpan()
+                public void TrimEntriesOptionTrimsLastSpan()
                 {
                     const string @string = " a b a ";
                     Span<char> charSpan = @string.ToCharArray();
@@ -833,7 +833,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                public void EmptySpanWithRemoveEmptyEntriesOptionReturnsNothing()
                 {
                     const string @string = "";
                     Span<char> charSpan = @string.ToCharArray();
@@ -849,7 +849,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsReturnsNothing()
                 {
                     const string @string = "  ";
                     Span<char> charSpan = @string.ToCharArray();
@@ -1152,7 +1152,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                public void EmptySpanWithRemoveEmptyEntriesOptionReturnsNothing()
                 {
                     const string @string = "";
                     Span<char> charSpan = @string.ToCharArray();
@@ -1168,7 +1168,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsReturnsNothing()
                 {
                     const string @string = "  ";
                     Span<char> charSpan = @string.ToCharArray();

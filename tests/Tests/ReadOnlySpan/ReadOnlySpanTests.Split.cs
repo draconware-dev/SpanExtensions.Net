@@ -825,7 +825,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void TrimEntriesOptionShouldTrimLastSpan()
+                public void TrimEntriesOptionTrimsLastSpan()
                 {
                     const string @string = " a b a ";
                     ReadOnlySpan<char> charSpan = @string;
@@ -841,7 +841,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                public void EmptySpanWithRemoveEmptyEntriesOptionReturnsNothing()
                 {
                     const string @string = "";
                     ReadOnlySpan<char> charSpan = @string;
@@ -857,7 +857,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsReturnsNothing()
                 {
                     const string @string = "  ";
                     ReadOnlySpan<char> charSpan = @string;
@@ -1160,7 +1160,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void EmptySpanWithRemoveEmptyEntriesOptionShouldReturnNothing()
+                public void EmptySpanWithRemoveEmptyEntriesOptionReturnsNothing()
                 {
                     const string @string = "";
                     ReadOnlySpan<char> charSpan = @string;
@@ -1176,7 +1176,7 @@ namespace SpanExtensions.Testing
                 }
 
                 [Fact]
-                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsShouldReturnNothing()
+                public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsReturnsNothing()
                 {
                     const string @string = "  ";
                     ReadOnlySpan<char> charSpan = @string;
