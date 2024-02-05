@@ -294,7 +294,7 @@ namespace SpanExtensions.Testing
 
         /// <summary>
         /// Take up to a specified count of elements from an array.
-        /// <remark>Unlike <paramref name="source"/>[..<paramref name="count"/>], this doesn't throw an exception when <paramref name="count"/> is greater than the length of <paramref name="source"/>.</remark>
+        /// <remarks>Unlike <paramref name="source"/>[..<paramref name="count"/>], this doesn't throw an exception when <paramref name="count"/> is greater than the length of <paramref name="source"/>.</remarks>
         /// </summary>
         /// <typeparam name="T">The type of the array.</typeparam>
         /// <param name="source">The array to cut.</param>
