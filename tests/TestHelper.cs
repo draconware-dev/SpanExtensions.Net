@@ -425,7 +425,7 @@ namespace SpanExtensions.Testing
                 _ => throw UnhandledCaseException(countExceedingBehaviour)
             };
 
-            return splits.Select(s => s.Trim(',').Split(',').Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
+            return splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
         }
 
         /// <summary>
@@ -500,7 +500,7 @@ namespace SpanExtensions.Testing
                 _ => throw UnhandledCaseException(countExceedingBehaviour)
             };
 
-            return splits.Select(s => s.Trim(',').Split(',').Select(x => x[0]));
+            return splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => x[0]));
         }
 
         /// <summary>
