@@ -670,6 +670,31 @@ namespace SpanExtensions.Testing
                         args: [("delimiter", charDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
+
+                [Fact]
+                public void CountEqualZeroReturnsNothing()
+                {
+                    const string charArray = "aabb";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    const char charDelimiter = 'b';
+                    const int count = 0;
+                    AssertMethodResults(
+                        expected: [],
+                        actual: charSpan.Split(charDelimiter, count).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count)]
+                    );
+                }
+
+                [Fact]
+                public void NegativeCountThrowsArgumentOutOfRangeException()
+                {
+                    const string @string = "aabb";
+                    const char charDelimiter = 'b';
+                    const int count = -1;
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.ToCharArray().AsSpan().Split(charDelimiter, count).ToSystemEnumerable());
+                }
             }
 
             public sealed class SplitString
@@ -854,6 +879,34 @@ namespace SpanExtensions.Testing
                         args: [("delimiter", charDelimiter), ("options", options)]
                     );
                 }
+
+                [Fact]
+                public void CountEqualZeroReturnsNothing()
+                {
+                    const string @string = "aabb";
+                    Span<char> charSpan = @string.ToCharArray();
+                    const char charDelimiter = 'b';
+                    const int count = 0;
+                    const StringSplitOptions options = StringSplitOptions.None;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiter, count, options),
+                        actual: charSpan.Split(charDelimiter, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.Split),
+                        args: [("delimiter", charDelimiter), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void NegativeCountThrowsArgumentOutOfRangeException()
+                {
+                    const string @string = "aabb";
+                    const char charDelimiter = 'b';
+                    const int count = -1;
+                    const StringSplitOptions options = StringSplitOptions.None;
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.Split(charDelimiter, count, options));
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.ToCharArray().AsSpan().Split(charDelimiter, count, options).ToSystemEnumerable());
+                }
             }
 
             public sealed class SplitAny
@@ -935,6 +988,31 @@ namespace SpanExtensions.Testing
                         method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
+                }
+
+                [Fact]
+                public void CountEqualZeroReturnsNothing()
+                {
+                    const string charArray = "aabc";
+                    Span<char> charSpan = charArray.ToCharArray();
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 0;
+                    AssertMethodResults(
+                        expected: [],
+                        actual: charSpan.SplitAny(charDelimiters, count).ToSystemEnumerable(),
+                        source: charArray,
+                        method: nameof(SpanExtensions.SplitAny),
+                        args: [("delimiters", charDelimiters), ("count", count)]
+                    );
+                }
+
+                [Fact]
+                public void NegativeCountThrowsArgumentOutOfRangeException()
+                {
+                    const string @string = "aabc";
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = -1;
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.ToCharArray().AsSpan().SplitAny(charDelimiters, count).ToSystemEnumerable());
                 }
             }
 
@@ -1119,6 +1197,34 @@ namespace SpanExtensions.Testing
                         method: nameof(SpanExtensions.SplitAny),
                         args: [("delimiters", charDelimiters), ("options", options)]
                     );
+                }
+
+                [Fact]
+                public void CountEqualZeroReturnsNothing()
+                {
+                    const string @string = "aabc";
+                    Span<char> charSpan = @string.ToCharArray();
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = 0;
+                    const StringSplitOptions options = StringSplitOptions.None;
+                    AssertMethodResults(
+                        expected: @string.Split(charDelimiters, count, options),
+                        actual: charSpan.SplitAny(charDelimiters, count, options).ToSystemEnumerable(),
+                        source: @string,
+                        method: nameof(SpanExtensions.SplitAny),
+                        args: [("delimiters", charDelimiters), ("count", count), ("options", options)]
+                    );
+                }
+
+                [Fact]
+                public void NegativeCountThrowsArgumentOutOfRangeException()
+                {
+                    const string @string = "aabc";
+                    char[] charDelimiters = ['b', 'c'];
+                    const int count = -1;
+                    const StringSplitOptions options = StringSplitOptions.None;
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.Split(charDelimiters, count, options));
+                    Assert.Throws<ArgumentOutOfRangeException>(() => @string.ToCharArray().AsSpan().SplitAny(charDelimiters, count, options).ToSystemEnumerable());
                 }
             }
         }
