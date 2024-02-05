@@ -78,8 +78,8 @@ namespace SpanExtensions
         /// </summary>
         /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam>
         /// <param name="source">The <see cref="Span{T}"/> to be split.</param>
-        /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="delimiters">A <see cref="ReadOnlySpan{T}"/>, that delimit the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
+        /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitAnyWithCountEnumerator{T}"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
         public static SpanSplitAnyWithCountEnumerator<T> SplitAny<T>(this Span<T> source, ReadOnlySpan<T> delimiters, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.IncludeRemainingElements) where T : IEquatable<T>
@@ -104,8 +104,8 @@ namespace SpanExtensions
         /// </summary>
         /// <param name="source">The <see cref="Span{Char}"/> to be split.</param>
         /// <param name="delimiters">A <see cref="ReadOnlySpan{Char}"/>, that delimit the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitAnyStringSplitOptionsWithCountEnumerator"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
         public static SpanSplitAnyStringSplitOptionsWithCountEnumerator SplitAny(this Span<char> source, ReadOnlySpan<char> delimiters, StringSplitOptions options, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.IncludeRemainingElements)

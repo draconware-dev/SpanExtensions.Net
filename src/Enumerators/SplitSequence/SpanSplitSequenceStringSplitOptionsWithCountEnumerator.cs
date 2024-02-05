@@ -26,8 +26,8 @@ namespace SpanExtensions.Enumerators
         /// </summary>
         /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">An instance of <see cref="ReadOnlySpan{Char}"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitSequenceStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.IncludeRemainingElements)
         {
