@@ -31,9 +31,9 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
-            CurrentCount = Math.Max(1, count);
+            CurrentCount = count.ThrowIfNegative();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
-            EnumerationDone = false;
+            EnumerationDone = count == 0;
             Current = default;
         }
 

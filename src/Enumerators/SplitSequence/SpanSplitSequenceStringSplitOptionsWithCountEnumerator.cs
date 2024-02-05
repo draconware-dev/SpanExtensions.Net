@@ -34,7 +34,7 @@ namespace SpanExtensions.Enumerators
             Span = source;
             Delimiter = delimiter;
             DelimiterLength = delimiter.Length;
-            CurrentCount = Math.Max(1, count);
+            CurrentCount = count.ThrowIfNegative();
 #if NET5_0_OR_GREATER
             TrimEntries = options.HasFlag(StringSplitOptions.TrimEntries);
 #else
@@ -42,7 +42,7 @@ namespace SpanExtensions.Enumerators
 #endif
             RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
-            EnumerationDone = false;
+            EnumerationDone = count == 0;
             Current = default;
         }
 
