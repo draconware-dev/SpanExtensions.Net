@@ -561,5 +561,236 @@ namespace SpanExtensions
             return sum / source.Length;
         }
 #endif
+/*###################################### MIN ######################################################################*/
+#if NET7_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam> 
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static T Min<T>(this ReadOnlySpan<T> source) where T : INumber<T>
+        {
+            T min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+#else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Min(this ReadOnlySpan<Half> source)
+        {
+            Half min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+#endif
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static byte Min(this ReadOnlySpan<byte> source)
+        {
+            byte min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ushort Min(this ReadOnlySpan<ushort> source)
+        {
+            ushort min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static uint Min(this ReadOnlySpan<uint> source)
+        {
+            uint min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ulong Min(this ReadOnlySpan<ulong> source)
+        {
+            ulong min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static sbyte Min(this ReadOnlySpan<sbyte> source)
+        {
+            sbyte min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static short Min(this ReadOnlySpan<short> source)
+        {
+            short min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static int Min(this ReadOnlySpan<int> source)
+        {
+            int min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static long Min(this ReadOnlySpan<long> source)
+        {
+            long min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static float Min(this ReadOnlySpan<float> source)
+        {
+            float min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static double Min(this ReadOnlySpan<double> source)
+        {
+            double min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static decimal Min(this ReadOnlySpan<decimal> source)
+        {
+            decimal min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static BigInteger Min(this ReadOnlySpan<BigInteger> source)
+        {
+            BigInteger min = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                min = source[x] < min ? source[x]:min;
+            }
+            return min;
+        }
+#endif
     }
 }
