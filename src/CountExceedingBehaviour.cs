@@ -54,5 +54,25 @@ namespace SpanExtensions
 
             return countExceedingBehaviour;
         }
+
+        /// <summary>
+        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.IncludeRemainingElements"/>.
+        /// </summary>
+        /// <param name="countExceedingBehaviour">The <see cref="CountExceedingBehaviour"/> instance to test.</param>
+        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.IncludeRemainingElements"/>; <see langword="false"/> otherwise.</returns>
+        public static bool IsIncludeRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
+        {
+            return countExceedingBehaviour == CountExceedingBehaviour.IncludeRemainingElements;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.DropRemainingElements"/>.
+        /// </summary>
+        /// <param name="countExceedingBehaviour">The <see cref="CountExceedingBehaviour"/> instance to test.</param>
+        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.DropRemainingElements"/>; <see langword="false"/> otherwise.</returns>
+        public static bool IsDropRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
+        {
+            return countExceedingBehaviour == CountExceedingBehaviour.DropRemainingElements;
+        }
     }
 }

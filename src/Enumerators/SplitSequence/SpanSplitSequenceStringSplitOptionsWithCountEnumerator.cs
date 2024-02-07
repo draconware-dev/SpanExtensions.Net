@@ -88,7 +88,7 @@ namespace SpanExtensions.Enumerators
                                 continue;
                             }
 
-                            if(CountExceedingBehaviour == CountExceedingBehaviour.DropRemainingElements)
+                            if(CountExceedingBehaviour.IsDropRemainingElements())
                             {
                                 Span = beforeDelimiter;
                             }
@@ -100,7 +100,7 @@ namespace SpanExtensions.Enumerators
                     }
                     else
                     {
-                        Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.IncludeRemainingElements ? Span : Span[..delimiterIndex];
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() ? Span : Span[..delimiterIndex];
                     }
 
                     if(TrimEntries)

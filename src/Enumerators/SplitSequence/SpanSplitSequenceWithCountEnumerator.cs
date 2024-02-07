@@ -63,7 +63,7 @@ namespace SpanExtensions.Enumerators
             {
                 EnumerationDone = true;
 
-                Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.IncludeRemainingElements ? Span : Span[..delimiterIndex];
+                Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() ? Span : Span[..delimiterIndex];
 
                 return true;
             }
