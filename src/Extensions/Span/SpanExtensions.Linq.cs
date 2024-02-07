@@ -472,8 +472,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static T Min<T>(this Span<T> source) where T : INumber<T>
         {
-            T sum = source.Sum();
-            return sum / T.CreateChecked(source.Length);
+            return ReadOnlySpanExtensions.Min<T>(source)
         }
 #else
 
@@ -621,5 +620,8 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
+/*########################################## MAX ##########################################*/
+
+
     }
 }
