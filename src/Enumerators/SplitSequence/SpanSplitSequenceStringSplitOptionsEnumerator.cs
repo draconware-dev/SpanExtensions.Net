@@ -30,12 +30,8 @@ namespace SpanExtensions.Enumerators
             Span = source;
             Delimiter = delimiter;
             DelimiterLength = delimiter.Length;
-#if NET5_0_OR_GREATER
-            TrimEntries = options.HasFlag(StringSplitOptions.TrimEntries);
-#else
-            TrimEntries = false;
-#endif
-            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
+            TrimEntries = options.IsTrimEntriesSet();
+            RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             EnumerationDone = false;
             Current = default;
         }

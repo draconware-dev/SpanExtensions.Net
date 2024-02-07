@@ -34,12 +34,8 @@ namespace SpanExtensions.Enumerators
             Span = source;
             Delimiters = delimiters;
             CurrentCount = count.ThrowIfNegative();
-#if NET5_0_OR_GREATER
-            TrimEntries = options.HasFlag(StringSplitOptions.TrimEntries);
-#else
-            TrimEntries = false;
-#endif
-            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
+            TrimEntries = options.IsTrimEntriesSet();
+            RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;
             Current = default;

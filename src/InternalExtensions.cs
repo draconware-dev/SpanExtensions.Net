@@ -33,5 +33,32 @@ namespace SpanExtensions
 
             return value;
         }
+
+        /// <summary>
+        /// Determines whether the <see cref="StringSplitOptions.RemoveEmptyEntries"/> bit field is set in the current instance.
+        /// </summary>
+        /// <param name="options">The <see cref="StringSplitOptions"/> instance to test.</param>
+        /// <returns><see langword="true"/> if <paramref name="options"/> has the <see cref="StringSplitOptions.RemoveEmptyEntries"/> bit field set; <see langword="false"/> otherwise.</returns>
+        public static bool IsRemoveEmptyEntriesSet(this StringSplitOptions options)
+        {
+            return options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        /// <summary>
+        /// Determines whether the <see cref="StringSplitOptions.TrimEntries"/> bit field is set in the current instance.
+        /// </summary>
+        /// <remarks>
+        /// In runtimes before .NET 5 this always returns <see langword="false"/>.
+        /// </remarks>
+        /// <param name="options">The <see cref="StringSplitOptions"/> instance to test.</param>
+        /// <returns><see langword="true"/> if <paramref name="options"/> has the <see cref="StringSplitOptions.TrimEntries"/> bit field set; <see langword="false"/> otherwise.</returns>
+        public static bool IsTrimEntriesSet(this StringSplitOptions options)
+        {
+#if NET5_0_OR_GREATER
+            return options.HasFlag(StringSplitOptions.TrimEntries);
+#else
+            return false;
+#endif
+        }
     }
 }
