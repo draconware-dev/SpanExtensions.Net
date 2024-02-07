@@ -479,7 +479,7 @@ namespace SpanExtensions
 #if NET5_0_OR_GREATER
 
         /// <summary> 
-        /// Computes the Average of all the values in <paramref name="source"/>. 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
         /// </summary>  
         /// <param name="source">The <see cref="Span{Half}"/> to operate on.</param>    
         /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
