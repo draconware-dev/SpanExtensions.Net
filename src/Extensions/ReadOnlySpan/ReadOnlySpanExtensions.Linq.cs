@@ -67,6 +67,26 @@ namespace SpanExtensions
             return number;
         }
 #else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the Sum of all the elements in <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param> 
+        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Sum(this ReadOnlySpan<Half> source)
+        {
+            float number = 0;
+            for(int i = 0; i < source.Length; i++)
+            {
+                number += (float)source[i];
+            }
+            return (Half)number;
+        }
+#endif
+
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
         /// </summary>
@@ -257,25 +277,6 @@ namespace SpanExtensions
                 number += source[i];
             }
             return number;
-        }
-#endif
-
-#if NET5_0_OR_GREATER
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param> 
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static Half Sum(this ReadOnlySpan<Half> source)
-        {
-            float number = 0;
-            for(int i = 0; i < source.Length; i++)
-            {
-                number += (float)source[i];
-            }
-            return (Half)number;
         }
 #endif
 
@@ -561,6 +562,7 @@ namespace SpanExtensions
             return sum / source.Length;
         }
 #endif
+
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -573,9 +575,13 @@ namespace SpanExtensions
         public static T Min<T>(this ReadOnlySpan<T> source) where T : INumber<T>
         {
             T min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -592,9 +598,13 @@ namespace SpanExtensions
         public static Half Min(this ReadOnlySpan<Half> source)
         {
             Half min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -608,9 +618,13 @@ namespace SpanExtensions
         public static byte Min(this ReadOnlySpan<byte> source)
         {
             byte min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -624,9 +638,13 @@ namespace SpanExtensions
         public static ushort Min(this ReadOnlySpan<ushort> source)
         {
             ushort min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -640,9 +658,13 @@ namespace SpanExtensions
         public static uint Min(this ReadOnlySpan<uint> source)
         {
             uint min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -656,9 +678,13 @@ namespace SpanExtensions
         public static ulong Min(this ReadOnlySpan<ulong> source)
         {
             ulong min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -672,9 +698,13 @@ namespace SpanExtensions
         public static sbyte Min(this ReadOnlySpan<sbyte> source)
         {
             sbyte min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -688,9 +718,13 @@ namespace SpanExtensions
         public static short Min(this ReadOnlySpan<short> source)
         {
             short min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -704,9 +738,13 @@ namespace SpanExtensions
         public static int Min(this ReadOnlySpan<int> source)
         {
             int min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -720,9 +758,13 @@ namespace SpanExtensions
         public static long Min(this ReadOnlySpan<long> source)
         {
             long min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -736,9 +778,13 @@ namespace SpanExtensions
         public static float Min(this ReadOnlySpan<float> source)
         {
             float min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -752,9 +798,13 @@ namespace SpanExtensions
         public static double Min(this ReadOnlySpan<double> source)
         {
             double min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -768,9 +818,13 @@ namespace SpanExtensions
         public static decimal Min(this ReadOnlySpan<decimal> source)
         {
             decimal min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
@@ -784,13 +838,18 @@ namespace SpanExtensions
         public static BigInteger Min(this ReadOnlySpan<BigInteger> source)
         {
             BigInteger min = source[0];
-            for(int x = 1;x < source.Length;x++)
+            for(int i = 1; i < source.Length; i++)
             {
-                min = source[x] < min ? source[x]:min;
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
             }
             return min;
         }
 #endif
+
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -802,12 +861,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static T Max<T>(this ReadOnlySpan<T> source) where T : INumber<T>
         {
-            T Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            T max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 #else
 
@@ -821,12 +884,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static Half Max(this ReadOnlySpan<Half> source)
         {
-            Half Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            Half max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 #endif
         /// <summary> 
@@ -837,12 +904,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static byte Max(this ReadOnlySpan<byte> source)
         {
-            byte Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            byte max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -853,12 +924,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ushort Max(this ReadOnlySpan<ushort> source)
         {
-            ushort Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            ushort max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -869,12 +944,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static uint Max(this ReadOnlySpan<uint> source)
         {
-            uint Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            uint max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -885,12 +964,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ulong Max(this ReadOnlySpan<ulong> source)
         {
-            ulong Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            ulong max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -901,12 +984,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static sbyte Max(this ReadOnlySpan<sbyte> source)
         {
-            sbyte Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            sbyte max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -917,12 +1004,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static short Max(this ReadOnlySpan<short> source)
         {
-            short Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            short max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -933,12 +1024,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static int Max(this ReadOnlySpan<int> source)
         {
-            int Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            int max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -949,12 +1044,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static long Max(this ReadOnlySpan<long> source)
         {
-            long Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            long max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -965,12 +1064,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static float Max(this ReadOnlySpan<float> source)
         {
-            float Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            float max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -981,12 +1084,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static double Max(this ReadOnlySpan<double> source)
         {
-            double Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            double max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -997,12 +1104,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static decimal Max(this ReadOnlySpan<decimal> source)
         {
-            decimal Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            decimal max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 
         /// <summary> 
@@ -1013,12 +1124,16 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static BigInteger Max(this ReadOnlySpan<BigInteger> source)
         {
-            BigInteger Max = source[0];
-            for(int x = 1;x < source.Length;x++)
+            BigInteger max = source[0];
+            for(int i = 1; i < source.Length; i++)
             {
-                Max = source[x] > Max ? source[x]:Max;
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
             }
-            return Max;
+            return max;
         }
 #endif
     }
