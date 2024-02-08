@@ -49,6 +49,21 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Sum<T>(source);
         }
 #else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the Sum of all the elements in <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="Span{Half}"/> to operate on.</param>
+        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Sum(this Span<Half> source)
+        {
+            return ReadOnlySpanExtensions.Sum(source);
+        }
+#endif
+
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
         /// </summary>
@@ -176,20 +191,6 @@ namespace SpanExtensions
         /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static BigInteger Sum(this Span<BigInteger> source)
-        {
-            return ReadOnlySpanExtensions.Sum(source);
-        }
-#endif
-
-#if NET5_0_OR_GREATER
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="Span{Half}"/> to operate on.</param>
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static Half Sum(this Span<Half> source)
         {
             return ReadOnlySpanExtensions.Sum(source);
         }
@@ -329,6 +330,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Average(source);
         }
 #endif
+
         /// <summary>
         /// Computes the Average of all the values in <paramref name="source"/>.
         /// </summary>
@@ -460,6 +462,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Average(source);
         }
 #endif
+
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -488,6 +491,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
+
         /// <summary> 
         /// Computes the Min of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -619,6 +623,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
+
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -647,6 +652,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Max(source);
         }
 #endif
+
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -778,6 +784,5 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Max(source);
         }
 #endif
-
     }
 }
