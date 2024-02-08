@@ -5,29 +5,34 @@ namespace SpanExtensions.Enumerators
     /// <summary>
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it at a specified delimiter of type <typeparamref name="T"/>.
     /// </summary>
-    /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/></typeparam>
+    /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/>.</typeparam>
     public ref struct SpanSplitEnumerator<T> where T : IEquatable<T>
     {
         ReadOnlySpan<T> Span;
         readonly T Delimiter;
+        bool enumerationDone;
 
         /// <summary>
-        /// Gets the element in the collection at the current position of the enumerator. 
+        /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
         public ReadOnlySpan<T> Current { get; internal set; }
 
         /// <summary>
-        /// Constructs a <see cref="SpanSplitEnumerator{T}"/> from a span and a delimiter. ONLY CONSUME THIS CLASS THROUGH <see cref="ReadOnlySpanExtensions.Split{T}(ReadOnlySpan{T}, T)"/>. 
+        /// Constructs a <see cref="SpanSplitEnumerator{T}"/> from a span and a delimiter. <strong>Only consume this class through <see cref="ReadOnlySpanExtensions.Split{T}(ReadOnlySpan{T}, T)"/></strong>.
         /// </summary>
-        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>  
-        /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in the <see cref="ReadOnlySpan{T}"/>.</param>
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to be split.</param>
+        /// <param name="delimiter">An instance of <typeparamref name="T"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         public SpanSplitEnumerator(ReadOnlySpan<T> source, T delimiter)
         {
             Span = source;
             Delimiter = delimiter;
             Current = default;
+            enumerationDone = false;
         }
-        /// <summary></summary>
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
         public readonly SpanSplitEnumerator<T> GetEnumerator()
         {
             return this;
@@ -36,19 +41,20 @@ namespace SpanExtensions.Enumerators
         /// <summary>
         /// Advances the enumerator to the next element of the collection.
         /// </summary>
-        /// <returns><code>true</code> if the enumerator was successfully advanced to the next element; <code>false</code> if the enumerator has passed the end of the collection.</returns>
+        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            ReadOnlySpan<T> span = Span;
-            if(span.IsEmpty)
+            if(enumerationDone)
             {
                 return false;
             }
+
+            ReadOnlySpan<T> span = Span;
             int index = span.IndexOf(Delimiter);
 
             if(index == -1 || index >= span.Length)
             {
-                Span = ReadOnlySpan<T>.Empty;
+                enumerationDone = true;
                 Current = span;
                 return true;
             }
