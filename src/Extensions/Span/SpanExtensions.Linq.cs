@@ -49,6 +49,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Sum<T>(source);
         }
 #else
+
 #if NET5_0_OR_GREATER
 
         /// <summary>
@@ -61,6 +62,7 @@ namespace SpanExtensions
         {
             return ReadOnlySpanExtensions.Sum(source);
         }
+#endif
 
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
@@ -193,6 +195,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Sum(source);
         }
 #endif
+
         /// <summary>
         /// Bypasses a specified number of elements in <paramref name="source"/> and then returns the remaining elements.
         /// </summary>
@@ -297,6 +300,7 @@ namespace SpanExtensions
             }
             return source[(source.Length - count)..];
         }
+
 #if NET7_0_OR_GREATER
 
         /// <summary>
@@ -326,6 +330,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Average(source);
         }
 #endif
+
         /// <summary>
         /// Computes the Average of all the values in <paramref name="source"/>.
         /// </summary>
@@ -472,6 +477,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min<T>(source);
         }
 #else
+
 #if NET5_0_OR_GREATER
 
         /// <summary> 
@@ -485,6 +491,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
+
         /// <summary> 
         /// Computes the Min of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -616,6 +623,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
+
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -630,6 +638,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Max<T>(source);
         }
 #else
+
 #if NET5_0_OR_GREATER
 
         /// <summary> 
@@ -643,6 +652,7 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Max(source);
         }
 #endif
+
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -774,6 +784,5 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Max(source);
         }
 #endif
-
     }
 }
