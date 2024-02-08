@@ -792,5 +792,236 @@ namespace SpanExtensions
             return min;
         }
 #endif
+/*################################ MAX #######################################*/
+#if NET7_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam> 
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static T Max<T>(this ReadOnlySpan<T> source) where T : INumber<T>
+        {
+            T Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+#else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Max(this ReadOnlySpan<Half> source)
+        {
+            Half Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+#endif
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static byte Max(this ReadOnlySpan<byte> source)
+        {
+            byte Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ushort Max(this ReadOnlySpan<ushort> source)
+        {
+            ushort Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static uint Max(this ReadOnlySpan<uint> source)
+        {
+            uint Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ulong Max(this ReadOnlySpan<ulong> source)
+        {
+            ulong Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static sbyte Max(this ReadOnlySpan<sbyte> source)
+        {
+            sbyte Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static short Max(this ReadOnlySpan<short> source)
+        {
+            short Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static int Max(this ReadOnlySpan<int> source)
+        {
+            int Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static long Max(this ReadOnlySpan<long> source)
+        {
+            long Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static float Max(this ReadOnlySpan<float> source)
+        {
+            float Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static double Max(this ReadOnlySpan<double> source)
+        {
+            double Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static decimal Max(this ReadOnlySpan<decimal> source)
+        {
+            decimal Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static BigInteger Max(this ReadOnlySpan<BigInteger> source)
+        {
+            BigInteger Max = source[0];
+            for(int x = 1;x < source.Length;x++)
+            {
+                Max = source[x] > Max ? source[x]:Max;
+            }
+            return Max;
+        }
+#endif
     }
 }
