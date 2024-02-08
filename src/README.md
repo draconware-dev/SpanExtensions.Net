@@ -34,7 +34,9 @@ The following **Extension Methods** are contained:
 - `(ReadOnly-)Span<T>.All(Predicate<T> predicate)` 
 - `(ReadOnly-)Span<T>.Any(Predicate<T> predicate)` 
 - `(ReadOnly-)Span<T>.Average()` 
-- `(ReadOnly-)Span<T>.Sum()`  
+- `(ReadOnly-)Span<T>.Sum()`
+- `(ReadOnly-)Span<T>.Min()`
+- `(ReadOnly-)Span<T>.Max()`  
 - `(ReadOnly-)Span<T>.Skip(int count)` 
 - `(ReadOnly-)Span<T>.Take(int count)`
 - `(ReadOnly-)Span<T>.SkipLast(int count)` 

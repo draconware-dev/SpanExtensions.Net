@@ -66,6 +66,25 @@ namespace SpanExtensions
             return number;
         }
 #else
+#if NET5_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the Sum of all the elements in <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param> 
+        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Sum(this ReadOnlySpan<Half> source)
+        {
+            float number = 0;
+            for(int i = 0; i < source.Length; i++)
+            {
+                number += (float)source[i];
+            }
+            return (Half)number;
+        }
+#endif
+
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
         /// </summary>
@@ -256,25 +275,6 @@ namespace SpanExtensions
                 number += source[i];
             }
             return number;
-        }
-#endif
-
-#if NET5_0_OR_GREATER
-
-        /// <summary>
-        /// Computes the Sum of all the elements in <paramref name="source"/>.
-        /// </summary>
-        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>
-        /// <returns>The Sum of all the elements in <paramref name="source"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
-        public static Half Sum(this ReadOnlySpan<Half> source)
-        {
-            float number = 0;
-            for(int i = 0; i < source.Length; i++)
-            {
-                number += (float)source[i];
-            }
-            return (Half)number;
         }
 #endif
 
@@ -558,6 +558,580 @@ namespace SpanExtensions
         {
             BigInteger sum = source.Sum();
             return sum / source.Length;
+        }
+#endif
+
+#if NET7_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam> 
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static T Min<T>(this ReadOnlySpan<T> source) where T : INumber<T>
+        {
+            T min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+#else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Min(this ReadOnlySpan<Half> source)
+        {
+            Half min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+#endif
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static byte Min(this ReadOnlySpan<byte> source)
+        {
+            byte min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ushort Min(this ReadOnlySpan<ushort> source)
+        {
+            ushort min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static uint Min(this ReadOnlySpan<uint> source)
+        {
+            uint min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ulong Min(this ReadOnlySpan<ulong> source)
+        {
+            ulong min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static sbyte Min(this ReadOnlySpan<sbyte> source)
+        {
+            sbyte min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static short Min(this ReadOnlySpan<short> source)
+        {
+            short min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static int Min(this ReadOnlySpan<int> source)
+        {
+            int min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static long Min(this ReadOnlySpan<long> source)
+        {
+            long min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static float Min(this ReadOnlySpan<float> source)
+        {
+            float min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static double Min(this ReadOnlySpan<double> source)
+        {
+            double min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static decimal Min(this ReadOnlySpan<decimal> source)
+        {
+            decimal min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+
+        /// <summary> 
+        /// Computes the Min of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <returns>The Min out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static BigInteger Min(this ReadOnlySpan<BigInteger> source)
+        {
+            BigInteger min = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current < min)
+                {
+                    min = current;
+                }
+            }
+            return min;
+        }
+#endif
+
+#if NET7_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam> 
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static T Max<T>(this ReadOnlySpan<T> source) where T : INumber<T>
+        {
+            T max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+#else
+
+#if NET5_0_OR_GREATER
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static Half Max(this ReadOnlySpan<Half> source)
+        {
+            Half max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+#endif
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static byte Max(this ReadOnlySpan<byte> source)
+        {
+            byte max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ushort Max(this ReadOnlySpan<ushort> source)
+        {
+            ushort max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static uint Max(this ReadOnlySpan<uint> source)
+        {
+            uint max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static ulong Max(this ReadOnlySpan<ulong> source)
+        {
+            ulong max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static sbyte Max(this ReadOnlySpan<sbyte> source)
+        {
+            sbyte max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static short Max(this ReadOnlySpan<short> source)
+        {
+            short max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static int Max(this ReadOnlySpan<int> source)
+        {
+            int max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static long Max(this ReadOnlySpan<long> source)
+        {
+            long max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static float Max(this ReadOnlySpan<float> source)
+        {
+            float max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static double Max(this ReadOnlySpan<double> source)
+        {
+            double max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static decimal Max(this ReadOnlySpan<decimal> source)
+        {
+            decimal max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
+        }
+
+        /// <summary> 
+        /// Computes the Max of all the values in <paramref name="source"/>. 
+        /// </summary>  
+        /// <param name="source">The <see cref="ReadOnlySpan{BigInteger}"/> to operate on.</param>    
+        /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
+        public static BigInteger Max(this ReadOnlySpan<BigInteger> source)
+        {
+            BigInteger max = source[0];
+            for(int i = 1; i < source.Length; i++)
+            {
+                var current = source[i];
+                if(current > max)
+                {
+                    max = current;
+                }
+            }
+            return max;
         }
 #endif
     }
