@@ -471,7 +471,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static T Min<T>(this Span<T> source) where T : INumber<T>
         {
-            return ReadOnlySpanExtensions.Min<T>(source)
+            return ReadOnlySpanExtensions.Min<T>(source);
         }
 #else
 
@@ -630,7 +630,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static T Max<T>(this Span<T> source) where T : INumber<T>
         {
-            return ReadOnlySpanExtensions.Max<T>(source)
+            return ReadOnlySpanExtensions.Max<T>(source);
         }
 #else
 
