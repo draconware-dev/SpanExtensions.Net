@@ -561,7 +561,6 @@ namespace SpanExtensions
             return sum / source.Length;
         }
 #endif
-/*###################################### MIN ######################################################################*/
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -792,7 +791,6 @@ namespace SpanExtensions
             return min;
         }
 #endif
-/*################################ MAX #######################################*/
 #if NET7_0_OR_GREATER
 
         /// <summary> 

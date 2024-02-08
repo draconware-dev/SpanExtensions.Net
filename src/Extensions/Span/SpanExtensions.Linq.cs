@@ -460,7 +460,6 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Average(source);
         }
 #endif
-/*#################################### MIN ##################################*/
 #if NET7_0_OR_GREATER
 
         /// <summary> 
@@ -620,7 +619,6 @@ namespace SpanExtensions
             return ReadOnlySpanExtensions.Min(source);
         }
 #endif
-/*########################################## MAX ##########################################*/
 #if NET7_0_OR_GREATER
 
         /// <summary> 
