@@ -65,8 +65,7 @@ namespace SpanExtensions
             }
             return number;
         }
-#else
-#if NET5_0_OR_GREATER
+#else    #if NET5_0_OR_GREATER
 
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
@@ -83,7 +82,7 @@ namespace SpanExtensions
             }
             return (Half)number;
         }
-#endif
+    #endif
 
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
@@ -402,7 +401,7 @@ namespace SpanExtensions
         }
 #else
 
-#if NET5_0_OR_GREATER
+    #if NET5_0_OR_GREATER
 
         /// <summary>
         /// Computes the Average of all the values in <paramref name="source"/>.
@@ -415,7 +414,7 @@ namespace SpanExtensions
             Half sum = source.Sum();
             return (Half)((float)sum / source.Length);
         }
-#endif
+    #endif
         /// <summary>
         /// Computes the Average of all the values in <paramref name="source"/>.
         /// </summary>
@@ -585,7 +584,7 @@ namespace SpanExtensions
         }
 #else
 
-#if NET5_0_OR_GREATER
+    #if NET5_0_OR_GREATER
 
         /// <summary> 
         /// Computes the Min of all the values in <paramref name="source"/>. 
@@ -606,7 +605,7 @@ namespace SpanExtensions
             }
             return min;
         }
-#endif
+    #endif
         /// <summary> 
         /// Computes the Min of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -872,7 +871,7 @@ namespace SpanExtensions
         }
 #else
 
-#if NET5_0_OR_GREATER
+    #if NET5_0_OR_GREATER
 
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
@@ -893,7 +892,8 @@ namespace SpanExtensions
             }
             return max;
         }
-#endif
+    #endif
+
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
@@ -1134,5 +1134,6 @@ namespace SpanExtensions
             return max;
         }
 #endif
+
     }
 }
