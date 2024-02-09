@@ -47,6 +47,7 @@ namespace SpanExtensions
             }
             return false;
         }
+
 #if NET7_0_OR_GREATER
 
         /// <summary>
@@ -65,7 +66,9 @@ namespace SpanExtensions
             }
             return number;
         }
-#else    #if NET5_0_OR_GREATER
+#else
+
+    #if NET5_0_OR_GREATER
 
         /// <summary>
         /// Computes the Sum of all the elements in <paramref name="source"/>.
@@ -82,6 +85,7 @@ namespace SpanExtensions
             }
             return (Half)number;
         }
+
     #endif
 
         /// <summary>
@@ -415,6 +419,7 @@ namespace SpanExtensions
             return (Half)((float)sum / source.Length);
         }
     #endif
+
         /// <summary>
         /// Computes the Average of all the values in <paramref name="source"/>.
         /// </summary>
@@ -853,7 +858,7 @@ namespace SpanExtensions
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
         /// <typeparam name="T">The type of elements in the <see cref="ReadOnlySpan{T}"/>.</typeparam> 
-        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static T Max<T>(this ReadOnlySpan<T> source) where T : INumber<T>
@@ -876,7 +881,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Half}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static Half Max(this ReadOnlySpan<Half> source)
@@ -897,7 +902,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Byte}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static byte Max(this ReadOnlySpan<byte> source)
@@ -917,7 +922,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt16}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ushort Max(this ReadOnlySpan<ushort> source)
@@ -937,7 +942,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{uint32}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static uint Max(this ReadOnlySpan<uint> source)
@@ -957,7 +962,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{UInt64}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static ulong Max(this ReadOnlySpan<ulong> source)
@@ -977,7 +982,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{SByte}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static sbyte Max(this ReadOnlySpan<sbyte> source)
@@ -997,7 +1002,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Int16}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static short Max(this ReadOnlySpan<short> source)
@@ -1017,7 +1022,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Int32}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static int Max(this ReadOnlySpan<int> source)
@@ -1037,7 +1042,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static long Max(this ReadOnlySpan<long> source)
@@ -1057,7 +1062,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Single}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static float Max(this ReadOnlySpan<float> source)
@@ -1077,7 +1082,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Double}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static double Max(this ReadOnlySpan<double> source)
@@ -1097,7 +1102,7 @@ namespace SpanExtensions
         /// <summary> 
         /// Computes the Max of all the values in <paramref name="source"/>. 
         /// </summary>  
-        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>    
+        /// <param name="source">The <see cref="ReadOnlySpan{Int64}"/> to operate on.</param>
         /// <returns>The Max out of all the values in <paramref name="source"/>.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
         public static decimal Max(this ReadOnlySpan<decimal> source)
@@ -1134,6 +1139,5 @@ namespace SpanExtensions
             return max;
         }
 #endif
-
     }
 }
