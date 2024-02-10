@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Defines the behaviour of a split operation when there are more split instances than there may be. 
-    /// </summary> 
+    /// </summary>
     public enum CountExceedingBehaviour
     {
         /// <summary>
@@ -11,7 +11,7 @@
         AppendLastElements,
         /// <summary>
         /// Every split instance more than permitted will not be returned. 
-        /// </summary> 
+        /// </summary>
         CutLastElements
     }
 }
