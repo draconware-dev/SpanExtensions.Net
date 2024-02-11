@@ -820,7 +820,7 @@ namespace SpanExtensions
         {
             return ReadOnlySpanExtensions.Max(source);
         }
-  
+
         /// <summary>
         /// Invokes a transform function on each element in <paramref name="source"/> and returns the maximum resulting value.
         /// </summary>
