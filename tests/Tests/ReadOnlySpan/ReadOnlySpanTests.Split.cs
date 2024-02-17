@@ -11,7 +11,7 @@ namespace SpanExtensions.Testing
         static readonly IEnumerable<StringSplitOptions> stringSplitOptions = GetAllStringSplitOptions();
         static readonly CountExceedingBehaviour[] countExceedingBehaviours = (CountExceedingBehaviour[])Enum.GetValues(typeof(CountExceedingBehaviour));
 
-        public sealed class RandomData
+        public sealed class MonkeyTests
         {
             [Fact]
             public void TestSplit()
