@@ -211,6 +211,17 @@ namespace SpanExtensions.FuzzTests
         }
 #endif
 
+        /// <summary>
+        /// Creates a new span over the target array.
+        /// </summary>
+        /// <typeparam name="T">The array type.</typeparam>
+        /// <param name="source">The target array.</param>
+        /// <returns>A <see cref="ReadOnlySpan{T}"/> over <paramref name="source"/>.</returns>
+        public static ReadOnlySpan<T> AsReadOnlySpan<T>(this T[] source)
+        {
+            return source.AsSpan();
+        }
+
         /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="span"/>.</summary>
         /// <typeparam name="T">The element type of the span.</typeparam>
         /// <param name="span">The span to search.</param>
@@ -290,6 +301,22 @@ namespace SpanExtensions.FuzzTests
                 NotImplementedException
 #endif
                 ($"Unhandled {nameof(CountExceedingBehaviour)} enum value: {countExceedingBehaviour}.");
+        }
+
+        /// <summary>
+        /// Replaces the element in the specified position with the specified replacement.
+        /// </summary>
+        /// <typeparam name="T">The type of the target array.</typeparam>
+        /// <param name="source">The target array.</param>
+        /// <param name="position">The position of the element to replace with.</param>
+        /// <param name="replacement">The element to replace with.</param>
+        /// <returns>The a copy of <paramref name="source"/> with the element at <paramref name="position"/> replaced with <paramref name="replacement"/>.</returns>
+        public static T[] ReplaceAt<T>(this T[] source, int position, T replacement)
+        {
+            T[] copy = new T[source.Length];
+            source.CopyTo(copy, 0);
+            copy[position] = replacement;
+            return copy;
         }
 
         /// <summary>
@@ -399,12 +426,12 @@ namespace SpanExtensions.FuzzTests
         /// Splits a sequence into a maximum number of subsequences based on specified delimiter subsequence.
         /// </summary>
         /// <param name="source">The sequence to be split.</param>
-        /// <param name="delimiter">A <see cref="IEnumerable{int}"/> that delimits the subsequences in <paramref name="source"/>.</param>
+        /// <param name="delimiter">A <see cref="IEnumerable{T}"/> that delimits the subsequences in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<int>> Split(IEnumerable<int> source, IEnumerable<int> delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, IEnumerable<T> delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -415,17 +442,27 @@ namespace SpanExtensions.FuzzTests
             }
 #endif
 
+            if (count == 0)
+            {
+                count = int.MaxValue;
+            }
+
             string _source = string.Join(",", source);
             string _delimiter = string.Join(",", delimiter);
 
             string[] splits = countExceedingBehaviour switch
             {
-                CountExceedingBehaviour.AppendLastElements => _source.Split(_delimiter, count == 0 ? int.MaxValue : count, StringSplitOptions.None),
-                CountExceedingBehaviour.CutLastElements => _source.Split(_delimiter, int.MaxValue, StringSplitOptions.None).UpTo(count),
+                CountExceedingBehaviour.AppendLastElements => _source.Split(_delimiter, count, StringSplitOptions.None),
+                CountExceedingBehaviour.CutLastElements => _source.Split(_delimiter, StringSplitOptions.None).UpTo(count),
                 _ => throw UnhandledCaseException(countExceedingBehaviour)
             };
 
-            return splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => int.Parse(x, CultureInfo.InvariantCulture)));
+            return source switch
+            {
+                IEnumerable<int> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => int.Parse(x, CultureInfo.InvariantCulture))),
+                IEnumerable<char> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => x[0])),
+                _ => throw new NotImplementedException($"Type {typeof(T)} was not implemented.")
+            };
         }
 
         /// <summary>
@@ -447,7 +484,7 @@ namespace SpanExtensions.FuzzTests
             }
 
             // When count is 1 and RemoveEmptyEntries option is set, it's a special case where splits shouldn't be recursively removed.
-            // Since string.Split doesn't have the CutLastElements option, we have to manually handle this
+            // Since string.Split doesn't have the CutLastElements option, we have to manually handle this.
             static string[] FirstSubstring<TSame>(string source, TSame separator, StringSplitOptions options = StringSplitOptions.None)
             {
                 string first = separator switch
@@ -495,39 +532,6 @@ namespace SpanExtensions.FuzzTests
                 },
                 _ => throw new NotSupportedException($"Invalid separator type: {typeof(T)}")
             };
-        }
-
-        /// <summary>
-        /// Splits a sequence into a maximum number of subsequences based on specified delimiter subsequence.
-        /// </summary>
-        /// <param name="source">The sequence to be split.</param>
-        /// <param name="delimiter">A <see cref="IEnumerable{char}"/> that delimits the subsequences in <paramref name="source"/>.</param>
-        /// <param name="count">The maximum number of splits. If zero, split on every occurence of <paramref name="delimiter"/>.</param>
-        /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
-        /// <returns>A sequence of split subsequences.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<char>> Split(IEnumerable<char> source, IEnumerable<char> delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
-        {
-#if NET8_0_OR_GREATER
-            ArgumentOutOfRangeException.ThrowIfNegative(count);
-#else
-            if(count < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count));
-            }
-#endif
-
-            string _source = string.Join(",", source);
-            string _delimiter = string.Join(",", delimiter);
-
-            string[] splits = countExceedingBehaviour switch
-            {
-                CountExceedingBehaviour.AppendLastElements => _source.Split(_delimiter, count == 0 ? int.MaxValue : count, StringSplitOptions.None),
-                CountExceedingBehaviour.CutLastElements => _source.Split(_delimiter, int.MaxValue, StringSplitOptions.None).UpTo(count),
-                _ => throw UnhandledCaseException(countExceedingBehaviour)
-            };
-
-            return splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => x[0]));
         }
 
         /// <summary>

@@ -16,240 +16,126 @@ namespace SpanExtensions.FuzzTests
             [Fact]
             public void FuzzSplit()
             {
+                static void AssertOptions<T>(T[] array, T delimiter) where T : IEquatable<T>
+                {
+                    AssertMethodResults(
+                        expected: Split(array, delimiter),
+                        actual: array.AsSpan().Split(delimiter).ToSystemEnumerable(),
+                        source: array,
+                        method: nameof(SpanExtensions.Split),
+                        args: ("delimiter", delimiter)
+                    );
+                }
+
                 int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                Span<int> integerSpan = integerArray;
-
-                // source contains delimiter
                 int integerDelimiter = integerArray[random.Next(integerArray.Length)];
-                AssertMethodResults(
-                    expected: Split(integerArray, integerDelimiter),
-                    actual: integerSpan.Split(integerDelimiter).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", integerDelimiter)
-                );
+                AssertOptions(integerArray, integerDelimiter);
+                AssertOptions(integerArray, maxValue);
 
-                // source does not contain delimiter
-                integerDelimiter = maxValue;
-                AssertMethodResults(
-                    expected: Split(integerArray, integerDelimiter),
-                    actual: integerSpan.Split(integerDelimiter).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", integerDelimiter)
-                );
-
-                char[] charArray = GenerateRandomString(length).ToCharArray();
-                Span<char> charSpan = charArray;
-
-                // source contains delimiter
+                char[] charArray = GenerateRandomString(count).ToCharArray();
                 char charDelimiter = charArray[random.Next(charArray.Length)];
-                AssertMethodResults(
-                    expected: Split(charArray, charDelimiter),
-                    actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", charDelimiter)
-                );
-
-                // source does not contain delimiter
-                charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                AssertMethodResults(
-                    expected: Split(charArray, charDelimiter),
-                    actual: charSpan.Split(charDelimiter).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", charDelimiter)
-                );
+                const char charMissingDelimiter = '!';
+                AssertOptions(charArray, charDelimiter);
+                AssertOptions(charArray, charMissingDelimiter);
             }
 
             [Fact]
             public void FuzzSplitWithCount()
             {
-                static void AssertIntOptions(CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions<T>(T[] array, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour) where T : IEquatable<T>
                 {
-                    int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                    Span<int> integerSpan = integerArray;
-
-                    // source contains delimiter
-                    int integerDelimiter = integerArray[random.Next(integerArray.Length)];
-                    int countDelimiters = integerSpan.Count(integerDelimiter);
                     AssertMethodResults(
-                        expected: Split(integerArray, integerDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.Split(integerDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
+                        expected: Split(array, delimiter, count, countExceedingBehaviour),
+                        actual: array.AsSpan().Split(delimiter, count, countExceedingBehaviour).ToSystemEnumerable(),
+                        source: array,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", integerDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    integerDelimiter = maxValue;
-                    AssertMethodResults(
-                        expected: Split(integerArray, integerDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.Split(integerDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", integerDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiter", delimiter), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
+                int integerDelimiter = integerArray[random.Next(integerArray.Length)];
+                int countDelimiters = integerArray.AsSpan().Count(integerDelimiter);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertIntOptions(countExceedingBehaviour);
+                    AssertOptions(integerArray, integerDelimiter, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(integerArray, maxValue, countDelimiters, countExceedingBehaviour);
                 }
 
-                static void AssertCharOptions(CountExceedingBehaviour countExceedingBehaviour)
-                {
-                    char[] charArray = GenerateRandomString(length).ToCharArray();
-                    Span<char> charSpan = charArray;
-
-                    // source contains delimiter
-                    char charDelimiter = charArray[random.Next(charArray.Length)];
-                    int countDelimiters = charSpan.Count(charDelimiter);
-                    AssertMethodResults(
-                        expected: Split(charArray, charDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: charSpan.Split(charDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: Split(charArray, charDelimiter, countDelimiters),
-                        actual: charSpan.Split(charDelimiter, countDelimiters).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-                }
-
+                char[] charArray = GenerateRandomString(count).ToCharArray();
+                char charDelimiter = charArray[random.Next(charArray.Length)];
+                const char charMissingDelimiter = '!';
+                countDelimiters = charArray.AsSpan().Count(charDelimiter);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertCharOptions(countExceedingBehaviour);
+                    AssertOptions(charArray, charDelimiter, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(charArray, charMissingDelimiter, countDelimiters, countExceedingBehaviour);
                 }
             }
 
             [Fact]
             public void FuzzSplitWithDelimiterSequence()
             {
-                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                Span<int> integerSpan = integerArray;
+                static void AssertOptions<T>(T[] array, T[] delimiter) where T : IEquatable<T>
+                {
+                    AssertMethodResults(
+                        expected: Split(array, delimiter),
+                        actual: array.AsSpan().Split(delimiter).ToSystemEnumerable(),
+                        source: array,
+                        method: nameof(SpanExtensions.Split),
+                        args: ("delimiter", delimiter)
+                    );
+                }
 
-                // source contains delimiter
+                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
                 int startIndex = random.Next(integerArray.Length - 3);
                 int[] integerSequenceDelimiter = integerArray[startIndex..(startIndex + 3)];
-                AssertMethodResults(
-                    expected: Split(integerArray, integerSequenceDelimiter),
-                    actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", integerSequenceDelimiter)
-                );
+                int[] integerSequenceMissingDelimiter = integerSequenceDelimiter.ReplaceAt(2, maxValue);
+                AssertOptions(integerArray, integerSequenceDelimiter);
+                AssertOptions(integerArray, integerSequenceMissingDelimiter);
 
-                // source does not contain delimiter
-                integerSequenceDelimiter[^1] = maxValue;
-                AssertMethodResults(
-                    expected: Split(integerArray, integerSequenceDelimiter),
-                    actual: integerSpan.Split(integerSequenceDelimiter).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", integerSequenceDelimiter)
-                );
-
-                char[] charArray = GenerateRandomString(length).ToCharArray();
-                Span<char> charSpan = charArray;
-
-                // source contains delimiter
+                char[] charArray = GenerateRandomString(count).ToCharArray();
                 startIndex = random.Next(charArray.Length - 3);
                 char[] charSequenceDelimiter = charArray[startIndex..(startIndex + 3)];
-                AssertMethodResults(
-                    expected: Split(charArray, charSequenceDelimiter),
-                    actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", charSequenceDelimiter)
-                );
-
-                // source does not contain delimiter
-                charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                AssertMethodResults(
-                    expected: Split(charArray, charSequenceDelimiter),
-                    actual: charSpan.Split(charSequenceDelimiter).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.Split),
-                    args: ("delimiter", charSequenceDelimiter)
-                );
+                char[] charSequenceMissingDelimiter = charSequenceDelimiter.ReplaceAt(2, '!');
+                AssertOptions(charArray, charSequenceDelimiter);
+                AssertOptions(charArray, charSequenceMissingDelimiter);
             }
 
             [Fact]
             public void FuzzSplitWithDelimiterSequenceAndCount()
             {
-                static void AssertIntOptions(CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions<T>(T[] array, T[] delimiter, int count, CountExceedingBehaviour countExceedingBehaviour) where T : IEquatable<T>
                 {
-                    int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                    Span<int> integerSpan = integerArray;
-
-                    // source contains delimiter
-                    int startIndex = random.Next(integerArray.Length - 3);
-                    int[] integerSequenceDelimiter = integerArray[startIndex..(startIndex + 3)];
-                    int countDelimiters = integerSpan.CountSequence(integerSequenceDelimiter);
                     AssertMethodResults(
-                        expected: Split(integerArray, integerSequenceDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
+                        expected: Split(array, delimiter, count, countExceedingBehaviour),
+                        actual: array.AsSpan().Split(delimiter, count, countExceedingBehaviour).ToSystemEnumerable(),
+                        source: array,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    integerSequenceDelimiter[^1] = maxValue;
-                    AssertMethodResults(
-                        expected: Split(integerArray, integerSequenceDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.Split(integerSequenceDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", integerSequenceDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiter", delimiter), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
+                int startIndex = random.Next(integerArray.Length - 3);
+                int[] integerSequenceDelimiter = integerArray[startIndex..(startIndex + 3)];
+                int[] integerSequenceMissingDelimiter = integerSequenceDelimiter.ReplaceAt(2, maxValue);
+                int countDelimiters = integerArray.AsSpan().CountSequence(integerSequenceDelimiter);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertIntOptions(countExceedingBehaviour);
+                    AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(integerArray, integerSequenceMissingDelimiter, countDelimiters, countExceedingBehaviour);
                 }
 
-                static void AssertCharOptions(CountExceedingBehaviour countExceedingBehaviour)
-                {
-                    char[] charArray = GenerateRandomString(length).ToCharArray();
-                    Span<char> charSpan = charArray;
-
-                    // source contains delimiter
-                    int startIndex = random.Next(charArray.Length - 3);
-                    char[] charSequenceDelimiter = charArray[startIndex..(startIndex + 3)];
-                    int countDelimiters = charSpan.CountSequence(charSequenceDelimiter);
-                    AssertMethodResults(
-                        expected: Split(charArray, charSequenceDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: Split(charArray, charSequenceDelimiter, countDelimiters, countExceedingBehaviour),
-                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-                }
-
+                char[] charArray = GenerateRandomString(count).ToCharArray();
+                startIndex = random.Next(charArray.Length - 3);
+                char[] charSequenceDelimiter = charArray[startIndex..(startIndex + 3)];
+                char[] charSequenceMissingDelimiter = charSequenceDelimiter.ReplaceAt(2, '!');
+                countDelimiters = charArray.AsSpan().CountSequence(charSequenceDelimiter);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertCharOptions(countExceedingBehaviour);
+                    AssertOptions(charArray, charSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(charArray, charSequenceMissingDelimiter, countDelimiters, countExceedingBehaviour);
                 }
             }
         }
@@ -259,73 +145,50 @@ namespace SpanExtensions.FuzzTests
             [Fact]
             public void FuzzSplit()
             {
-                static void AssertOptions(StringSplitOptions options)
+                static void AssertOptions(string @string, char delimiter, StringSplitOptions options)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    char charDelimiter = @string[random.Next(@string.Length)];
                     AssertMethodResults(
-                        expected: @string.Split(charDelimiter, options),
-                        actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
+                        expected: @string.Split(delimiter, options),
+                        actual: @string.ToCharArray().AsSpan().Split(delimiter, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("options", options)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(charDelimiter, options),
-                        actual: charSpan.Split(charDelimiter, options).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("options", options)]
+                        args: [("delimiter", delimiter), ("options", options)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                char charDelimiter = @string[random.Next(@string.Length)];
+                const char charMissingDelimiter = '!';
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
-                    AssertOptions(options);
+                    AssertOptions(@string, charDelimiter, options);
+                    AssertOptions(@string, charMissingDelimiter, options);
                 }
             }
 
             [Fact]
             public void FuzzSplitWithCount()
             {
-                static void AssertOptions(StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions(string @string, char delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    char charDelimiter = @string[random.Next(@string.Length)];
-                    int countDelimiters = charSpan.Count(charDelimiter);
                     AssertMethodResults(
-                        expected: @string.Split(charDelimiter, countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.Split(charDelimiter, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
+                        expected: @string.Split(delimiter, count, options, countExceedingBehaviour),
+                        actual: @string.ToCharArray().AsSpan().Split(delimiter, count, options, countExceedingBehaviour).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiter = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(charDelimiter, countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.Split(charDelimiter, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charDelimiter), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiter", delimiter), ("count", count), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                char charDelimiter = @string[random.Next(@string.Length)];
+                int countDelimiters = @string.AsSpan().Count(charDelimiter);
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
                     foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                     {
-                        AssertOptions(options, countExceedingBehaviour);
+                        AssertOptions(@string, charDelimiter, countDelimiters, options, countExceedingBehaviour);
+                        AssertOptions(@string, '!', countDelimiters, options, countExceedingBehaviour);
                     }
                 }
             }
@@ -333,75 +196,53 @@ namespace SpanExtensions.FuzzTests
             [Fact]
             public void FuzzSplitWithDelimiterSequence()
             {
-                static void AssertOptions(StringSplitOptions options)
+                static void AssertOptions(string @string, char[] delimiter, StringSplitOptions options)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    int startIndex = random.Next(@string.Length - 3);
-                    char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
                     AssertMethodResults(
-                        expected: @string.Split(new string(charSequenceDelimiter), options),
-                        actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
+                        expected: @string.Split(new string(delimiter), options),
+                        actual: @string.ToCharArray().AsSpan().Split(delimiter, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("options", options)]
-                    );
-
-                    // source does not contain delimiter
-                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(new string(charSequenceDelimiter), options),
-                        actual: charSpan.Split(charSequenceDelimiter, options).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("options", options)]
+                        args: [("delimiter", delimiter), ("options", options)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                int startIndex = random.Next(@string.Length - 3);
+                char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
+                char[] charSequenceMissingDelimiter = charSequenceDelimiter.ReplaceAt(2, '!');
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
-                    AssertOptions(options);
+                    AssertOptions(@string, charSequenceDelimiter, options);
+                    AssertOptions(@string, charSequenceMissingDelimiter, options);
                 }
             }
 
             [Fact]
             public void FuzzSplitWithDelimiterSequenceAndCount()
             {
-                static void AssertOptions(StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions(string @string, char[] delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    int startIndex = random.Next(@string.Length - 3);
-                    char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
-                    int countDelimiters = @string.Count(new string(charSequenceDelimiter));
                     AssertMethodResults(
-                        expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
+                        expected: @string.Split(new string(delimiter), count, options, countExceedingBehaviour),
+                        actual: @string.ToCharArray().AsSpan().Split(delimiter, count, options, countExceedingBehaviour).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charSequenceDelimiter[^1] = '!'; // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(new string(charSequenceDelimiter), countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.Split(charSequenceDelimiter, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.Split),
-                        args: [("delimiter", charSequenceDelimiter), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiter", delimiter), ("count", count), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                int startIndex = random.Next(@string.Length - 3);
+                char[] charSequenceDelimiter = @string.AsSpan()[startIndex..(startIndex + 3)].ToArray();
+                char[] charSequenceMissingDelimiter = charSequenceDelimiter.ReplaceAt(2, '!');
+                int countDelimiters = @string.Count(new string(charSequenceDelimiter));
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
                     foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                     {
-                        AssertOptions(options, countExceedingBehaviour);
+                        AssertOptions(@string, charSequenceDelimiter, countDelimiters, options, countExceedingBehaviour);
+                        AssertOptions(@string, charSequenceMissingDelimiter, countDelimiters, options, countExceedingBehaviour);
                     }
                 }
             }
@@ -412,118 +253,62 @@ namespace SpanExtensions.FuzzTests
             [Fact]
             public void FuzzSplitAny()
             {
+                static void AssertOptions<T>(T[] array, T[] delimiters) where T : IEquatable<T>
+                {
+                    AssertMethodResults(
+                        expected: SplitAny(array, delimiters),
+                        actual: array.AsSpan().SplitAny(delimiters).ToSystemEnumerable(),
+                        source: array,
+                        method: nameof(SpanExtensions.SplitAny),
+                        args: ("delimiters", delimiters)
+                    );
+                }
+
                 int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                Span<int> integerSpan = integerArray;
-
-                // source contains delimiter
                 int[] integerDelimiters = Enumerable.Range(0, 5).Select(_ => integerArray[random.Next(integerArray.Length)]).ToArray();
-                AssertMethodResults(
-                    expected: SplitAny(integerArray, integerDelimiters),
-                    actual: integerSpan.SplitAny(integerDelimiters).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.SplitAny),
-                    args: ("delimiters", integerDelimiters)
-                );
-
-                // source does not contain delimiter
-                integerDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
-                AssertMethodResults(
-                    expected: SplitAny(integerArray, integerDelimiters),
-                    actual: integerSpan.SplitAny(integerDelimiters).ToSystemEnumerable(),
-                    source: integerArray,
-                    method: nameof(SpanExtensions.SplitAny),
-                    args: ("delimiters", integerDelimiters)
-                );
+                int[] integerMissingDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
+                AssertOptions(integerArray, integerDelimiters);
+                AssertOptions(integerArray, integerMissingDelimiters);
 
                 char[] charArray = GenerateRandomString(length).ToCharArray();
-                Span<char> charSpan = charArray;
-
-                // source contains delimiter
                 char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => charArray[random.Next(charArray.Length)]).ToArray();
-                AssertMethodResults(
-                    expected: SplitAny(charArray, charDelimiters),
-                    actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.SplitAny),
-                    args: ("delimiters", charDelimiters)
-                );
-
-                // source does not contain delimiter
-                charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
-                AssertMethodResults(
-                    expected: SplitAny(charArray, charDelimiters),
-                    actual: charSpan.SplitAny(charDelimiters).ToSystemEnumerable(),
-                    source: charArray,
-                    method: nameof(SpanExtensions.SplitAny),
-                    args: ("delimiters", charDelimiters)
-                );
+                char[] charMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
+                AssertOptions(charArray, charDelimiters);
+                AssertOptions(charArray, charMissingDelimiters);
             }
 
             [Fact]
             public void FuzzSplitAnyWithCount()
             {
-                static void AssertIntOptions(CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions<T>(T[] array, T[] delimiters, int count, CountExceedingBehaviour countExceedingBehaviour) where T : IEquatable<T>
                 {
-                    int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                    Span<int> integerSpan = integerArray;
-
-                    // source contains delimiter
-                    int[] integerDelimiters = Enumerable.Range(0, 5).Select(_ => integerArray[random.Next(integerArray.Length)]).ToArray();
-                    int countDelimiters = integerSpan.Count(integerDelimiters);
                     AssertMethodResults(
-                        expected: SplitAny(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.SplitAny(integerDelimiters, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
+                        expected: SplitAny(array, delimiters, count, countExceedingBehaviour),
+                        actual: array.AsSpan().SplitAny(delimiters, count, countExceedingBehaviour).ToSystemEnumerable(),
+                        source: array,
                         method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", integerDelimiters), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    integerDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
-                    AssertMethodResults(
-                        expected: SplitAny(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour),
-                        actual: integerSpan.SplitAny(integerDelimiters, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: integerArray,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", integerDelimiters), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiters", delimiters), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
+                int[] integerDelimiters = Enumerable.Range(0, 5).Select(_ => integerArray[random.Next(integerArray.Length)]).ToArray();
+                int[] integerMissingDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
+                int countDelimiters = integerArray.AsSpan().Count(integerDelimiters);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertIntOptions(countExceedingBehaviour);
+                    AssertOptions(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(integerArray, integerMissingDelimiters, countDelimiters, countExceedingBehaviour);
                 }
 
-                static void AssertCharOptions(CountExceedingBehaviour countExceedingBehaviour)
-                {
-                    char[] charArray = GenerateRandomString(length).ToCharArray();
-                    Span<char> charSpan = charArray;
-
-                    // source contains delimiter
-                    char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => charArray[random.Next(charArray.Length)]).ToArray();
-                    int countDelimiters = charSpan.Count(charDelimiters);
-                    AssertMethodResults(
-                        expected: SplitAny(charArray, charDelimiters, countDelimiters, countExceedingBehaviour),
-                        actual: charSpan.SplitAny(charDelimiters, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: SplitAny(charArray, charDelimiters, countDelimiters, countExceedingBehaviour),
-                        actual: charSpan.SplitAny(charDelimiters, countDelimiters, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: charArray,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-                }
-
+                char[] charArray = GenerateRandomString(length).ToCharArray();
+                char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => charArray[random.Next(charArray.Length)]).ToArray();
+                char[] cahrMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
+                countDelimiters = charArray.AsSpan().Count(charDelimiters);
                 foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                 {
-                    AssertCharOptions(countExceedingBehaviour);
+                    AssertOptions(charArray, charDelimiters, countDelimiters, countExceedingBehaviour);
+                    AssertOptions(charArray, cahrMissingDelimiters, countDelimiters, countExceedingBehaviour);
                 }
             }
         }
@@ -533,73 +318,50 @@ namespace SpanExtensions.FuzzTests
             [Fact]
             public void FuzzSplitAny()
             {
-                static void AssertOptions(StringSplitOptions options)
+                static void AssertOptions(string @string, char[] delimiters, StringSplitOptions options)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => @string[random.Next(@string.Length)]).ToArray();
                     AssertMethodResults(
-                        expected: @string.Split(charDelimiters, options),
-                        actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
+                        expected: @string.Split(delimiters, options),
+                        actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, options).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("options", options)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(charDelimiters, options),
-                        actual: charSpan.SplitAny(charDelimiters, options).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("options", options)]
+                        args: [("delimiters", delimiters), ("options", options)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => @string[random.Next(@string.Length)]).ToArray();
+                char[] charMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
-                    AssertOptions(options);
+                    AssertOptions(@string, charDelimiters, options);
+                    AssertOptions(@string, charMissingDelimiters, options);
                 }
             }
 
             [Fact]
             public void FuzzSplitAnyWithCount()
             {
-                static void AssertOptions(StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
+                static void AssertOptions(string @string, char[] delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour)
                 {
-                    string @string = GenerateRandomString(length);
-                    Span<char> charSpan = @string.ToCharArray();
-
-                    // source contains delimiter
-                    char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => @string[random.Next(@string.Length)]).ToArray();
-                    int countDelimiters = charSpan.Count(charDelimiters);
                     AssertMethodResults(
-                        expected: @string.Split(charDelimiters, countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.SplitAny(charDelimiters, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
+                        expected: @string.Split(delimiters, count, options, countExceedingBehaviour),
+                        actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, count, options, countExceedingBehaviour).ToSystemEnumerable(),
                         source: @string,
                         method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-
-                    // source does not contain delimiter
-                    charDelimiters = Enumerable.Range(0, 5).Select(_ => '!').ToArray(); // the generated array only consists of lowercase letters, numbers, and white spaces
-                    AssertMethodResults(
-                        expected: @string.Split(charDelimiters, countDelimiters, options, countExceedingBehaviour),
-                        actual: charSpan.SplitAny(charDelimiters, countDelimiters, options, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: @string,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", charDelimiters), ("count", countDelimiters), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        args: [("delimiters", delimiters), ("count", count), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
                     );
                 }
 
+                string @string = GenerateRandomString(length);
+                char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => @string[random.Next(@string.Length)]).ToArray();
+                char[] charMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
+                int countDelimiters = @string.AsSpan().Count(charDelimiters);
                 foreach(StringSplitOptions options in stringSplitOptions)
                 {
                     foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
                     {
-                        AssertOptions(options, countExceedingBehaviour);
+                        AssertOptions(@string, charDelimiters, countDelimiters, options, countExceedingBehaviour);
                     }
                 }
             }
