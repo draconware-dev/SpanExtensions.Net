@@ -446,24 +446,51 @@ namespace SpanExtensions.FuzzTests
                 count = int.MaxValue;
             }
 
+            // When count is 1 and RemoveEmptyEntries option is set, it's a special case where splits shouldn't be recursively removed.
+            // Since string.Split doesn't have the CutLastElements option, we have to manually handle this
+            static string[] FirstSubstring<TSame>(string source, TSame separator, StringSplitOptions options = StringSplitOptions.None)
+            {
+                string first = separator switch
+                {
+                    char charSeparator => source.Split(charSeparator)[0],
+                    string stringSeparator => source.Split(stringSeparator)[0],
+                    char[] charSeparators => source.Split(charSeparators)[0],
+                    _ => throw new NotSupportedException($"Invalid separator type: {typeof(T)}")
+                };
+
+#if NET5_0_OR_GREATER
+                if(options.HasFlag(StringSplitOptions.TrimEntries))
+                {
+                    first = first.Trim();
+                }
+#endif
+
+                if(options.HasFlag(StringSplitOptions.RemoveEmptyEntries) && string.IsNullOrEmpty(first))
+                {
+                    return [];
+                }
+
+                return [first];
+            }
+
             return separator switch
             {
                 char charSeparator => countExceedingBehaviour switch
                 {
                     CountExceedingBehaviour.AppendLastElements => source.Split(charSeparator, count, options),
-                    CountExceedingBehaviour.CutLastElements => source.Split(charSeparator, options).UpTo(count),
+                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, charSeparator, options) : source.Split(charSeparator, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 string stringSeparator => countExceedingBehaviour switch
                 {
                     CountExceedingBehaviour.AppendLastElements => source.Split(stringSeparator, count, options),
-                    CountExceedingBehaviour.CutLastElements => source.Split(stringSeparator, options).UpTo(count),
+                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, stringSeparator, options) : source.Split(stringSeparator, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 char[] charSeparators => countExceedingBehaviour switch
                 {
                     CountExceedingBehaviour.AppendLastElements => source.Split(charSeparators, count, options),
-                    CountExceedingBehaviour.CutLastElements => source.Split(charSeparators, options).UpTo(count),
+                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, charSeparators, options) : source.Split(charSeparators, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 _ => throw new NotSupportedException($"Invalid separator type: {typeof(T)}")
