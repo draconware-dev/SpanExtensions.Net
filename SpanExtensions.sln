@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpanExtensions", "src\SpanE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "tests\Tests.csproj", "{881493DE-FCE2-4EB2-A313-C575C39AFDB4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzTests", "fuzz-tests\FuzzTests.csproj", "{378323C5-9551-4C01-A53E-10F55DB26756}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{881493DE-FCE2-4EB2-A313-C575C39AFDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{881493DE-FCE2-4EB2-A313-C575C39AFDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{881493DE-FCE2-4EB2-A313-C575C39AFDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378323C5-9551-4C01-A53E-10F55DB26756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378323C5-9551-4C01-A53E-10F55DB26756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378323C5-9551-4C01-A53E-10F55DB26756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378323C5-9551-4C01-A53E-10F55DB26756}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

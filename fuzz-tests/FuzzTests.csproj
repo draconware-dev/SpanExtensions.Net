@@ -9,7 +9,7 @@
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
 
-    <RootNamespace>SpanExtensions.Testing</RootNamespace>
+    <RootNamespace>SpanExtensions.FuzzTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
