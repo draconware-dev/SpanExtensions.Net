@@ -1,6 +1,6 @@
 ﻿using SpanExtensions.Enumerators;
 
-namespace SpanExtensions.FuzzTests
+namespace SpanExtensions.Tests.Fuzzing
 {
     /// <summary>
     /// Extension methods to convert <see langword="ref struct"/> enumerators into <see cref="IEnumerable{T}"/>.

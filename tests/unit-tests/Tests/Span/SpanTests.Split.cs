@@ -1,6 +1,6 @@
-using static SpanExtensions.Testing.TestHelper;
+using static SpanExtensions.Tests.UnitTests.TestHelper;
 
-namespace SpanExtensions.Testing
+namespace SpanExtensions.Tests.UnitTests
 {
     public static class SpanSplitTests
     {

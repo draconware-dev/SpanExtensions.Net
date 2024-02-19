@@ -1,4 +1,4 @@
-﻿namespace SpanExtensions.Testing
+﻿namespace SpanExtensions.Tests.UnitTests
 {
     public static class TestHelper
     {

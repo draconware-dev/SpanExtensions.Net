@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace SpanExtensions.FuzzTests
+namespace SpanExtensions.Tests.Fuzzing
 {
     public static class TestHelper
     {

@@ -1,6 +1,6 @@
-using static SpanExtensions.FuzzTests.TestHelper;
+using static SpanExtensions.Tests.Fuzzing.TestHelper;
 
-namespace SpanExtensions.FuzzTests
+namespace SpanExtensions.Tests.Fuzzing
 {
     public static class SpanSplitTests
     {
