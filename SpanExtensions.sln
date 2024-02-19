@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpanExtensions", "src\SpanExtensions.csproj", "{75DE5AFD-663E-415D-9B95-6BC513BD4A07}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "tests\unit-tests\Tests.csproj", "{B48A0293-A7FF-4E39-8F8D-57B6F824D70F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "tests\unit-tests\UnitTests.csproj", "{B48A0293-A7FF-4E39-8F8D-57B6F824D70F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzTests", "tests\fuzzing\FuzzTests.csproj", "{63CA0F05-0019-4ED3-AD94-45A5CE4D338F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuzzingTests", "tests\fuzzing\FuzzingTests.csproj", "{63CA0F05-0019-4ED3-AD94-45A5CE4D338F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
