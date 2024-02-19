@@ -8,10 +8,10 @@
         /// <summary>
         /// The last element returned will be all the remaining elements appended as one.
         /// </summary>
-        AppendLastElements,
+        AppendRemainingElements,
         /// <summary>
         /// Every split instance more than permitted will not be returned. 
         /// </summary>
-        CutLastElements
+        CutRemainingElements
     }
 }
