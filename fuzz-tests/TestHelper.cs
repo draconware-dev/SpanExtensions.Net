@@ -342,7 +342,7 @@ namespace SpanExtensions.FuzzTests
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -353,28 +353,31 @@ namespace SpanExtensions.FuzzTests
             }
 #endif
 
-            List<T> segment = [];
-
-            foreach(T element in source)
+            if(count != 0)
             {
-                if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && element.Equals(delimiter))
+                List<T> segment = [];
+
+                foreach(T element in source)
                 {
-                    break;
+                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && element.Equals(delimiter))
+                    {
+                        break;
+                    }
+
+                    if(count == 1 || !element.Equals(delimiter))
+                    {
+                        segment.Add(element);
+                    }
+                    else
+                    {
+                        yield return segment;
+                        segment = [];
+                        count--;
+                    }
                 }
 
-                if(count == 1 || !element.Equals(delimiter))
-                {
-                    segment.Add(element);
-                }
-                else
-                {
-                    yield return segment;
-                    segment = [];
-                    count--;
-                }
+                yield return segment;
             }
-
-            yield return segment;
         }
 
         /// <summary>
@@ -387,7 +390,7 @@ namespace SpanExtensions.FuzzTests
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> SplitAny<T>(IEnumerable<T> source, IEnumerable<T> delimiters, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> SplitAny<T>(IEnumerable<T> source, IEnumerable<T> delimiters, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -398,28 +401,31 @@ namespace SpanExtensions.FuzzTests
             }
 #endif
 
-            List<T> segment = [];
-
-            foreach(T element in source)
+            if(count != 0)
             {
-                if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && delimiters.Any(delimiter => element.Equals(delimiter)))
+
+                List<T> segment = [];
+                foreach(T element in source)
                 {
-                    break;
+                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && delimiters.Any(delimiter => element.Equals(delimiter)))
+                    {
+                        break;
+                    }
+
+                    if(count == 1 || delimiters.All(delimiter => !element.Equals(delimiter)))
+                    {
+                        segment.Add(element);
+                    }
+                    else
+                    {
+                        yield return segment;
+                        segment = [];
+                        count--;
+                    }
                 }
 
-                if(count == 1 || delimiters.All(delimiter => !element.Equals(delimiter)))
-                {
-                    segment.Add(element);
-                }
-                else
-                {
-                    yield return segment;
-                    segment = [];
-                    count--;
-                }
+                yield return segment;
             }
-
-            yield return segment;
         }
 
         /// <summary>
@@ -431,7 +437,7 @@ namespace SpanExtensions.FuzzTests
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, IEnumerable<T> delimiter, int count = 0, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, IEnumerable<T> delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -442,9 +448,9 @@ namespace SpanExtensions.FuzzTests
             }
 #endif
 
-            if (count == 0)
+            if(count == 0)
             {
-                count = int.MaxValue;
+                return [];
             }
 
             string _source = string.Join(",", source);
@@ -476,11 +482,20 @@ namespace SpanExtensions.FuzzTests
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>An array that contains at most <paramref name="count"/> substrings from this instance that are delimited by <paramref name="separator"/>.</returns>
         /// <exception cref="UnreachableException"></exception>
-        public static string[] Split<T>(this string source, T separator, int count = 0, StringSplitOptions options = StringSplitOptions.None, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
+        public static string[] Split<T>(this string source, T separator, int count = int.MaxValue, StringSplitOptions options = StringSplitOptions.None, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
         {
+#if NET8_0_OR_GREATER
+            ArgumentOutOfRangeException.ThrowIfNegative(count);
+#else
+            if(count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+#endif
+
             if(count == 0)
             {
-                count = int.MaxValue;
+                return [];
             }
 
             // When count is 1 and RemoveEmptyEntries option is set, it's a special case where splits shouldn't be recursively removed.
