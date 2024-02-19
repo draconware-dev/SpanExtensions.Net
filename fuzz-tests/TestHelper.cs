@@ -453,20 +453,32 @@ namespace SpanExtensions.FuzzTests
                 return [];
             }
 
-            string _source = string.Join(",", source);
-            string _delimiter = string.Join(",", delimiter);
+            int delimiterLength = delimiter.Count();
+            if(delimiterLength == 0)
+            {
+                return [source];
+            }
+            else if(delimiterLength == 1)
+            {
+                return Split(source, delimiter.First(), count, countExceedingBehaviour);
+            }
 
-            string[] splits = countExceedingBehaviour switch
+            string _source = '{' + string.Join("},{", source) + '}';
+            string _delimiter = '{' + string.Join("},{", delimiter) + '}';
+
+            string[] _splits = countExceedingBehaviour switch
             {
                 CountExceedingBehaviour.AppendLastElements => _source.Split(_delimiter, count, StringSplitOptions.None),
                 CountExceedingBehaviour.CutLastElements => _source.Split(_delimiter, StringSplitOptions.None).UpTo(count),
                 _ => throw UnhandledCaseException(countExceedingBehaviour)
             };
 
+            IEnumerable<IEnumerable<string>> splits = _splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => x[1..^1]).Where(x => x.Length != 0));
+
             return source switch
             {
-                IEnumerable<int> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => int.Parse(x, CultureInfo.InvariantCulture))),
-                IEnumerable<char> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Trim(',').Split(',').Where(x => x.Length != 0).Select(x => x[0])),
+                IEnumerable<int> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Select(x => int.Parse(x, CultureInfo.InvariantCulture))),
+                IEnumerable<char> => (IEnumerable<IEnumerable<T>>)splits.Select(s => s.Select(x => x[0])),
                 _ => throw new NotImplementedException($"Type {typeof(T)} was not implemented.")
             };
         }
