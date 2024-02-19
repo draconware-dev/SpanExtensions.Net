@@ -10,6 +10,7 @@ namespace SpanExtensions.Enumerators
         ReadOnlySpan<char> Span;
         readonly ReadOnlySpan<char> Delimiter;
         readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
         readonly bool TrimEntries;
         readonly bool RemoveEmptyEntries;
         bool EnumerationDone;
@@ -29,7 +30,8 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
-            DelimiterLength = delimiter.Length;
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
             TrimEntries = options.IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             EnumerationDone = false;
@@ -59,7 +61,7 @@ namespace SpanExtensions.Enumerators
             {
                 int delimiterIndex = Span.IndexOf(Delimiter);
 
-                if(delimiterIndex == -1)
+                if(delimiterIndex == -1 || DelimiterIsEmpty)
                 {
                     EnumerationDone = true;
 

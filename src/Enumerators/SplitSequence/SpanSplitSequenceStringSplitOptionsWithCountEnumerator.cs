@@ -10,6 +10,7 @@ namespace SpanExtensions.Enumerators
         ReadOnlySpan<char> Span;
         readonly ReadOnlySpan<char> Delimiter;
         readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
         readonly bool TrimEntries;
         readonly bool RemoveEmptyEntries;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
@@ -33,8 +34,9 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
-            DelimiterLength = delimiter.Length;
-            CurrentCount = count.ThrowIfNegative();
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
+            CurrentCount = DelimiterIsEmpty ? 0 : count.ThrowIfNegative();
             TrimEntries = options.IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
@@ -100,7 +102,7 @@ namespace SpanExtensions.Enumerators
                     }
                     else
                     {
-                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() ? Span : Span[..delimiterIndex];
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
                     }
 
                     if(TrimEntries)

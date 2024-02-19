@@ -11,6 +11,7 @@ namespace SpanExtensions.Enumerators
         ReadOnlySpan<T> Span;
         readonly ReadOnlySpan<T> Delimiter;
         readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
         int CurrentCount;
         bool EnumerationDone;
@@ -31,8 +32,9 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
-            DelimiterLength = delimiter.Length;
-            CurrentCount = count.ThrowIfNegative();
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
+            CurrentCount = DelimiterIsEmpty ? 1 : count.ThrowIfNegative();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;
             Current = default;
@@ -63,7 +65,7 @@ namespace SpanExtensions.Enumerators
             {
                 EnumerationDone = true;
 
-                Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() ? Span : Span[..delimiterIndex];
+                Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
 
                 return true;
             }
