@@ -3,7 +3,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace SpanExtensions.Tests.Fuzzing
 {
@@ -43,6 +42,196 @@ namespace SpanExtensions.Tests.Fuzzing
             }
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Get a random element from the specified sequence, or a specified default value if the source is empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the sequence array.</typeparam>
+        /// <param name="source">The target sequence.</param>
+        /// <param name="default">The value to return if <paramref name="source"/> is empty.</param>
+        /// <returns>A random element from <paramref name="source"/>, or <paramref name="default"/> if <paramref name="source"/> is empty.</returns>
+        public static T RandomElementOrDefault<T>(this ReadOnlySpan<T> source, T @default = default) where T : struct
+        {
+            return !source.IsEmpty ? source[random.Next(source.Length)] : @default;
+        }
+
+        /// <summary>
+        /// Get a random element from the specified array, or a specified default value if the array is empty.
+        /// </summary>
+        /// <typeparam name="T">The type of the target array.</typeparam>
+        /// <param name="array">The target array.</param>
+        /// <param name="default">The value to return if <paramref name="array"/> is empty.</param>
+        /// <returns>A random element from <paramref name="array"/>, or <paramref name="default"/> if the array is empty.</returns>
+        public static T RandomElementOrDefault<T>(this T[] array, T @default = default) where T : struct
+        {
+            return RandomElementOrDefault(array.AsReadOnlySpan(), @default);
+        }
+
+        /// <summary>
+        /// Get a random element from the specified string, or a specified default character if the string is empty.
+        /// </summary>
+        /// <param name="string">The target string.</param>
+        /// <param name="default">The value to return if <paramref name="string"/> is empty.</param>
+        /// <returns>A random element from <paramref name="string"/>, or <paramref name="default"/> if <paramref name="string"/> is empty.</returns>
+        public static char RandomElementOrDefault(this string @string, char @default = default)
+        {
+            return RandomElementOrDefault(@string.AsSpan(), @default);
+        }
+
+        /// <summary>
+        /// Get a random element subsequence of the specified length from the specified sequence,
+        /// or a specified default sequence if the source is empty or shorter than the specified length.
+        /// </summary>
+        /// <typeparam name="T">The type of the target sequence.</typeparam>
+        /// <param name="source">The target sequence.</param>
+        /// <param name="length">The length of the subsequence.</param>
+        /// <param name="default">The value to return if <paramref name="source"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if <paramref name="source"/> is empty or shorted than that length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
+        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
+        public static T[] RandomSubsequenceOrDefault<T>(this ReadOnlySpan<T> source, int length, T[]? @default = null) where T : struct
+        {
+            if(length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length), "Can't be negative.");
+            }
+            if(@default != null && @default.Length != length)
+            {
+                throw new ArgumentException("The length must match.", nameof(@default));
+            }
+
+            if(source.Length < length)
+            {
+                return @default ?? new T[length];
+            }
+
+            int startIndex = random.Next(source.Length - length);
+            return source[startIndex..(startIndex + length)].ToArray();
+        }
+
+        /// <summary>
+        /// Get a random element subsequence of the specified length from the specified array,
+        /// or a specified default sequence if the source is empty or shorter than the specified length.
+        /// </summary>
+        /// <typeparam name="T">The type of the target array.</typeparam>
+        /// <param name="array">The target array.</param>
+        /// <param name="length">The length of the subsequence.</param>
+        /// <param name="default">The value to return if <paramref name="array"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if the array is empty or shorted than that length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
+        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
+        public static T[] RandomSubsequenceOrDefault<T>(this T[] array, int length, T[]? @default = null) where T : struct
+        {
+            return RandomSubsequenceOrDefault(array.AsReadOnlySpan(), length, @default);
+        }
+
+        /// <summary>
+        /// Get a random element subsequence of the specified length from the specified string,
+        /// or a specified default sequence if the source is empty or shorter than the specified length.
+        /// </summary>
+        /// <param name="string">The target string.</param>
+        /// <param name="length">The length of the string.</param>
+        /// <param name="default">The value to return if <paramref name="string"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if <paramref name="string"/> is empty or shorted than that length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
+        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
+        public static char[] RandomSubsequenceOrDefault(this string @string, int length, char[]? @default = null)
+        {
+            return RandomSubsequenceOrDefault(@string.AsSpan(), length, @default);
+        }
+
+        /// <summary>
+        /// Replaces a random element in the array with the specified replacement.
+        /// </summary>
+        /// <typeparam name="T">The type of the target array.</typeparam>
+        /// <param name="source">The target array.</param>
+        /// <param name="replacement">The element to replace with.</param>
+        /// <returns>A copy of <paramref name="source"/> with the element at a random position replaced with <paramref name="replacement"/>.</returns>
+        public static T[] ReplaceRandomElement<T>(this T[] source, T replacement)
+        {
+            T[] copy = new T[source.Length];
+            source.CopyTo(copy, 0);
+
+            if(source.Length != 0)
+            {
+                copy[random.Next(source.Length)] = replacement;
+            }
+
+            return copy;
+        }
+
+        /// <summary>
+        /// Replaces the element in the specified position with the specified replacement.
+        /// </summary>
+        /// <typeparam name="T">The type of the target array.</typeparam>
+        /// <param name="source">The target array.</param>
+        /// <param name="position">The position of the element to replace with.</param>
+        /// <param name="replacement">The element to replace with.</param>
+        /// <returns>A copy of <paramref name="source"/> with the element at <paramref name="position"/> replaced with <paramref name="replacement"/>.</returns>
+        public static T[] ReplaceAt<T>(this T[] source, int position, T replacement)
+        {
+            T[] copy = new T[source.Length];
+            source.CopyTo(copy, 0);
+            copy[position] = replacement;
+            return copy;
+        }
+
+        /// <summary>
+        /// An alternative to <see cref="Enumerable.Range(int, int)"/> that multiplies the current element by a multiplier every time.
+        /// </summary>
+        /// <param name="start">The first element.</param>
+        /// <param name="max">The maximum the last element can be.</param>
+        /// <param name="multiplier">The multiplier.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="start"/> isn't positive, or if <paramref name="max"/> or <paramref name="multiplier"/> is negative.</exception>
+        public sealed class MultiplierRange(int start, int max, int multiplier) : IEnumerable<int>
+        {
+            public IEnumerator<int> GetEnumerator()
+            {
+                if(start <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(start), "Value must be positive.");
+                }
+                if(max < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(max), "Value can't be negative.");
+                }
+                if(multiplier < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(multiplier), "Value can't be negative.");
+                }
+
+                static IEnumerator<int> Iterate(int start, int max, int multiplier)
+                {
+                    for(int i = start; i <= max; i *= multiplier)
+                    {
+                        yield return i;
+                    }
+                }
+
+                return Iterate(start, max, multiplier);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        /// <summary>
+        /// Iterates over two sequence is order.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements.</typeparam>
+        /// <param name="first">The first sequence to iterate.</param>
+        /// <param name="second">THe second sequence ot iterate.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> that iterates over the two sequences in order.</returns>
+        public static IEnumerable<T> And<T>(this IEnumerable<T> first, IEnumerable<T> second)
+        {
+            foreach(T item in first)
+            {
+                yield return item;
+            }
+            foreach(T item in second)
+            {
+                yield return item;
+            }
         }
 
         /// <summary>
@@ -181,6 +370,17 @@ namespace SpanExtensions.Tests.Fuzzing
             }
         }
 
+        /// <summary>
+        /// Creates a new span over the target array.
+        /// </summary>
+        /// <typeparam name="T">The array type.</typeparam>
+        /// <param name="source">The target array.</param>
+        /// <returns>A <see cref="ReadOnlySpan{T}"/> over <paramref name="source"/>.</returns>
+        public static ReadOnlySpan<T> AsReadOnlySpan<T>(this T[] source)
+        {
+            return source.AsSpan();
+        }
+
 #if !NET8_0_OR_GREATER
         /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="span"/>.</summary>
         /// <typeparam name="T">The element type of the span.</typeparam>
@@ -211,17 +411,26 @@ namespace SpanExtensions.Tests.Fuzzing
         }
 #endif
 
-        /// <summary>
-        /// Creates a new span over the target array.
-        /// </summary>
-        /// <typeparam name="T">The array type.</typeparam>
-        /// <param name="source">The target array.</param>
-        /// <returns>A <see cref="ReadOnlySpan{T}"/> over <paramref name="source"/>.</returns>
-        public static ReadOnlySpan<T> AsReadOnlySpan<T>(this T[] source)
+        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="array"/>.</summary>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="array">The array to search.</param>
+        /// <param name="value">The value for which to search.</param>
+        /// <returns>The number of times <paramref name="value"/> was found in the <paramref name="array"/>.</returns>
+        public static int Count<T>(this T[] array, T value) where T : IEquatable<T>
         {
-            return source.AsSpan();
+            return array.AsSpan().Count(value);
         }
 
+        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="string"/>.</summary>
+        /// <param name="string">The string to search.</param>
+        /// <param name="value">The value for which to search.</param>
+        /// <returns>The number of times <paramref name="value"/> was found in the <paramref name="string"/>.</returns>
+        public static int Count(this string @string, char value)
+        {
+            return @string.AsSpan().Count(value);
+        }
+
+#if !NET8_0_OR_GREATER
         /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="span"/>.</summary>
         /// <typeparam name="T">The element type of the span.</typeparam>
         /// <param name="span">The span to search.</param>
@@ -249,43 +458,71 @@ namespace SpanExtensions.Tests.Fuzzing
         {
             return Count((ReadOnlySpan<T>)span, values);
         }
+#endif
+
+        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="array"/>.</summary>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="array">The array to search.</param>
+        /// <param name="values">The values for which to search.</param>
+        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="array"/>.</returns>
+        public static int Count<T>(this T[] array, ReadOnlySpan<T> values) where T : IEquatable<T>
+        {
+            return array.AsSpan().Count(values);
+        }
+
+        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="string"/>.</summary>
+        /// <param name="string">The string to search.</param>
+        /// <param name="values">The values for which to search.</param>
+        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="string"/>.</returns>
+        public static int Count(this string @string, ReadOnlySpan<char> values)
+        {
+            return @string.AsSpan().Count(values);
+        }
 
         /// <summary>
-        /// Counts the number of times any of the specified <paramref name="substring"/> occur in the <paramref name="string"/>.
+        /// Counts the (non-overlaping) occurrences of a subsequence in the target sequence.
         /// </summary>
-        /// <param name="string">The string to search.</param>
-        /// <param name="substring">The substring for which to search.</param>
-        /// <returns>The number of times any of the <paramref name="substring"/> was found in the <paramref name="string"/>.</returns>
-        public static int Count(this string @string, string substring)
+        /// <typeparam name="T">The element type in the sequence.</typeparam>
+        /// <param name="sequence">The target sequence.</param>
+        /// <param name="subsequence">The subsequence to count.</param>
+        /// <returns>The number of occurrences of <paramref name="subsequence"/> in <paramref name="sequence"/>.</returns>
+        public static int CountSubsequence<T>(this ReadOnlySpan<T> sequence, ReadOnlySpan<T> subsequence) where T : IEquatable<T>
         {
-#if NET7_0_OR_GREATER
-            return Regex.Count(@string, substring);
-#else
-            return Regex.Matches(@string, substring).Count;
-#endif
+            if(sequence.IsEmpty || subsequence.IsEmpty)
+            {
+                return 0;
+            }
+
+            int count = 0, position;
+            while((position = sequence.IndexOf(subsequence)) != -1)
+            {
+                count++;
+                sequence = sequence[(position + subsequence.Length)..];
+            }
+            return count;
         }
 
-        /// <summary>Counts the number of times the specified <paramref name="value"/> subsequence occurs in the <paramref name="span"/>.</summary>
-        /// <typeparam name="T">The element type of the span.</typeparam>
-        /// <param name="span">The span to search.</param>
-        /// <param name="value">The value subsequence for which to search.</param>
-        /// <returns>The number of times <paramref name="value"/> subsequence was found in the <paramref name="span"/>.</returns>
-        public static int CountSequence<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> value)
+        /// <summary>
+        /// Counts the (non-overlaping) occurrences of a subsequence in the target array.
+        /// </summary>
+        /// <typeparam name="T">The element type in the array.</typeparam>
+        /// <param name="array">The target array.</param>
+        /// <param name="subsequence">The subsequence to count.</param>
+        /// <returns>The number of occurrences of <paramref name="subsequence"/> in <paramref name="array"/>.</returns>
+        public static int CountSubsequence<T>(this T[] array, ReadOnlySpan<T> subsequence) where T : IEquatable<T>
         {
-            string source = string.Join(",", span.ToArray());
-            string substring = string.Join(",", value.ToArray());
-
-            return source.Count(substring);
+            return CountSubsequence(array.AsSpan(), subsequence);
         }
 
-        /// <summary>Counts the number of times the specified <paramref name="value"/> subsequence occurs in the <paramref name="span"/>.</summary>
-        /// <typeparam name="T">The element type of the span.</typeparam>
-        /// <param name="span">The span to search.</param>
-        /// <param name="value">The value subsequence for which to search.</param>
-        /// <returns>The number of times <paramref name="value"/> subsequence was found in the <paramref name="span"/>.</returns>
-        public static int CountSequence<T>(this Span<T> span, ReadOnlySpan<T> value)
+        /// <summary>
+        /// Counts the (non-overlaping) occurrences of a subsequence in the target string.
+        /// </summary>
+        /// <param name="string">The target string.</param>
+        /// <param name="subsequence">The subsequence to count.</param>
+        /// <returns>The number of occurrences of <paramref name="subsequence"/> in <paramref name="string"/>.</returns>
+        public static int CountSubsequence(this string @string, ReadOnlySpan<char> subsequence)
         {
-            return CountSequence((ReadOnlySpan<T>)span, value);
+            return CountSubsequence(@string.AsSpan(), subsequence);
         }
 
         /// <summary>
@@ -301,22 +538,6 @@ namespace SpanExtensions.Tests.Fuzzing
                 NotImplementedException
 #endif
                 ($"Unhandled {nameof(CountExceedingBehaviour)} enum value: {countExceedingBehaviour}.");
-        }
-
-        /// <summary>
-        /// Replaces the element in the specified position with the specified replacement.
-        /// </summary>
-        /// <typeparam name="T">The type of the target array.</typeparam>
-        /// <param name="source">The target array.</param>
-        /// <param name="position">The position of the element to replace with.</param>
-        /// <param name="replacement">The element to replace with.</param>
-        /// <returns>The a copy of <paramref name="source"/> with the element at <paramref name="position"/> replaced with <paramref name="replacement"/>.</returns>
-        public static T[] ReplaceAt<T>(this T[] source, int position, T replacement)
-        {
-            T[] copy = new T[source.Length];
-            source.CopyTo(copy, 0);
-            copy[position] = replacement;
-            return copy;
         }
 
         /// <summary>

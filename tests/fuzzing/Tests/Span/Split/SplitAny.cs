@@ -4,67 +4,118 @@ namespace SpanExtensions.Tests.Fuzzing
 {
     public static partial class SpanSplitTests
     {
-        public sealed class SplitAny
+        public static class SplitAny
         {
-            [Fact]
-            public void FuzzSplitAny()
+            public static TheoryData<int, int, int, int, int, float> SplitAnyData(int iterations)
             {
-                static void AssertOptions<T>(T[] array, T[] delimiters) where T : IEquatable<T>
+                const int minValue = 0;
+                const int maxValue = 100;
+
+                TheoryData<int, int, int, int, int, float> data = new();
+
+                foreach(int length in new MultiplierRange(1, 1000, 10).And([0]))
                 {
-                    AssertMethodResults(
-                        expected: SplitAny(array, delimiters),
-                        actual: array.AsSpan().SplitAny(delimiters).ToSystemEnumerable(),
-                        source: array,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: ("delimiters", delimiters)
-                    );
+                    foreach(int delimitersLength in ((IEnumerable<int>)[0, 1, 5, 25, 50]).Where(x => x <= length * 3))
+                    {
+                        foreach(float delimitersOccurencePart in (IEnumerable<float>)(delimitersLength > 1 ? [0f, 0.5f, 1f] : [0f, 1f]))
+                        {
+                            data.Add(iterations, length, minValue, maxValue, delimitersLength, delimitersOccurencePart);
+                        }
+                    }
                 }
 
-                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                int[] integerDelimiters = Enumerable.Range(0, 5).Select(_ => integerArray[random.Next(integerArray.Length)]).ToArray();
-                int[] integerMissingDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
-                AssertOptions(integerArray, integerDelimiters);
-                AssertOptions(integerArray, integerMissingDelimiters);
-
-                char[] charArray = GenerateRandomString(length).ToCharArray();
-                char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => charArray[random.Next(charArray.Length)]).ToArray();
-                char[] charMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
-                AssertOptions(charArray, charDelimiters);
-                AssertOptions(charArray, charMissingDelimiters);
+                return data;
             }
 
-            [Fact]
-            public void FuzzSplitAnyWithCount()
+            public sealed class SplitAnyWithoutParameters
             {
-                static void AssertOptions<T>(T[] array, T[] delimiters, int count, CountExceedingBehaviour countExceedingBehaviour) where T : IEquatable<T>
-                {
-                    AssertMethodResults(
-                        expected: SplitAny(array, delimiters, count, countExceedingBehaviour),
-                        actual: array.AsSpan().SplitAny(delimiters, count, countExceedingBehaviour).ToSystemEnumerable(),
-                        source: array,
-                        method: nameof(SpanExtensions.SplitAny),
-                        args: [("delimiters", delimiters), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
-                    );
-                }
+                public static readonly TheoryData<int, int, int, int, int, float> _SplitAnyData = SplitAnyData(11000);
 
-                int[] integerArray = GenerateRandomIntegers(count, minValue, maxValue).ToArray();
-                int[] integerDelimiters = Enumerable.Range(0, 5).Select(_ => integerArray[random.Next(integerArray.Length)]).ToArray();
-                int[] integerMissingDelimiters = Enumerable.Range(0, 5).Select(i => maxValue + i).ToArray();
-                int countDelimiters = integerArray.AsSpan().Count(integerDelimiters);
-                foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
+                [Theory]
+                [MemberData(nameof(_SplitAnyData))]
+                public void Fuzz(int iterations, int length, int minValue, int maxValue, int delimitersLength, float delimitersOccurencePart)
                 {
-                    AssertOptions(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour);
-                    AssertOptions(integerArray, integerMissingDelimiters, countDelimiters, countExceedingBehaviour);
-                }
+                    static void AssertOptions<T>(T[] array, T[] delimiters) where T : IEquatable<T>
+                    {
+                        AssertMethodResults(
+                            expected: SplitAny(array, delimiters),
+                            actual: array.AsSpan().SplitAny(delimiters).ToSystemEnumerable(),
+                            source: array,
+                            method: nameof(SpanExtensions.SplitAny),
+                            args: ("delimiters", delimiters)
+                        );
+                    }
 
-                char[] charArray = GenerateRandomString(length).ToCharArray();
-                char[] charDelimiters = Enumerable.Range(0, 5).Select(_ => charArray[random.Next(charArray.Length)]).ToArray();
-                char[] cahrMissingDelimiters = Enumerable.Range(0, 5).Select(i => (char)('ა' + i)).ToArray();
-                countDelimiters = charArray.AsSpan().Count(charDelimiters);
-                foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
+                    for(int iteration = 0; iteration < iterations; iteration++)
+                    {
+                        int[] integerArray = GenerateRandomIntegers(length, minValue, maxValue).ToArray();
+                        int[] integerDelimiters = Enumerable.Range(0, delimitersLength).Select(i =>
+                            i < delimitersLength * delimitersOccurencePart ? integerArray.RandomElementOrDefault()
+                            : maxValue + i
+                        ).ToArray();
+                        AssertOptions(integerArray, integerDelimiters);
+
+                        char[] charArray = GenerateRandomString(length).ToCharArray();
+                        char[] charDelimiters = Enumerable.Range(0, delimitersLength).Select(i =>
+                            i < delimitersLength * delimitersOccurencePart ? charArray.RandomElementOrDefault()
+                            : (char)('ა' + i)
+                        ).ToArray();
+                        AssertOptions(charArray, charDelimiters);
+                    }
+                }
+            }
+
+            public sealed class SplitAnyWithCount
+            {
+                public static readonly TheoryData<int, int, int, int, int, float> _SplitAnyData = SplitAnyData(2000);
+
+                [Theory]
+                [MemberData(nameof(_SplitAnyData))]
+                public void Fuzz(int iterations, int length, int minValue, int maxValue, int delimitersLength, float delimitersOccurencePart)
                 {
-                    AssertOptions(charArray, charDelimiters, countDelimiters, countExceedingBehaviour);
-                    AssertOptions(charArray, cahrMissingDelimiters, countDelimiters, countExceedingBehaviour);
+                    static void AssertOptions<T>(T[] array, T[] delimiters, int count, CountExceedingBehaviour countExceedingBehaviour) where T : IEquatable<T>
+                    {
+                        AssertMethodResults(
+                            expected: SplitAny(array, delimiters, count, countExceedingBehaviour),
+                            actual: array.AsSpan().SplitAny(delimiters, count, countExceedingBehaviour).ToSystemEnumerable(),
+                            source: array,
+                            method: nameof(SpanExtensions.SplitAny),
+                            args: [("delimiters", delimiters), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
+                        );
+                    }
+
+                    for(int iteration = 0; iteration < iterations; iteration++)
+                    {
+                        int[] integerArray = GenerateRandomIntegers(length, minValue, maxValue).ToArray();
+                        int[] integerDelimiters = Enumerable.Range(0, delimitersLength).Select(i =>
+                            i < delimitersLength * delimitersOccurencePart ? integerArray.RandomElementOrDefault()
+                            : maxValue + i
+                        ).ToArray();
+                        int countDelimiters = integerArray.Count(integerDelimiters);
+                        foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
+                        {
+                            AssertOptions(integerArray, integerDelimiters, 0, countExceedingBehaviour);
+                            AssertOptions(integerArray, integerDelimiters, 1, countExceedingBehaviour);
+                            if(countDelimiters - 1 > 1) AssertOptions(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour);
+                            if(countDelimiters > 1) AssertOptions(integerArray, integerDelimiters, countDelimiters, countExceedingBehaviour);
+                            AssertOptions(integerArray, integerDelimiters, countDelimiters + 2, countExceedingBehaviour);
+                        }
+
+                        char[] charArray = GenerateRandomString(length).ToCharArray();
+                        char[] charDelimiters = Enumerable.Range(0, delimitersLength).Select(i =>
+                            i < delimitersLength * delimitersOccurencePart ? charArray.RandomElementOrDefault()
+                            : (char)('ა' + i)
+                        ).ToArray();
+                        countDelimiters = charArray.Count(charDelimiters);
+                        foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
+                        {
+                            AssertOptions(charArray, charDelimiters, 0, countExceedingBehaviour);
+                            AssertOptions(charArray, charDelimiters, 0, countExceedingBehaviour);
+                            if(countDelimiters - 1 > 1) AssertOptions(charArray, charDelimiters, countDelimiters - 1, countExceedingBehaviour);
+                            if(countDelimiters > 1) AssertOptions(charArray, charDelimiters, countDelimiters, countExceedingBehaviour);
+                            AssertOptions(charArray, charDelimiters, countDelimiters + 2, countExceedingBehaviour);
+                        }
+                    }
                 }
             }
         }
