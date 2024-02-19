@@ -28,7 +28,7 @@ namespace SpanExtensions.Enumerators
         /// <param name="delimiter">An instance of <see cref="ReadOnlySpan{T}"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
-        public SpanSplitSequenceWithCountEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
+        public SpanSplitSequenceWithCountEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
             Span = source;
             Delimiter = delimiter;
@@ -67,9 +67,9 @@ namespace SpanExtensions.Enumerators
             int index = span.IndexOf(Delimiter);
             switch(CountExceedingBehaviour)
             {
-                case CountExceedingBehaviour.CutLastElements:
+                case CountExceedingBehaviour.CutRemainingElements:
                     break;
-                case CountExceedingBehaviour.AppendLastElements:
+                case CountExceedingBehaviour.AppendRemainingElements:
                     if(currentCount == CountMinusOne)
                     {
                         ReadOnlySpan<T> lower = span[..index];

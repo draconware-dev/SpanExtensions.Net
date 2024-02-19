@@ -29,7 +29,7 @@ namespace SpanExtensions.Enumerators
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
-        public SpanSplitAnyStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
+        public SpanSplitAnyStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
             Span = source;
             Delimiters = delimiters;
@@ -70,9 +70,9 @@ namespace SpanExtensions.Enumerators
 
             switch(CountExceedingBehaviour)
             {
-                case CountExceedingBehaviour.CutLastElements:
+                case CountExceedingBehaviour.CutRemainingElements:
                     break;
-                case CountExceedingBehaviour.AppendLastElements:
+                case CountExceedingBehaviour.AppendRemainingElements:
                     if(currentCount == CountMinusOne)
                     {
                         ReadOnlySpan<char> lower = span[..index];
