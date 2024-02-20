@@ -7,6 +7,20 @@ namespace SpanExtensions.Tests.UnitTests
         public sealed class SplitString
         {
             [Fact]
+            public void EnumerationReturnsReadOnlySpans()
+            {
+                foreach(var span in "aba".AsSpan().Split('b', StringSplitOptions.None))
+                {
+                    Assert.True(span is ReadOnlySpan<char>);
+                }
+
+                foreach(var span in "aba".AsSpan().Split('b', 10, StringSplitOptions.None))
+                {
+                    Assert.True(span is ReadOnlySpan<char>);
+                }
+            }
+
+            [Fact]
             public void ConsecutiveDelimitersResultInEmptySpan()
             {
                 AssertEqual(

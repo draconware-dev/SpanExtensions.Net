@@ -7,6 +7,20 @@ namespace SpanExtensions.Tests.UnitTests
         public sealed class SplitAnyString
         {
             [Fact]
+            public void EnumerationReturnsSpans()
+            {
+                foreach(var span in "abaca".ToCharArray().AsSpan().Split(['b', 'c'], StringSplitOptions.None))
+                {
+                    Assert.True(span is Span<char>);
+                }
+
+                foreach(var span in "abaca".ToCharArray().AsSpan().Split(['b', 'c'], 10, StringSplitOptions.None))
+                {
+                    Assert.True(span is Span<char>);
+                }
+            }
+
+            [Fact]
             public void ConsecutiveDelimitersResultInEmptySpan()
             {
                 AssertEqual(
