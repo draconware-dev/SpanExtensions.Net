@@ -17,7 +17,7 @@ namespace SpanExtensions.Tests.Fuzzing
                 {
                     foreach(int delimitersLength in ((IEnumerable<int>)[0, 1, 5, 25, 50]).Where(x => x <= length * 3))
                     {
-                        foreach(float delimitersOccurencePart in (IEnumerable<float>)(delimitersLength > 1 ? [0f, 0.5f, 1f] : [0f, 1f]))
+                        foreach(float delimitersOccurencePart in GetParts(delimitersLength))
                         {
                             data.Add(iterations, length, minValue, maxValue, delimitersLength, delimitersOccurencePart);
                         }
@@ -25,6 +25,16 @@ namespace SpanExtensions.Tests.Fuzzing
                 }
 
                 return data;
+
+                static IEnumerable<float> GetParts(int delimitersLength)
+                {
+                    return delimitersLength switch
+                    {
+                        0 => [0f],
+                        1 => [0f, 1f],
+                        _ => [0f, 0.5f, 1f]
+                    };
+                }
             }
 
             public sealed class SplitAnyWithoutParameters
