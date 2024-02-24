@@ -1,4 +1,6 @@
-﻿namespace SpanExtensions.Tests.UnitTests
+﻿using System.Diagnostics;
+
+namespace SpanExtensions.Tests.UnitTests
 {
     public static class TestHelper
     {
@@ -23,7 +25,34 @@
                 actual = actual.Select(x => x.ToArray()).ToArray();
             }
 
-            Assert.Equal(expected, actual);
+            Assert.Equal<object>(expected, actual);
+        }
+
+        /// <summary>
+        /// Get an array with all permutations of the <see cref="StringSplitOptions"/> enum flags.
+        /// </summary>
+        /// <returns>All permutations of the <see cref="StringSplitOptions"/> enum flags.</returns>
+        public static StringSplitOptions[] GetAllStringSplitOptions()
+        {
+#if NET5_0_OR_GREATER
+            // ensure that no new option was added in an update
+            Debug.Assert(Enumerable.SequenceEqual(
+                (StringSplitOptions[])Enum.GetValues(typeof(StringSplitOptions)),
+                [StringSplitOptions.None, StringSplitOptions.RemoveEmptyEntries, StringSplitOptions.TrimEntries]
+            ));
+
+            return [
+                StringSplitOptions.None,
+                StringSplitOptions.RemoveEmptyEntries,
+                StringSplitOptions.TrimEntries,
+                StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries
+            ];
+#else
+            return [
+                StringSplitOptions.None,
+                StringSplitOptions.RemoveEmptyEntries
+            ];
+#endif
         }
     }
 }
