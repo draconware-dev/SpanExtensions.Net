@@ -44,7 +44,7 @@ namespace SpanExtensions
 #if NET5_0_OR_GREATER
                     string[] names = Enum.GetNames<CountExceedingBehaviour>();
 #else
-                    string[] names = (string[]) Enum.GetNames(typeof(CountExceedingBehaviour));
+                    string[] names = Enum.GetNames(typeof(CountExceedingBehaviour));
 #endif
                     CountExceedingBehaviourInvalidFormat = $"{nameof(CountExceedingBehaviour)} doesn't define an option with the value '{{0}}'. Valid values are {string.Join(", ", names)}.";
                 }
