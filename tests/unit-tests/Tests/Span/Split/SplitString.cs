@@ -9,6 +9,7 @@ namespace SpanExtensions.Tests.UnitTests
             [Fact]
             public void EnumerationReturnsSpans()
             {
+#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
                 foreach(var span in "aba".ToCharArray().AsSpan().Split('b', StringSplitOptions.None))
                 {
                     Assert.True(span is Span<char>);
@@ -18,6 +19,7 @@ namespace SpanExtensions.Tests.UnitTests
                 {
                     Assert.True(span is Span<char>);
                 }
+#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
             }
 
             [Fact]

@@ -9,6 +9,7 @@ namespace SpanExtensions.Tests.UnitTests
             [Fact]
             public void EnumerationReturnsReadOnlySpans()
             {
+#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
                 foreach(var span in "abaca".AsSpan().Split(['b', 'c']))
                 {
                     Assert.True(span is ReadOnlySpan<char>);
@@ -18,6 +19,7 @@ namespace SpanExtensions.Tests.UnitTests
                 {
                     Assert.True(span is ReadOnlySpan<char>);
                 }
+#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
             }
 
             [Fact]
