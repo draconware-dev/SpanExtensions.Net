@@ -37,7 +37,7 @@ namespace SpanExtensions.Enumerators
             DelimiterLength = Delimiter.Length;
             DelimiterIsEmpty = Delimiter.IsEmpty;
             CurrentCount = DelimiterIsEmpty ? 0 : count.ThrowIfNegative();
-            TrimEntries = options.IsTrimEntriesSet();
+            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;

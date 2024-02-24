@@ -46,6 +46,39 @@ namespace SpanExtensions
         }
 #endif
 
+#if NETCOREAPP3_0_OR_GREATER
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> if <paramref name="options"/> is not a valid flag.
+        /// </summary>
+        /// <param name="options">The argument to validate as a valid flag.</param>
+        /// <param name="paramName">The name of the parameter with which <paramref name="options"/> corresponds.</param>
+        /// <returns><paramref name="options"/>.</returns>
+        public static StringSplitOptions ThrowIfInvalid(this StringSplitOptions options, [CallerArgumentExpression(nameof(options))] string? paramName = null)
+        {
+            if((options & ~CombinationOfAllValidStringSplitOptions) != 0)
+            {
+                throw new ArgumentException("Value of flag is invalid.", paramName);
+            }
+
+            return options;
+        }
+#else
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> if <paramref name="options"/> is not a valid flag.
+        /// </summary>
+        /// <param name="options">The argument to validate as a valid flag.</param>
+        /// <returns><paramref name="options"/>.</returns>
+        public static StringSplitOptions ThrowIfInvalid(this StringSplitOptions options)
+        {
+            if((options & ~CombinationOfAllValidStringSplitOptions) != 0)
+            {
+                throw new ArgumentException("Value of flag is invalid.");
+            }
+
+            return options;
+        }
+#endif
+
         /// <summary>
         /// Determines whether the <see cref="StringSplitOptions.RemoveEmptyEntries"/> bit field is set in the current instance.
         /// </summary>
@@ -68,7 +101,7 @@ namespace SpanExtensions
         public static bool IsTrimEntriesSet(this StringSplitOptions options)
         {
             return options.HasFlag(StringSplitOptions.TrimEntries);
-    }
+        }
 #else
         /// <summary>
         /// Always returns false.
@@ -80,5 +113,28 @@ namespace SpanExtensions
             return false;
         }
 #endif
+
+        /// <summary>
+        /// Gets all values of an enum and applies the or operation on them.
+        /// </summary>
+        /// <typeparam name="T">The target enum type.</typeparam>
+        /// <returns>The combination of all valid enum values.</returns>
+        public static T GetCombinationOfAllValidFlags<T>() where T : struct, Enum
+        {
+#if NET5_0_OR_GREATER
+            T[] flags = Enum.GetValues<T>();
+#else
+            T[] flags = (T[])Enum.GetValues(typeof(T));
+#endif
+
+            int combination = 0;
+            foreach(T flag in flags)
+            {
+                combination |= (int)(object)flag;
+            }
+            return (T)(object)combination;
+        }
+
+        static readonly StringSplitOptions CombinationOfAllValidStringSplitOptions = GetCombinationOfAllValidFlags<StringSplitOptions>();
     }
 }

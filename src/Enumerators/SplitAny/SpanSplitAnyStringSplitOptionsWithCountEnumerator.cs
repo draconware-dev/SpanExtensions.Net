@@ -34,7 +34,7 @@ namespace SpanExtensions.Enumerators
             Span = source;
             Delimiters = delimiters;
             CurrentCount = count.ThrowIfNegative();
-            TrimEntries = options.IsTrimEntriesSet();
+            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;

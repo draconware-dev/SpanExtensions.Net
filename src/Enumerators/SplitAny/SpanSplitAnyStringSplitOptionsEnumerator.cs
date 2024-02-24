@@ -29,7 +29,7 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiters = delimiters;
-            TrimEntries = options.IsTrimEntriesSet();
+            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             EnumerationDone = false;
             Current = default;

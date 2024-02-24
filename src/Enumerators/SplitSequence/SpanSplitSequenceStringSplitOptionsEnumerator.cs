@@ -32,7 +32,7 @@ namespace SpanExtensions.Enumerators
             Delimiter = delimiter;
             DelimiterLength = Delimiter.Length;
             DelimiterIsEmpty = Delimiter.IsEmpty;
-            TrimEntries = options.IsTrimEntriesSet();
+            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
             EnumerationDone = false;
             Current = default;
