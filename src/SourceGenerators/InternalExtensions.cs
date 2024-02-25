@@ -73,5 +73,15 @@ namespace SpanExtensions.SourceGenerators
 
             return list.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia)!;
         }
+
+        public static IEnumerable<T> And<T>(this IEnumerable<T> source, T after)
+        {
+            foreach(T element in source)
+            {
+                yield return element;
+            }
+
+            yield return after;
+        }
     }
 }
