@@ -95,7 +95,7 @@ namespace SpanExtensions.SourceGenerators
             var syntaxNode = (TypeDeclarationSyntax)context.TargetNode;
             AttributeSyntax attributeSyntax = syntaxNode.GetAttributeSyntax(generateCopyAttributeName);
 
-            string[] usings = syntaxNode.GetUsings();
+            string[] usings = syntaxNode.GetUsings().Skip("using SpanExtensions.SourceGenerators;").ToArray();
 
             cancellationToken.ThrowIfCancellationRequested();
 

@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace SpanExtensions.SourceGenerators
 {
@@ -13,7 +14,7 @@ namespace SpanExtensions.SourceGenerators
             Value = source.Value;
         }
 
-        public static string[] GetUsings(this SyntaxNode? syntaxNode)
+        public static IEnumerable<string> GetUsings(this SyntaxNode? syntaxNode)
         {
             while(syntaxNode != null && syntaxNode is not CompilationUnitSyntax)
             {
@@ -21,8 +22,8 @@ namespace SpanExtensions.SourceGenerators
             }
 
             return syntaxNode is not CompilationUnitSyntax compilationSyntax
-                ? (string[])([])
-                : compilationSyntax.Usings.Select(@using => @using.ToString()).ToArray();
+                ? []
+                : compilationSyntax.Usings.Select(@using => @using.ToString());
         }
 
         public static string GetNamespace(this INamedTypeSymbol namedTypeSymbol)
@@ -82,6 +83,17 @@ namespace SpanExtensions.SourceGenerators
             }
 
             yield return after;
+        }
+
+        public static IEnumerable<T> Skip<T>(this IEnumerable<T> source, T skip) where T : IEquatable<T>
+        {
+            foreach(T element in source)
+            {
+                if(!element.Equals(skip))
+                {
+                    yield return element;
+                }
+            }
         }
     }
 }
