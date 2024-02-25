@@ -43,6 +43,8 @@ namespace SpanExtensions.SourceGenerators
                 }
             }
             while((currentNameSpace = currentNameSpace!.ContainingNamespace) is not null);
+
+            namespaceParts.Reverse();
             return string.Join(".", namespaceParts);
         }
 
