@@ -29,7 +29,7 @@ namespace SpanExtensions.Enumerators
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
-        public SpanSplitAnyStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.IncludeRemainingElements)
+        public SpanSplitAnyStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
             Span = source;
             Delimiters = delimiters;
@@ -87,7 +87,7 @@ namespace SpanExtensions.Enumerators
                                 continue;
                             }
 
-                            if(CountExceedingBehaviour.IsDropRemainingElements())
+                            if(CountExceedingBehaviour.IsCutRemainingElements())
                             {
                                 Span = beforeDelimiter;
                             }
@@ -99,7 +99,7 @@ namespace SpanExtensions.Enumerators
                     }
                     else
                     {
-                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsIncludeRemainingElements() ? Span : Span[..delimiterIndex];
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsAppendRemainingElements() ? Span : Span[..delimiterIndex];
                     }
 
                     if(TrimEntries)

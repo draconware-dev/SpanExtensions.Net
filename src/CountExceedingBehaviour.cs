@@ -11,11 +11,11 @@ namespace SpanExtensions
         /// <summary>
         /// The last split returned will include all the remaining elements.
         /// </summary>
-        IncludeRemainingElements,
+        AppendRemainingElements,
         /// <summary>
-        /// Splits after the desired split count will be dropped..
+        /// Splits after the desired split count will be cut.
         /// </summary>
-        DropRemainingElements
+        CutRemainingElements
     }
 
     /// <summary>
@@ -56,23 +56,23 @@ namespace SpanExtensions
         }
 
         /// <summary>
-        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.IncludeRemainingElements"/>.
+        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.AppendRemainingElements"/>.
         /// </summary>
         /// <param name="countExceedingBehaviour">The <see cref="CountExceedingBehaviour"/> instance to test.</param>
-        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.IncludeRemainingElements"/>; <see langword="false"/> otherwise.</returns>
-        public static bool IsIncludeRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
+        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.AppendRemainingElements"/>; <see langword="false"/> otherwise.</returns>
+        public static bool IsAppendRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
         {
-            return countExceedingBehaviour == CountExceedingBehaviour.IncludeRemainingElements;
+            return countExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements;
         }
 
         /// <summary>
-        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.DropRemainingElements"/>.
+        /// Determines whether the current instance is <see cref="CountExceedingBehaviour.CutRemainingElements"/>.
         /// </summary>
         /// <param name="countExceedingBehaviour">The <see cref="CountExceedingBehaviour"/> instance to test.</param>
-        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.DropRemainingElements"/>; <see langword="false"/> otherwise.</returns>
-        public static bool IsDropRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
+        /// <returns><see langword="true"/> if <paramref name="countExceedingBehaviour"/> is <see cref="CountExceedingBehaviour.CutRemainingElements"/>; <see langword="false"/> otherwise.</returns>
+        public static bool IsCutRemainingElements(this CountExceedingBehaviour countExceedingBehaviour)
         {
-            return countExceedingBehaviour == CountExceedingBehaviour.DropRemainingElements;
+            return countExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements;
         }
     }
 }
