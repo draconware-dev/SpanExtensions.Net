@@ -177,7 +177,7 @@ namespace SpanExtensions.SourceGenerators
             }
             if(findAndReplaces.Length == 0 && regexReplaces.Length == 0)
             {
-                return new("Attribute {0} requres either FindAndReplace or RegexReplaces be specified.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName);
+                return new("Attribute {0} requres either FindAndReplaces or RegexReplaces be specified.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
