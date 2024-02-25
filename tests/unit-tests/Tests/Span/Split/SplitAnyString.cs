@@ -282,11 +282,11 @@ namespace SpanExtensions.Tests.UnitTests
                     {
                         AssertEqual(
                             [['a', 'a']],
-                            "aabb".ToCharArray().AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
+                            "aabb".ToCharArray().AsSpan().SplitAny(['b', 'c'], 2, options).ToSystemEnumerable()
                         );
                         AssertEqual(
                             [['a', 'a']],
-                            "aabc".ToCharArray().AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
+                            "aabc".ToCharArray().AsSpan().SplitAny(['b', 'c'], 2, options).ToSystemEnumerable()
                         );
                     }
                 }
@@ -395,6 +395,26 @@ namespace SpanExtensions.Tests.UnitTests
                     [['a', 'a']],
                     " b\tc\naa\r".ToCharArray().AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
                 );
+            }
+
+            [Fact]
+            public void EmptyDelimiterSpanResultsSameAsCountEqualOne()
+            {
+                foreach(StringSplitOptions options in stringSplitOptions)
+                {
+                    AssertEqual(
+                        "".ToCharArray().AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        "".ToCharArray().AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                    AssertEqual(
+                        " ".ToCharArray().AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        " ".ToCharArray().AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                    AssertEqual(
+                        " aabb ".ToCharArray().AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        " aabb ".ToCharArray().AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                }
             }
 
             [Fact]

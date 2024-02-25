@@ -282,11 +282,11 @@ namespace SpanExtensions.Tests.UnitTests
                     {
                         AssertEqual(
                             [['a', 'a']],
-                            "aabb".AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
+                            "aabb".AsSpan().SplitAny(['b', 'c'], 2, options).ToSystemEnumerable()
                         );
                         AssertEqual(
                             [['a', 'a']],
-                            "aabc".AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
+                            "aabc".AsSpan().SplitAny(['b', 'c'], 2, options).ToSystemEnumerable()
                         );
                     }
                 }
@@ -395,6 +395,26 @@ namespace SpanExtensions.Tests.UnitTests
                     [['a', 'a']],
                     " b\tc\naa\r".AsSpan().SplitAny(['b', 'c'], 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
                 );
+            }
+
+            [Fact]
+            public void EmptyDelimiterSpanResultsSameAsCountEqualOne()
+            {
+                foreach(StringSplitOptions options in stringSplitOptions)
+                {
+                    AssertEqual(
+                        "".AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        "".AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                    AssertEqual(
+                        " ".AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        " ".AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                    AssertEqual(
+                        " aabb ".AsSpan().SplitAny([], 1, options).ToSystemEnumerable(),
+                        " aabb ".AsSpan().SplitAny([], options).ToSystemEnumerable()
+                    );
+                }
             }
 
             [Fact]
