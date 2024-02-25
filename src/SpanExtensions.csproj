@@ -34,7 +34,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGenerators|AnyCPU'">
-	  <DebugType>portable</DebugType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -42,7 +43,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGenerators|x64'">
-	  <DebugType>portable</DebugType>
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -54,15 +56,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="SourceGenerators\**" />
-	  <EmbeddedResource Remove="SourceGenerators\**" />
-	  <None Remove="SourceGenerators\**" />
+    <Compile Remove="SourceGenerators\**" />
+    <EmbeddedResource Remove="SourceGenerators\**" />
+    <None Remove="SourceGenerators\**" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
 		</None>
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
@@ -72,10 +74,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="icon.png">
+    <None Include="icon.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
-	  </None>
+    </None>
 	</ItemGroup>
 
   <ItemGroup>
