@@ -84,15 +84,6 @@ namespace SpanExtensions.SourceGenerators
             return syntaxNode is TypeDeclarationSyntax;
         }
 
-        static void ReportDiagnostic(SourceProductionContext context, string diagnosticMessage, Location location, params object?[] messageArgs)
-        {
-            context.ReportDiagnostic(Diagnostic.Create(
-                new DiagnosticDescriptor("GEN1", "SourceGenerators", diagnosticMessage, "Generation", DiagnosticSeverity.Error, true),
-                location,
-                messageArgs
-            ));
-        }
-
         static Capture? SyntaxProviderTransform(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
         {
 #if DEBUGGENERATORS
@@ -180,6 +171,15 @@ namespace SpanExtensions.SourceGenerators
                 findAndReplaces: findAndReplaces,
                 regexReplaces: regexReplaces
             );
+        }
+
+        static void ReportDiagnostic(SourceProductionContext context, string diagnosticMessage, Location location, params object?[] messageArgs)
+        {
+            context.ReportDiagnostic(Diagnostic.Create(
+                new DiagnosticDescriptor("GEN1", "SourceGenerators", diagnosticMessage, "Generation", DiagnosticSeverity.Error, true),
+                location,
+                messageArgs
+            ));
         }
 
         static void GenerateSource(SourceProductionContext context, Capture capture)
