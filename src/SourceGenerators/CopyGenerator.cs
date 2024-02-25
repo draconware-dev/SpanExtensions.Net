@@ -175,6 +175,10 @@ namespace SpanExtensions.SourceGenerators
                         return new("Unrecognized parameter {0} for attribute {1}.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), parameter, generateCopyAttributeName);
                 }
             }
+            if(findAndReplaces.Length == 0 && regexReplaces.Length == 0)
+            {
+                return new("Attribute {0} requres either FindAndReplace or RegexReplaces be specified.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName);
+            }
 
             cancellationToken.ThrowIfCancellationRequested();
 
