@@ -61,5 +61,15 @@ namespace SpanExtensions.SourceGenerators
 
             return syntaxNode.AttributeLists.Select(al => al.Attributes.FirstOrDefault(a => a.Name.ToString() == attributeName || a.Name.ToString() == attributeFullName)).First(a => a != null);
         }
+
+        public static AttributeListSyntax RemoveIfContains(this AttributeListSyntax list, AttributeSyntax attribute)
+        {
+            if (!list.Contains(attribute))
+            {
+                return list;
+            }
+
+            return list.RemoveNode(attribute, SyntaxRemoveOptions.KeepNoTrivia)!;
+        }
     }
 }

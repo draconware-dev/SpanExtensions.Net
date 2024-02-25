@@ -125,6 +125,7 @@ namespace SpanExtensions.SourceGenerators
 #endif
 
             var syntaxNode = (TypeDeclarationSyntax)context.TargetNode;
+            AttributeSyntax attributeSyntax = syntaxNode.GetAttributeSyntax(generateCopyAttributeName);
 
             string[] usings = syntaxNode.GetUsings();
 
@@ -148,7 +149,7 @@ namespace SpanExtensions.SourceGenerators
 
                         if(strings.Length % 2 != 0)
                         {
-                            return new("Attribute {0} requres the parameter {1} have even number of values, but {2} were defined.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName, parameter, strings.Length);
+                            return new("Attribute {0} requres the parameter {1} have even number of values, but {2} were defined.", attributeSyntax.GetLocation(), generateCopyAttributeName, parameter, strings.Length);
                         }
 
                         findAndReplaces = new (string find, string replace)[strings.Length / 2];
@@ -162,7 +163,7 @@ namespace SpanExtensions.SourceGenerators
 
                         if(strings.Length % 2 != 0)
                         {
-                            return new("Attribute {0} requres the parameter {1} have even number of values, but {2} were defined.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName, parameter, strings.Length);
+                            return new("Attribute {0} requres the parameter {1} have even number of values, but {2} were defined.", attributeSyntax.GetLocation(), generateCopyAttributeName, parameter, strings.Length);
                         }
 
                         regexReplaces = new (string find, string replace)[strings.Length / 2];
@@ -172,12 +173,12 @@ namespace SpanExtensions.SourceGenerators
                         }
                         break;
                     default:
-                        return new("Unrecognized parameter {0} for attribute {1}.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), parameter, generateCopyAttributeName);
+                        return new("Unrecognized parameter {0} for attribute {1}.", attributeSyntax.GetLocation(), parameter, generateCopyAttributeName);
                 }
             }
             if(findAndReplaces.Length == 0 && regexReplaces.Length == 0)
             {
-                return new("Attribute {0} requres either FindAndReplaces or RegexReplaces be specified.", syntaxNode.GetAttributeSyntax(generateCopyAttributeName).GetLocation(), generateCopyAttributeName);
+                return new("Attribute {0} requres either FindAndReplaces or RegexReplaces be specified.", attributeSyntax.GetLocation(), generateCopyAttributeName);
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -186,9 +187,13 @@ namespace SpanExtensions.SourceGenerators
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            // todo: remove generateCopyAttributeName attribute from the targets attributes
             // todo: include preceding documentation comments in the generated source code
-            string sourceCode = syntaxNode.NormalizeWhitespace(indentation: indentation, eol: "\n").ToString();
+            TypeDeclarationSyntax syntaxToCopy = syntaxNode.WithAttributeLists(
+                new SyntaxList<AttributeListSyntax>(
+                    syntaxNode.AttributeLists.Select(al => al.RemoveIfContains(attributeSyntax)).Where(al => al.Attributes.Count != 0)
+                )
+            );
+            string sourceCode = syntaxToCopy.NormalizeWhitespace(indentation: indentation, eol: "\n").ToString();
 
             cancellationToken.ThrowIfCancellationRequested();
 
