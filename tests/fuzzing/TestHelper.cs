@@ -563,7 +563,7 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, T delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -580,7 +580,7 @@ namespace SpanExtensions.Tests.Fuzzing
 
                 foreach(T element in source)
                 {
-                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && element.Equals(delimiter))
+                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements && element.Equals(delimiter))
                     {
                         break;
                     }
@@ -611,7 +611,7 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> SplitAny<T>(IEnumerable<T> source, IEnumerable<T> delimiters, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> SplitAny<T>(IEnumerable<T> source, IEnumerable<T> delimiters, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -628,7 +628,7 @@ namespace SpanExtensions.Tests.Fuzzing
                 List<T> segment = [];
                 foreach(T element in source)
                 {
-                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutLastElements && delimiters.Any(delimiter => element.Equals(delimiter)))
+                    if(count == 1 && countExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements && delimiters.Any(delimiter => element.Equals(delimiter)))
                     {
                         break;
                     }
@@ -658,7 +658,7 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>A sequence of split subsequences.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="count"/> is negative.</exception>
-        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, IEnumerable<T> delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> Split<T>(IEnumerable<T> source, IEnumerable<T> delimiter, int count = int.MaxValue, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements) where T : IEquatable<T>
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -689,8 +689,8 @@ namespace SpanExtensions.Tests.Fuzzing
 
             string[] _splits = countExceedingBehaviour switch
             {
-                CountExceedingBehaviour.AppendLastElements => _source.Split(_delimiter, count, StringSplitOptions.None),
-                CountExceedingBehaviour.CutLastElements => _source.Split(_delimiter, StringSplitOptions.None).UpTo(count),
+                CountExceedingBehaviour.AppendRemainingElements => _source.Split(_delimiter, count, StringSplitOptions.None),
+                CountExceedingBehaviour.CutRemainingElements => _source.Split(_delimiter, StringSplitOptions.None).UpTo(count),
                 _ => throw UnhandledCaseException(countExceedingBehaviour)
             };
 
@@ -715,7 +715,7 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <param name="countExceedingBehaviour">Specifies how the elements after count splits should be handled.</param>
         /// <returns>An array that contains at most <paramref name="count"/> substrings from this instance that are delimited by <paramref name="separator"/>.</returns>
         /// <exception cref="UnreachableException"></exception>
-        public static string[] Split<T>(this string source, T separator, int count = int.MaxValue, StringSplitOptions options = StringSplitOptions.None, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendLastElements)
+        public static string[] Split<T>(this string source, T separator, int count = int.MaxValue, StringSplitOptions options = StringSplitOptions.None, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
 #if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
@@ -732,7 +732,7 @@ namespace SpanExtensions.Tests.Fuzzing
             }
 
             // When count is 1 and RemoveEmptyEntries option is set, it's a special case where splits shouldn't be recursively removed.
-            // Since string.Split doesn't have the CutLastElements option, we have to manually handle this.
+            // Since string.Split doesn't have the CutRemainingElements option, we have to manually handle this.
             static string[] FirstSubstring<TSame>(string source, TSame separator, StringSplitOptions options = StringSplitOptions.None)
             {
                 string first = separator switch
@@ -762,20 +762,20 @@ namespace SpanExtensions.Tests.Fuzzing
             {
                 char charSeparator => countExceedingBehaviour switch
                 {
-                    CountExceedingBehaviour.AppendLastElements => source.Split(charSeparator, count, options),
-                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, charSeparator, options) : source.Split(charSeparator, options).UpTo(count),
+                    CountExceedingBehaviour.AppendRemainingElements => source.Split(charSeparator, count, options),
+                    CountExceedingBehaviour.CutRemainingElements => count == 1 ? FirstSubstring(source, charSeparator, options) : source.Split(charSeparator, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 string stringSeparator => countExceedingBehaviour switch
                 {
-                    CountExceedingBehaviour.AppendLastElements => source.Split(stringSeparator, count, options),
-                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, stringSeparator, options) : source.Split(stringSeparator, options).UpTo(count),
+                    CountExceedingBehaviour.AppendRemainingElements => source.Split(stringSeparator, count, options),
+                    CountExceedingBehaviour.CutRemainingElements => count == 1 ? FirstSubstring(source, stringSeparator, options) : source.Split(stringSeparator, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 char[] charSeparators => countExceedingBehaviour switch
                 {
-                    CountExceedingBehaviour.AppendLastElements => source.Split(charSeparators, count, options),
-                    CountExceedingBehaviour.CutLastElements => count == 1 ? FirstSubstring(source, charSeparators, options) : source.Split(charSeparators, options).UpTo(count),
+                    CountExceedingBehaviour.AppendRemainingElements => source.Split(charSeparators, count, options),
+                    CountExceedingBehaviour.CutRemainingElements => count == 1 ? FirstSubstring(source, charSeparators, options) : source.Split(charSeparators, options).UpTo(count),
                     _ => throw UnhandledCaseException(countExceedingBehaviour)
                 },
                 _ => throw new NotSupportedException($"Invalid separator type: {typeof(T)}")

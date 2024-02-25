@@ -123,22 +123,22 @@ namespace SpanExtensions.Tests.UnitTests
             }
 
             [Fact]
-            public void DefaultCountExceedingBehaviourOptionIsAppendLastElements()
+            public void DefaultCountExceedingBehaviourOptionIsAppendRemainingElements()
             {
                 AssertEqual(
-                    "aab".AsSpan().Split('b', 1, CountExceedingBehaviour.AppendLastElements).ToSystemEnumerable(),
+                    "aab".AsSpan().Split('b', 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
                     "aab".AsSpan().Split('b', 1).ToSystemEnumerable()
                 );
                 AssertEqual(
-                    "aabab".AsSpan().Split('b', 2, CountExceedingBehaviour.AppendLastElements).ToSystemEnumerable(),
+                    "aabab".AsSpan().Split('b', 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
                     "aabab".AsSpan().Split('b', 2).ToSystemEnumerable()
                 );
                 AssertEqual(
-                    "aabaa".AsSpan().Split('b', 1, CountExceedingBehaviour.AppendLastElements).ToSystemEnumerable(),
+                    "aabaa".AsSpan().Split('b', 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
                     "aabaa".AsSpan().Split('b', 1).ToSystemEnumerable()
                 );
                 AssertEqual(
-                    "aabaabaa".AsSpan().Split('b', 2, CountExceedingBehaviour.AppendLastElements).ToSystemEnumerable(),
+                    "aabaabaa".AsSpan().Split('b', 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
                     "aabaabaa".AsSpan().Split('b', 2).ToSystemEnumerable()
                 );
             }
@@ -148,11 +148,11 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a', 'a']],
-                    "aabaa".AsSpan().Split('b', 1, CountExceedingBehaviour.CutLastElements).ToSystemEnumerable()
+                    "aabaa".AsSpan().Split('b', 1, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
                 );
                 AssertEqual(
                     [['a', 'a'], ['a', 'a']],
-                    "aabaabaa".AsSpan().Split('b', 2, CountExceedingBehaviour.CutLastElements).ToSystemEnumerable()
+                    "aabaabaa".AsSpan().Split('b', 2, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
                 );
             }
 
