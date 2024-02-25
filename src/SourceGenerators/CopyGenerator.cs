@@ -229,7 +229,7 @@ namespace SpanExtensions.SourceGenerators
             }
             foreach(string line in sourceCode.Split('\n'))
             {
-                sourceWriter.WriteLine(line);
+                sourceWriter.WriteLine(line.TrimEnd('\r'));
             }
 
             context.CancellationToken.ThrowIfCancellationRequested();
