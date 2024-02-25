@@ -243,7 +243,9 @@ namespace SpanExtensions.SourceGenerators
             sourceWriter.Indent--; // namespace
             sourceWriter.WriteLine("}");
 
+#if DEBUGGENERATORS
             Debug.Assert(sourceWriter.Indent == 0);
+#endif
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
