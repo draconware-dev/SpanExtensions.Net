@@ -187,13 +187,13 @@ namespace SpanExtensions.SourceGenerators
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            // todo: include preceding documentation comments in the generated source code
             TypeDeclarationSyntax syntaxToCopy = syntaxNode.WithAttributeLists(
                 new SyntaxList<AttributeListSyntax>(
                     syntaxNode.AttributeLists.Select(al => al.RemoveIfContains(attributeSyntax)).Where(al => al.Attributes.Count != 0)
                 )
             );
-            string sourceCode = syntaxToCopy.NormalizeWhitespace(indentation: indentation, eol: "\n").ToString();
+            syntaxToCopy = syntaxToCopy.WithLeadingTrivia(syntaxNode.GetLeadingTrivia());
+            string sourceCode = syntaxToCopy.NormalizeWhitespace(indentation: indentation, eol: "\n").ToFullString();
 
             cancellationToken.ThrowIfCancellationRequested();
 
