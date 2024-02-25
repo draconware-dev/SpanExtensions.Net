@@ -93,31 +93,6 @@ namespace SpanExtensions.SourceGenerators
             ));
         }
 
-        static void GenerateSource(SourceProductionContext context, Capture capture)
-        {
-            if(capture.DiagnosticMessage != null)
-            {
-                ReportDiagnostic(context, capture.DiagnosticMessage, capture.DiagnosticMessageLocation!, capture.DiagnosticMessageArgs!);
-                return;
-            }
-
-            string sourceCode = capture.SourceCode;
-
-            foreach((string find, string replace) in capture.FindAndReplaces)
-            {
-                sourceCode = sourceCode.Replace(find, replace);
-            }
-
-            foreach((string pattern, string replacement) in capture.RegexReplaces)
-            {
-                sourceCode = Regex.Replace(sourceCode, pattern, replacement);
-            }
-
-            // todo: generate source including parent declarations
-
-            return;
-        }
-
         static Capture? SyntaxProviderTransform(GeneratorAttributeSyntaxContext context, CancellationToken cancellationToken)
         {
 #if DEBUGGENERATORS
@@ -205,6 +180,31 @@ namespace SpanExtensions.SourceGenerators
                 findAndReplaces: findAndReplaces,
                 regexReplaces: regexReplaces
             );
+        }
+
+        static void GenerateSource(SourceProductionContext context, Capture capture)
+        {
+            if(capture.DiagnosticMessage != null)
+            {
+                ReportDiagnostic(context, capture.DiagnosticMessage, capture.DiagnosticMessageLocation!, capture.DiagnosticMessageArgs!);
+                return;
+            }
+
+            string sourceCode = capture.SourceCode;
+
+            foreach((string find, string replace) in capture.FindAndReplaces)
+            {
+                sourceCode = sourceCode.Replace(find, replace);
+            }
+
+            foreach((string pattern, string replacement) in capture.RegexReplaces)
+            {
+                sourceCode = Regex.Replace(sourceCode, pattern, replacement);
+            }
+
+            // todo: generate source including parent declarations
+
+            return;
         }
 
         sealed class Capture(string[] usings, string @namespace, TypeDeclaration[] nestedTypeDeclarations, string sourceCode, (string find, string replace)[] findAndReplaces, (string pattern, string replacement)[] regexReplaces) : IEquatable<Capture>
