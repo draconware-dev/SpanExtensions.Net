@@ -47,7 +47,7 @@ namespace SpanExtensions.SourceGenerators
             /// </summary>
             [{{generatedCodeAttribute}}]
             [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Interface | global::System.AttributeTargets.Struct, AllowMultiple = true)]
-            public sealed class {{generateCopyAttributeName}} : global::System.Attribute
+            sealed class {{generateCopyAttributeName}} : global::System.Attribute
             {
                 /// <summary>
                 /// The FindAndReplace operations to be performed on the copied source.
