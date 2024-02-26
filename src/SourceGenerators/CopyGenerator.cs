@@ -9,7 +9,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
 
 using System;
-using System.Text.RegularExpressions;
 using System.CodeDom.Compiler;
 using System.Globalization;
 
@@ -152,6 +151,11 @@ namespace SpanExtensions.SourceGenerators
             cancellationToken.ThrowIfCancellationRequested();
 
             TypeDeclaration[] nestedDeclarations = TypeDeclaration.GetNestedDeclarations(syntaxNode);
+            TypeDeclaration[] nestedDeclarationsReplaced = nestedDeclarations.Select(d =>
+            {
+                string newName = d.Name.Replace(findAndReplaces, regexReplaces);
+                return newName == d.Name ? d : d.WithName(newName);
+            }).ToArray();
 
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -167,8 +171,8 @@ namespace SpanExtensions.SourceGenerators
 
             return new(
                 usings: usings,
-                @namespace: targetAttributeTypeSymbol.GetNamespace(),
-                nestedTypeDeclarations: nestedDeclarations,
+                @namespace: targetAttributeTypeSymbol.GetNamespace().Replace(findAndReplaces, regexReplaces),
+                nestedTypeDeclarations: nestedDeclarationsReplaced,
                 sourceCode: sourceCode,
                 findAndReplaces: findAndReplaces,
                 regexReplaces: regexReplaces
@@ -218,15 +222,7 @@ namespace SpanExtensions.SourceGenerators
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            string sourceCode = capture.SourceCode;
-            foreach((string find, string replace) in capture.FindAndReplaces)
-            {
-                sourceCode = sourceCode.Replace(find, replace);
-            }
-            foreach((string pattern, string replacement) in capture.RegexReplaces)
-            {
-                sourceCode = Regex.Replace(sourceCode, pattern, replacement);
-            }
+            string sourceCode = capture.SourceCode.Replace(capture.FindAndReplaces, capture.RegexReplaces);
             foreach(string line in sourceCode.Split('\n'))
             {
                 sourceWriter.WriteLine(line.TrimEnd('\r'));
@@ -335,6 +331,11 @@ namespace SpanExtensions.SourceGenerators
             public string Name { get; } = name;
             public string TypeParameters { get; } = typeParameters;
             public string Constraints { get; } = constraints;
+
+            public TypeDeclaration WithName(string name)
+            {
+                return new(Modifiers, Keyword, name, TypeParameters, Constraints);
+            }
 
             public static TypeDeclaration[] GetNestedDeclarations(TypeDeclarationSyntax typeSyntax)
             {

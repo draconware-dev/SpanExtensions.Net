@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Text.RegularExpressions;
 
 namespace SpanExtensions.SourceGenerators
 {
@@ -94,6 +95,21 @@ namespace SpanExtensions.SourceGenerators
                     yield return element;
                 }
             }
+        }
+
+        public static string Replace(this string source, (string find, string replace)[] findAndReplaces, (string pattern, string replacement)[] regexReplaces)
+        {
+            foreach((string find, string replace) in findAndReplaces)
+            {
+                source = source.Replace(find, replace);
+            }
+
+            foreach((string pattern, string replacement) in regexReplaces)
+            {
+                source = Regex.Replace(source, pattern, replacement);
+            }
+
+            return source;
         }
     }
 }
