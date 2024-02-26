@@ -150,8 +150,9 @@ namespace SpanExtensions.SourceGenerators
 
             cancellationToken.ThrowIfCancellationRequested();
 
+            const bool replaceNamespace = false;
             string @namespace = targetAttributeTypeSymbol.GetNamespace();
-            string namespaceReplaced = @namespace.Replace(findAndReplaces, regexReplaces);
+            string namespaceReplaced = replaceNamespace ? @namespace.Replace(findAndReplaces, regexReplaces) : @namespace;
 
             TypeDeclaration[] nestedDeclarations = TypeDeclaration.GetNestedDeclarations(syntaxNode);
             TypeDeclaration[] nestedDeclarationsReplaced = nestedDeclarations.Select(d =>
