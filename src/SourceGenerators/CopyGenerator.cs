@@ -58,6 +58,14 @@ namespace SpanExtensions.SourceGenerators
                 /// The RegexReplace operations to be performed on the copied source.
                 /// </summary>
                 public string[] RegexReplaces { get; set; } = global::System.Array.Empty<string>();
+
+                /// <summary>
+                /// The tag to add to the generated file name.
+                /// </summary>
+                /// <remarks>
+                /// Used when generating several copies of the same partial type.
+                /// </remarks>
+                public string GeneratedFileTag { get; set; } = "";
             }
         }
         """;
@@ -106,6 +114,7 @@ namespace SpanExtensions.SourceGenerators
 
             (string find, string replace)[] findAndReplaces = [];
             (string pattern, string replacement)[] regexReplaces = [];
+            string generatedFileTag = "";
             AttributeData attribute = context.Attributes.First(a => a.AttributeClass!.Name == generateCopyAttributeName);
             foreach((string parameter, TypedConstant value) in attribute.NamedArguments)
             {
@@ -138,6 +147,9 @@ namespace SpanExtensions.SourceGenerators
                         {
                             regexReplaces[i] = (strings[j], strings[j + 1]);
                         }
+                        break;
+                    case "GeneratedFileTag":
+                        generatedFileTag = value.Value.ToString();
                         break;
                     default:
                         return new("Unrecognized parameter {0} for attribute {1}.", attributeSyntax.GetLocation(), parameter, generateCopyAttributeName);
@@ -205,7 +217,8 @@ namespace SpanExtensions.SourceGenerators
                 nestedTypeDeclarations: nestedDeclarationsReplaced,
                 sourceCode: sourceCode,
                 findAndReplaces: findAndReplaces,
-                regexReplaces: regexReplaces
+                regexReplaces: regexReplaces,
+                generatedFileTag: generatedFileTag
             );
         }
 
@@ -276,10 +289,12 @@ namespace SpanExtensions.SourceGenerators
             context.CancellationToken.ThrowIfCancellationRequested();
 
             sourceCode = sourceBuilder.ToString();
-            context.AddSource($"{capture.UniqueName}.{generateCopyAttributeName}.generated.cs", sourceCode);
+
+            string fileTag = string.IsNullOrEmpty(capture.GeneratedFileTag) ? "0" : capture.GeneratedFileTag;
+            context.AddSource($"{capture.UniqueName}.{generateCopyAttributeName}.{fileTag}.generated.cs", sourceCode);
         }
 
-        sealed class Capture(string[] usings, string @namespace, TypeDeclaration[] nestedTypeDeclarations, string sourceCode, (string find, string replace)[] findAndReplaces, (string pattern, string replacement)[] regexReplaces) : IEquatable<Capture>
+        sealed class Capture(string[] usings, string @namespace, TypeDeclaration[] nestedTypeDeclarations, string sourceCode, (string find, string replace)[] findAndReplaces, (string pattern, string replacement)[] regexReplaces, string generatedFileTag) : IEquatable<Capture>
         {
             public string[] Usings { get; } = usings;
             public string Namespace { get; } = @namespace;
@@ -287,12 +302,13 @@ namespace SpanExtensions.SourceGenerators
             public string SourceCode { get; } = sourceCode;
             public (string find, string replace)[] FindAndReplaces { get; } = findAndReplaces;
             public (string pattern, string replacement)[] RegexReplaces { get; } = regexReplaces;
+            public string GeneratedFileTag { get; } = generatedFileTag;
 
             public string? DiagnosticMessage { get; }
             public object?[]? DiagnosticMessageArgs { get; }
             public Location? DiagnosticMessageLocation { get; }
 
-            Capture() : this([], "", [], "", [], []) { }
+            Capture() : this([], "", [], "", [], [], "") { }
 
             public Capture(string diagnosticMessage, params object?[]? diagnosticMessageArgs) : this()
             {
@@ -326,6 +342,7 @@ namespace SpanExtensions.SourceGenerators
                 SourceCode == other.SourceCode &&
                 FindAndReplaces.AsSpan().SequenceEqual(other.FindAndReplaces) &&
                 RegexReplaces.AsSpan().SequenceEqual(other.RegexReplaces) &&
+                GeneratedFileTag == other.GeneratedFileTag &&
                 DiagnosticMessage == other.DiagnosticMessage;
 
             public override int GetHashCode()
@@ -338,6 +355,7 @@ namespace SpanExtensions.SourceGenerators
                 hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(SourceCode);
                 hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(FindAndReplaces);
                 hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(RegexReplaces);
+                hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(GeneratedFileTag);
                 hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(DiagnosticMessage ?? "");
                 return hashCode;
             }
