@@ -160,7 +160,7 @@ namespace SpanExtensions.SourceGenerators
                 return newName == d.Name ? d : d.WithName(newName);
             }).ToArray();
 
-            if(@namespace != namespaceReplaced)
+            if(@namespace == namespaceReplaced)
             {
                 for(int i = 1; i < nestedDeclarations.Length; i++)
                 {
