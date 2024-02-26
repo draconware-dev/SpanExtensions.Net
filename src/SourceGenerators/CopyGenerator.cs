@@ -149,7 +149,7 @@ namespace SpanExtensions.SourceGenerators
                         }
                         break;
                     case "GeneratedFileTag":
-                        generatedFileTag = value.Value.ToString();
+                        generatedFileTag = value.Value?.ToString() ?? "";
                         break;
                     default:
                         return new("Unrecognized parameter {0} for attribute {1}.", attributeSyntax.GetLocation(), parameter, generateCopyAttributeName);
@@ -210,6 +210,12 @@ namespace SpanExtensions.SourceGenerators
             string sourceCode = syntaxToCopy.NormalizeWhitespace(indentation: indentation, eol: "\n").ToFullString();
 
             cancellationToken.ThrowIfCancellationRequested();
+
+            if(string.IsNullOrEmpty(generatedFileTag) && nestedDeclarations[0].Modifiers.Contains("partial"))
+            {
+                string filePath = syntaxNode.SyntaxTree.FilePath;
+                generatedFileTag = Path.GetFileNameWithoutExtension(filePath);
+            }
 
             return new(
                 usings: usings,
