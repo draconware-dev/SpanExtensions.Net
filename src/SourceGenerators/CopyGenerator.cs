@@ -46,7 +46,7 @@ namespace SpanExtensions.SourceGenerators
             /// Marks the class/interface/struct/record to be copied, and the FindAndReplace and RegexReplace operations to be performed on the copied source.
             /// </summary>
             [{{generatedCodeAttribute}}]
-            [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Interface | global::System.AttributeTargets.Struct, AllowMultiple = false)]
+            [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Interface | global::System.AttributeTargets.Struct, AllowMultiple = true)]
             public sealed class {{generateCopyAttributeName}} : global::System.Attribute
             {
                 /// <summary>
