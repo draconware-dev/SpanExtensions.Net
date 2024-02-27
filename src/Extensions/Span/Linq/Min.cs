@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace SpanExtensions
 {
-    public static partial class SpanExtensions  
+    public static partial class SpanExtensions
     {
 #if NET7_0_OR_GREATER
 
