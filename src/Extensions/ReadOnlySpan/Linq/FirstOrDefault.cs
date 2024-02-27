@@ -93,7 +93,7 @@ namespace SpanExtensions
                     return item;
                 }
             }
-            return default(T); 
+            return default(T);
         }
 #elif NETSTANDARD2_1
 #pragma warning disable CS8603 // Possible null reference return.

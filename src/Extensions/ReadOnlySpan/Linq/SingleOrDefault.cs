@@ -9,6 +9,7 @@ namespace SpanExtensions
         /// </summary>
         /// <typeparam name="T">The type of elements in <paramref name="source"/>.</typeparam>
         /// <param name="source">The <see cref="ReadOnlySpan{T}"/> to return the single element of.</param>
+        /// /// <param name="defaultValue">The default value to return if <paramref name="source"/> is empty.</param>
         /// <returns>The single element in <paramref name="source"/>.</returns>
         /// <exception cref="InvalidOperationException"><paramref name="source"/> contains more than one element -or- <paramref name="source"/> is empty.</exception>
         public static T SingleOrDefault<T>(this ReadOnlySpan<T> source, T defaultValue)

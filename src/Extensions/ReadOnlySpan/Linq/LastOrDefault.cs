@@ -18,8 +18,19 @@ namespace SpanExtensions
                 return defaultValue;
             }
             return source[^1];
+
+            /* Unmerged change from project 'SpanExtensions (netstandard2.1)'
+            Before:
+                    }
+
+                    /// <summary>
+            After:
+                    }
+
+                    /// <summary>
+            */
         }
-        
+
         /// <summary>
         /// Returns the last element in a <see cref="ReadOnlySpan{T}"/> that satisfies a specified condition or a specified default value if no such element is found.
         /// </summary>
@@ -93,7 +104,7 @@ namespace SpanExtensions
                     return item;
                 }
             }
-            return default(T); 
+            return default(T);
         }
 #elif NETSTANDARD2_1
 #pragma warning disable CS8603 // Possible null reference return.
