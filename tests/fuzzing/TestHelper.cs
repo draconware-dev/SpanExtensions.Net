@@ -1,14 +1,14 @@
-﻿using SpanExtensions;
-using System.Collections;
+﻿using System.Collections;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
+using SpanExtensions;
 
 namespace SpanExtensions.Tests.Fuzzing
 {
     public static class TestHelper
     {
-        public static readonly Random random = new();
+        static readonly Random random = new();
 
         /// <summary>
         /// Generates a sequence of a specified number of random integers that are in the specified range.
@@ -32,13 +32,13 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <returns>A random string.</returns>
         public static string GenerateRandomString(int length)
         {
-            const string alphabet = "abcdefghijklmnopqrstuvwxyz0123456789 ";
+            const string letters = "abcdefghijklmnopqrstuvwxyz0123456789 ";
 
             StringBuilder builder = new(length);
             for(int i = 0; i < length; i++)
             {
-                int alphabetIndex = random.Next(alphabet.Length);
-                builder.Append(alphabet[alphabetIndex]);
+                int alphabetIndex = random.Next(letters.Length);
+                builder.Append(letters[alphabetIndex]);
             }
 
             return builder.ToString();
@@ -49,11 +49,15 @@ namespace SpanExtensions.Tests.Fuzzing
         /// </summary>
         /// <typeparam name="T">The type of the sequence array.</typeparam>
         /// <param name="source">The target sequence.</param>
-        /// <param name="default">The value to return if <paramref name="source"/> is empty.</param>
-        /// <returns>A random element from <paramref name="source"/>, or <paramref name="default"/> if <paramref name="source"/> is empty.</returns>
-        public static T RandomElementOrDefault<T>(this ReadOnlySpan<T> source, T @default = default) where T : struct
+        /// <param name="defaultValue">The value to return if <paramref name="source"/> is empty.</param>
+        /// <returns>A random element from <paramref name="source"/>, or <paramref name="defaultValue"/> if <paramref name="source"/> is empty.</returns>
+        public static T RandomElementOrDefault<T>(this ReadOnlySpan<T> source, T defaultValue = default) where T : struct
         {
-            return !source.IsEmpty ? source[random.Next(source.Length)] : @default;
+            if(source.IsEmpty)
+            {
+                return defaultValue;
+            }
+            return source[random.Next(source.Length)];
         }
 
         /// <summary>
@@ -61,22 +65,22 @@ namespace SpanExtensions.Tests.Fuzzing
         /// </summary>
         /// <typeparam name="T">The type of the target array.</typeparam>
         /// <param name="array">The target array.</param>
-        /// <param name="default">The value to return if <paramref name="array"/> is empty.</param>
-        /// <returns>A random element from <paramref name="array"/>, or <paramref name="default"/> if the array is empty.</returns>
-        public static T RandomElementOrDefault<T>(this T[] array, T @default = default) where T : struct
+        /// <param name="defaultValue">The value to return if <paramref name="array"/> is empty.</param>
+        /// <returns>A random element from <paramref name="array"/>, or <paramref name="defaultValue"/> if the array is empty.</returns>
+        public static T RandomElementOrDefault<T>(this T[] array, T defaultValue = default) where T : struct
         {
-            return RandomElementOrDefault(array.AsReadOnlySpan(), @default);
+            return RandomElementOrDefault(array.AsReadOnlySpan(), defaultValue);
         }
 
         /// <summary>
         /// Get a random element from the specified string, or a specified default character if the string is empty.
         /// </summary>
-        /// <param name="string">The target string.</param>
-        /// <param name="default">The value to return if <paramref name="string"/> is empty.</param>
-        /// <returns>A random element from <paramref name="string"/>, or <paramref name="default"/> if <paramref name="string"/> is empty.</returns>
-        public static char RandomElementOrDefault(this string @string, char @default = default)
+        /// <param name="source">The target string.</param>
+        /// <param name="defaultValue">The value to return if <paramref name="source"/> is empty.</param>
+        /// <returns>A random element from <paramref name="source"/>, or <paramref name="defaultValue"/> if <paramref name="source"/> is empty.</returns>
+        public static char RandomElementOrDefault(this string source, char defaultValue = default)
         {
-            return RandomElementOrDefault(@string.AsSpan(), @default);
+            return RandomElementOrDefault(source.AsSpan(), defaultValue);
         }
 
         /// <summary>
@@ -86,24 +90,24 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <typeparam name="T">The type of the target sequence.</typeparam>
         /// <param name="source">The target sequence.</param>
         /// <param name="length">The length of the subsequence.</param>
-        /// <param name="default">The value to return if <paramref name="source"/> is empty or shorter than <paramref name="length"/>.</param>
-        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if <paramref name="source"/> is empty or shorted than that length.</returns>
+        /// <param name="defaultValue">The value to return if <paramref name="source"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="defaultValue"/> if <paramref name="source"/> is empty or shorted than that length.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
-        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
-        public static T[] RandomSubsequenceOrDefault<T>(this ReadOnlySpan<T> source, int length, T[]? @default = null) where T : struct
+        /// <exception cref="ArgumentException">If the length of <paramref name="defaultValue"/> did not match <paramref name="length"/>.</exception>
+        public static T[] RandomSubsequenceOrDefault<T>(this ReadOnlySpan<T> source, int length, T[]? defaultValue = null) where T : struct
         {
             if(length < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(length), "Can't be negative.");
             }
-            if(@default != null && @default.Length != length)
+            if(defaultValue != null && defaultValue.Length != length)
             {
-                throw new ArgumentException("The length must match.", nameof(@default));
+                throw new ArgumentException("The length must match.", nameof(defaultValue));
             }
 
             if(source.Length < length)
             {
-                return @default ?? new T[length];
+                return defaultValue ?? new T[length];
             }
 
             int startIndex = random.Next(source.Length - length);
@@ -117,28 +121,28 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <typeparam name="T">The type of the target array.</typeparam>
         /// <param name="array">The target array.</param>
         /// <param name="length">The length of the subsequence.</param>
-        /// <param name="default">The value to return if <paramref name="array"/> is empty or shorter than <paramref name="length"/>.</param>
-        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if the array is empty or shorted than that length.</returns>
+        /// <param name="defaultValue">The value to return if <paramref name="array"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="defaultValue"/> if the array is empty or shorted than that length.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
-        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
-        public static T[] RandomSubsequenceOrDefault<T>(this T[] array, int length, T[]? @default = null) where T : struct
+        /// <exception cref="ArgumentException">If the length of <paramref name="defaultValue"/> did not match <paramref name="length"/>.</exception>
+        public static T[] RandomSubsequenceOrDefault<T>(this T[] array, int length, T[]? defaultValue = null) where T : struct
         {
-            return RandomSubsequenceOrDefault(array.AsReadOnlySpan(), length, @default);
+            return RandomSubsequenceOrDefault(array.AsReadOnlySpan(), length, defaultValue);
         }
 
         /// <summary>
         /// Get a random element subsequence of the specified length from the specified string,
         /// or a specified default sequence if the source is empty or shorter than the specified length.
         /// </summary>
-        /// <param name="string">The target string.</param>
+        /// <param name="source">The target string.</param>
         /// <param name="length">The length of the string.</param>
-        /// <param name="default">The value to return if <paramref name="string"/> is empty or shorter than <paramref name="length"/>.</param>
-        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="default"/> if <paramref name="string"/> is empty or shorted than that length.</returns>
+        /// <param name="defaultValue">The value to return if <paramref name="source"/> is empty or shorter than <paramref name="length"/>.</param>
+        /// <returns>A random subsequence of length <paramref name="length"/>, or <paramref name="defaultValue"/> if <paramref name="source"/> is empty or shorted than that length.</returns>
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="length"/> is negative.</exception>
-        /// <exception cref="ArgumentException">If the length of <paramref name="default"/> did not match <paramref name="length"/>.</exception>
-        public static char[] RandomSubsequenceOrDefault(this string @string, int length, char[]? @default = null)
+        /// <exception cref="ArgumentException">If the length of <paramref name="defaultValue"/> did not match <paramref name="length"/>.</exception>
+        public static char[] RandomSubsequenceOrDefault(this string source, int length, char[]? defaultValue = null)
         {
-            return RandomSubsequenceOrDefault(@string.AsSpan(), length, @default);
+            return RandomSubsequenceOrDefault(source.AsSpan(), length, defaultValue);
         }
 
         /// <summary>
@@ -421,13 +425,13 @@ namespace SpanExtensions.Tests.Fuzzing
             return array.AsSpan().Count(value);
         }
 
-        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="string"/>.</summary>
-        /// <param name="string">The string to search.</param>
+        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="source"/>.</summary>
+        /// <param name="source">The string to search.</param>
         /// <param name="value">The value for which to search.</param>
-        /// <returns>The number of times <paramref name="value"/> was found in the <paramref name="string"/>.</returns>
-        public static int Count(this string @string, char value)
+        /// <returns>The number of times <paramref name="value"/> was found in the <paramref name="source"/>.</returns>
+        public static int Count(this string source, char value)
         {
-            return @string.AsSpan().Count(value);
+            return source.AsSpan().Count(value);
         }
 
 #if !NET8_0_OR_GREATER
@@ -470,13 +474,13 @@ namespace SpanExtensions.Tests.Fuzzing
             return array.AsSpan().Count(values);
         }
 
-        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="string"/>.</summary>
-        /// <param name="string">The string to search.</param>
+        /// <summary>Counts the number of times any of the specified <paramref name="values"/> occur in the <paramref name="source"/>.</summary>
+        /// <param name="source">The string to search.</param>
         /// <param name="values">The values for which to search.</param>
-        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="string"/>.</returns>
-        public static int Count(this string @string, ReadOnlySpan<char> values)
+        /// <returns>The number of times any of the <paramref name="values"/> was found in the <paramref name="source"/>.</returns>
+        public static int Count(this string source, ReadOnlySpan<char> values)
         {
-            return @string.AsSpan().Count(values);
+            return source.AsSpan().Count(values);
         }
 
         /// <summary>
@@ -517,12 +521,12 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <summary>
         /// Counts the (non-overlaping) occurrences of a subsequence in the target string.
         /// </summary>
-        /// <param name="string">The target string.</param>
+        /// <param name="source">The target string.</param>
         /// <param name="subsequence">The subsequence to count.</param>
-        /// <returns>The number of occurrences of <paramref name="subsequence"/> in <paramref name="string"/>.</returns>
-        public static int CountSubsequence(this string @string, ReadOnlySpan<char> subsequence)
+        /// <returns>The number of occurrences of <paramref name="subsequence"/> in <paramref name="source"/>.</returns>
+        public static int CountSubsequence(this string source, ReadOnlySpan<char> subsequence)
         {
-            return CountSubsequence(@string.AsSpan(), subsequence);
+            return CountSubsequence(source.AsSpan(), subsequence);
         }
 
         /// <summary>
@@ -531,13 +535,12 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <param name="countExceedingBehaviour">The <see cref="CountExceedingBehaviour"/> value that wasn't handled.</param>
         public static Exception UnhandledCaseException(CountExceedingBehaviour countExceedingBehaviour)
         {
-            return new
 #if NET7_0_OR_GREATER
-                UnreachableException
+            return new UnreachableException($"Unhandled {nameof(CountExceedingBehaviour)} enum value: {countExceedingBehaviour}.");
 #else
-                NotImplementedException
+            return new InvalidOperationException($"Unhandled {nameof(CountExceedingBehaviour)} enum value: {countExceedingBehaviour}.");
 #endif
-                ($"Unhandled {nameof(CountExceedingBehaviour)} enum value: {countExceedingBehaviour}.");
+
         }
 
         /// <summary>
@@ -550,7 +553,11 @@ namespace SpanExtensions.Tests.Fuzzing
         /// <returns>The cut array.</returns>
         public static T[] UpTo<T>(this T[] source, int count)
         {
-            return source.Length <= count ? source : source[..count];
+            if(source.Length <= count)
+            {
+                return source;
+            }
+            return source[..count];
         }
 
         /// <summary>

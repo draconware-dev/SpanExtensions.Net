@@ -1,6 +1,4 @@
-﻿using static SpanExtensions.Tests.UnitTests.TestHelper;
-
-namespace SpanExtensions.Tests.UnitTests
+﻿namespace SpanExtensions.Tests.UnitTests
 {
     public static partial class SpanStringTests
     {

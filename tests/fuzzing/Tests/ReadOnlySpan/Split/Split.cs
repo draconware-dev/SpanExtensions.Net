@@ -11,7 +11,7 @@ namespace SpanExtensions.Tests.Fuzzing
                 const int minValue = 0;
                 const int maxValue = 100;
 
-                TheoryData<int, int, int, int> data = new();
+                TheoryData<int, int, int, int> data = new TheoryData<int, int, int, int>();
 
                 foreach(int length in new MultiplierRange(1, 1000, 10).And([0]))
                 {

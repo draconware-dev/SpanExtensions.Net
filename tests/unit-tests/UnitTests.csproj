@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\src\SpanExtensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
 </Project>
