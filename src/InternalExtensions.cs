@@ -18,9 +18,9 @@ namespace SpanExtensions
 #if !NETCOREAPP3_0_OR_GREATER
         /// <summary>
         /// Removes all leading and trailing white-space characters from the span.
-        /// Constructs a <see cref = "ReadOnlySpanSplitAnyEnumerator{T}"/> from a span and a delimiter. <strong>Only consume this class through <see cref = "ReadOnlySpanExtensions.SplitAny{T}(ReadOnlySpan{T}, ReadOnlySpan{T})"/></strong>.
         /// </summary>
         /// <param name="span">The source span from which the characters are removed.</param>
+        /// <returns>The trimmed character span.</returns>
         public static Span<char> Trim(this Span<char> span)
         {
             ReadOnlySpan<char> rospan = span;
