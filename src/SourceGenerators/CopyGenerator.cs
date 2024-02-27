@@ -175,7 +175,7 @@ namespace SpanExtensions.SourceGenerators
 
             if(@namespace == namespaceReplaced)
             {
-                for(int i = 1; i < nestedDeclarations.Length; i++)
+                for(int i = 0; i < nestedDeclarations.Length; i++)
                 {
                     if(nestedDeclarations[i] != nestedDeclarationsReplaced[i])
                     {
