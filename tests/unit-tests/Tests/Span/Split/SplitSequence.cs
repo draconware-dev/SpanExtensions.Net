@@ -27,7 +27,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [[]],
-                    "".ToCharArray().AsSpan().Split(['a', 'b']).ToSystemEnumerable()
+                    "".ToCharArray().AsSpan().Split(['a', 'b']).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -36,7 +36,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     ["abba".ToCharArray()],
-                    "abba".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable()
+                    "abba".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -45,7 +45,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     ["abba".ToCharArray()],
-                    "abba".ToCharArray().AsSpan().Split([]).ToSystemEnumerable()
+                    "abba".ToCharArray().AsSpan().Split([]).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -56,11 +56,11 @@ namespace SpanExtensions.Tests.UnitTests
                 {
                     AssertEqual(
                         [],
-                        "abba".ToCharArray().AsSpan().Split(['a', 'b'], 0, countExceedingBehaviour).ToSystemEnumerable()
+                        "abba".ToCharArray().AsSpan().Split(['a', 'b'], 0, countExceedingBehaviour).ToSystemEnumerable(maxCount: 100)
                     );
                     AssertEqual(
                         [],
-                        "abba".ToCharArray().AsSpan().Split(['b', 'c'], 0, countExceedingBehaviour).ToSystemEnumerable()
+                        "abba".ToCharArray().AsSpan().Split(['b', 'c'], 0, countExceedingBehaviour).ToSystemEnumerable(maxCount: 100)
                     );
                 }
             }
@@ -70,11 +70,11 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     ["abba".ToCharArray()],
-                    "abba".ToCharArray().AsSpan().Split(['a', 'b'], 1).ToSystemEnumerable()
+                    "abba".ToCharArray().AsSpan().Split(['a', 'b'], 1).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
                     ["abba".ToCharArray()],
-                    "abba".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable()
+                    "abba".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -83,7 +83,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a'], [], ['a']],
-                    "abcbca".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable()
+                    "abcbca".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -92,7 +92,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [[], ['a', 'a']],
-                    "bcaa".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable()
+                    "bcaa".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -101,7 +101,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a', 'a'], []],
-                    "aabc".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable()
+                    "aabc".ToCharArray().AsSpan().Split(['b', 'c']).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -110,11 +110,11 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a', 'a', 'b', 'c', 'a', 'a']],
-                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable()
+                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
                     [['a', 'a'], ['a', 'a', 'b', 'c', 'a', 'a']],
-                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable()
+                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -123,11 +123,11 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a', 'a', 'b', 'c']],
-                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable()
+                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
                     [['a', 'a'], ['a', 'b', 'c']],
-                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable()
+                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -135,20 +135,20 @@ namespace SpanExtensions.Tests.UnitTests
             public void DefaultCountExceedingBehaviourOptionIsAppendRemainingElements()
             {
                 AssertEqual(
-                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable()
+                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(maxCount: 100),
+                    "aabc".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
-                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable()
+                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(maxCount: 100),
+                    "aabcabc".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
-                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable()
+                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(maxCount: 100),
+                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
-                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable()
+                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(maxCount: 100),
+                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2).ToSystemEnumerable(maxCount: 100)
                 );
             }
 
@@ -157,11 +157,11 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 AssertEqual(
                     [['a', 'a']],
-                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
+                    "aabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 1, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable(maxCount: 100)
                 );
                 AssertEqual(
                     [['a', 'a'], ['a', 'a']],
-                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
+                    "aabcaabcaa".ToCharArray().AsSpan().Split(['b', 'c'], 2, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable(maxCount: 100)
                 );
             }
 

@@ -8,145 +8,205 @@ namespace SpanExtensions.Tests.UnitTests
     /// </summary>
     public static class ToSystemEnumerableExtensions
     {
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if (list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitWithCountEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitWithCountEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitStringSplitOptionsEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitStringSplitOptionsEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitStringSplitOptionsWithCountEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitStringSplitOptionsWithCountEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyWithCountEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitAnyWithCountEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsWithCountEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitAnyStringSplitOptionsWithCountEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitSequenceEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitSequenceEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitSequenceWithCountEnumerator<T> spanEnumerator) where T : IEquatable<T>
+        public static IEnumerable<IEnumerable<T>> ToSystemEnumerable<T>(this SpanSplitSequenceWithCountEnumerator<T> spanEnumerator, int maxCount = int.MaxValue) where T : IEquatable<T>
         {
             List<T[]> list = [];
 
             foreach(ReadOnlySpan<T> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitSequenceStringSplitOptionsEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitSequenceStringSplitOptionsEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;
         }
 
-        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitSequenceStringSplitOptionsWithCountEnumerator spanEnumerator)
+        public static IEnumerable<IEnumerable<char>> ToSystemEnumerable(this SpanSplitSequenceStringSplitOptionsWithCountEnumerator spanEnumerator, int maxCount = int.MaxValue)
         {
             List<char[]> list = [];
 
             foreach(ReadOnlySpan<char> element in spanEnumerator)
             {
                 list.Add(element.ToArray());
+
+                if(list.Count >= maxCount)
+                {
+                    throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
+                }
             }
 
             return list;

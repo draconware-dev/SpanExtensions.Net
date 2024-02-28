@@ -46,7 +46,7 @@ namespace SpanExtensions.Tests.Fuzzing
                     {
                         AssertMethodResults(
                             expected: @string.Split(delimiters, options),
-                            actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, options).ToSystemEnumerable(),
+                            actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, options).ToSystemEnumerable(maxCount: 2 * @string.Length),
                             source: @string,
                             method: nameof(SpanExtensions.SplitAny),
                             args: [("delimiters", delimiters), ("options", options)]
@@ -80,7 +80,7 @@ namespace SpanExtensions.Tests.Fuzzing
                     {
                         AssertMethodResults(
                             expected: @string.Split(delimiters, count, options, countExceedingBehaviour),
-                            actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, count, options, countExceedingBehaviour).ToSystemEnumerable(),
+                            actual: @string.ToCharArray().AsSpan().SplitAny(delimiters, count, options, countExceedingBehaviour).ToSystemEnumerable(maxCount: 2 * @string.Length),
                             source: @string,
                             method: nameof(SpanExtensions.SplitAny),
                             args: [("delimiters", delimiters), ("count", count), ("options", options), ("countExceedingBehaviour", countExceedingBehaviour)]
