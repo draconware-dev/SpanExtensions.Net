@@ -49,7 +49,7 @@ namespace SpanExtensions.Tests.Fuzzing
                     {
                         AssertMethodResults(
                             expected: SplitAny(array, delimiters),
-                            actual: array.AsReadOnlySpan().SplitAny(delimiters).ToSystemEnumerable(),
+                            actual: array.AsReadOnlySpan().SplitAny(delimiters).ToSystemEnumerable(maxCount: 2 * array.Length),
                             source: array,
                             method: nameof(ReadOnlySpanExtensions.SplitAny),
                             args: ("delimiters", delimiters)
@@ -87,7 +87,7 @@ namespace SpanExtensions.Tests.Fuzzing
                     {
                         AssertMethodResults(
                             expected: SplitAny(array, delimiters, count, countExceedingBehaviour),
-                            actual: array.AsReadOnlySpan().SplitAny(delimiters, count, countExceedingBehaviour).ToSystemEnumerable(),
+                            actual: array.AsReadOnlySpan().SplitAny(delimiters, count, countExceedingBehaviour).ToSystemEnumerable(maxCount: 2 * array.Length),
                             source: array,
                             method: nameof(ReadOnlySpanExtensions.SplitAny),
                             args: [("delimiters", delimiters), ("count", count), ("countExceedingBehaviour", countExceedingBehaviour)]
