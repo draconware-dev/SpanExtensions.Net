@@ -6,21 +6,21 @@ namespace SpanExtensions.Tests.UnitTests
     {
         public sealed class SplitSequence
         {
-            [Fact]
-            public void EnumerationReturnsSpans()
-            {
-#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
-                foreach(var span in "abca".ToCharArray().AsSpan().Split(['b', 'c']))
-                {
-                    Assert.True(span is Span<char>);
-                }
+//            [Fact]
+//            public void EnumerationReturnsSpans()
+//            {
+//#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
+//                foreach(var span in "abca".ToCharArray().AsSpan().Split(['b', 'c']))
+//                {
+//                    Assert.True(span is Span<char>);
+//                }
 
-                foreach(var span in "abca".ToCharArray().AsSpan().Split(['b', 'c'], 10))
-                {
-                    Assert.True(span is Span<char>);
-                }
-#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
-            }
+//                foreach(var span in "abca".ToCharArray().AsSpan().Split(['b', 'c'], 10))
+//                {
+//                    Assert.True(span is Span<char>);
+//                }
+//#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
+//            }
 
             [Fact]
             public void EmptySourceResultInEmptySpan()

@@ -93,8 +93,16 @@ namespace SpanExtensions.Tests.Fuzzing
                         {
                             AssertOptions(integerArray, integerSequenceDelimiter, 0, countExceedingBehaviour);
                             AssertOptions(integerArray, integerSequenceDelimiter, 1, countExceedingBehaviour);
-                            if(countDelimiters - 1 > 1) AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters - 1, countExceedingBehaviour);
-                            if(countDelimiters > 1) AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                            if(countDelimiters - 1 > 1)
+                            {
+                                AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters - 1, countExceedingBehaviour);
+                            }
+
+                            if(countDelimiters > 1)
+                            {
+                                AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                            }
+
                             AssertOptions(integerArray, integerSequenceDelimiter, countDelimiters + 2, countExceedingBehaviour);
                             AssertOptions(integerArray, integerSequenceMissingDelimiter, 0, countExceedingBehaviour);
                             AssertOptions(integerArray, integerSequenceMissingDelimiter, 1, countExceedingBehaviour);
@@ -109,8 +117,16 @@ namespace SpanExtensions.Tests.Fuzzing
                         {
                             AssertOptions(charArray, charSequenceDelimiter, 0, countExceedingBehaviour);
                             AssertOptions(charArray, charSequenceDelimiter, 1, countExceedingBehaviour);
-                            if(countDelimiters - 1 > 1) AssertOptions(charArray, charSequenceDelimiter, countDelimiters - 1, countExceedingBehaviour);
-                            if(countDelimiters > 1) AssertOptions(charArray, charSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                            if(countDelimiters - 1 > 1)
+                            {
+                                AssertOptions(charArray, charSequenceDelimiter, countDelimiters - 1, countExceedingBehaviour);
+                            }
+
+                            if(countDelimiters > 1)
+                            {
+                                AssertOptions(charArray, charSequenceDelimiter, countDelimiters, countExceedingBehaviour);
+                            }
+
                             AssertOptions(charArray, charSequenceDelimiter, countDelimiters + 2, countExceedingBehaviour);
                             AssertOptions(charArray, charSequenceMissingDelimiter, 0, countExceedingBehaviour);
                             AssertOptions(charArray, charSequenceMissingDelimiter, 1, countExceedingBehaviour);

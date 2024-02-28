@@ -101,8 +101,16 @@ namespace SpanExtensions.Tests.Fuzzing
                             {
                                 AssertOptions(@string, charDelimiters, 0, options, countExceedingBehaviour);
                                 AssertOptions(@string, charDelimiters, 1, options, countExceedingBehaviour);
-                                if(countDelimiters - 1 > 1) AssertOptions(@string, charDelimiters, countDelimiters - 1, options, countExceedingBehaviour);
-                                if(countDelimiters > 1) AssertOptions(@string, charDelimiters, countDelimiters, options, countExceedingBehaviour);
+                                if(countDelimiters - 1 > 1)
+                                {
+                                    AssertOptions(@string, charDelimiters, countDelimiters - 1, options, countExceedingBehaviour);
+                                }
+
+                                if(countDelimiters > 1)
+                                {
+                                    AssertOptions(@string, charDelimiters, countDelimiters, options, countExceedingBehaviour);
+                                }
+
                                 AssertOptions(@string, charDelimiters, countDelimiters + 2, options, countExceedingBehaviour);
                             }
                         }

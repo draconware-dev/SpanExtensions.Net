@@ -18,17 +18,6 @@ namespace SpanExtensions
                 return defaultValue;
             }
             return source[^1];
-
-            /* Unmerged change from project 'SpanExtensions (netstandard2.1)'
-            Before:
-                    }
-
-                    /// <summary>
-            After:
-                    }
-
-                    /// <summary>
-            */
         }
 
         /// <summary>

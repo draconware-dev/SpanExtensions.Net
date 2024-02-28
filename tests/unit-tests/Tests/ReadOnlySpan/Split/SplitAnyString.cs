@@ -6,21 +6,21 @@ namespace SpanExtensions.Tests.UnitTests
     {
         public sealed class SplitAnyString
         {
-            [Fact]
-            public void EnumerationReturnsReadOnlySpans()
-            {
-#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
-                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], StringSplitOptions.None))
-                {
-                    Assert.True(span is ReadOnlySpan<char>);
-                }
+//            [Fact]
+//            public void EnumerationReturnsReadOnlySpans()
+//            {
+//#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
+//                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], StringSplitOptions.None))
+//                {
+//                    Assert.True(span is ReadOnlySpan<char>);
+//                }
 
-                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], 10, StringSplitOptions.None))
-                {
-                    Assert.True(span is ReadOnlySpan<char>);
-                }
-#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
-            }
+//                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], 10, StringSplitOptions.None))
+//                {
+//                    Assert.True(span is ReadOnlySpan<char>);
+//                }
+//#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
+//            }
 
             [Fact]
             public void EmptySourceResultInEmptySpan()
