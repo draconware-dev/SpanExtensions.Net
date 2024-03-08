@@ -4,7 +4,7 @@
     {
         public sealed class Sum
         {
-            // todo
+            // TODO
         }
     }
 }
