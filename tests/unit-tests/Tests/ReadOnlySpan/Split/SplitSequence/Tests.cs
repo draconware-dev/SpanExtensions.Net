@@ -41,7 +41,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 var expected = NestedABBAArray;
 
-                var actual = source.Split(['b', 'c']).ToSystemEnumerable();
+                var actual = source.Split(['c', 'd']).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
