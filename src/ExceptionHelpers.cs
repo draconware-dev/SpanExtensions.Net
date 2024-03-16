@@ -60,7 +60,30 @@ static class ExceptionHelpers
             ThrowNegative(value, paramName);
         }
     }
+#else
+    internal static void ThrowIfOutOfArrayBounds(int value, int upperBound,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(value))] 
 #endif
+    string? paramName = null)
+    {
+        ThrowIfGreaterThanOrEqual(value, upperBound, paramName);
+        ThrowIfNegative(value, paramName);
+    }
+
+    internal static void ThrowIfNegative(int value,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(value))] 
+#endif
+    string? paramName = null)
+    {
+        if(value < 0)
+        {
+            ThrowNegative(value, paramName);
+        }
+    }
+#endif
+
     [DoesNotReturn] 
     static void ThrowGreaterThanOrEqual<T>(T value, T other, string? paramName)
     {
