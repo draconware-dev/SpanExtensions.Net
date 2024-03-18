@@ -52,18 +52,11 @@ namespace SpanExtensions.SourceGenerators
 
         public static AttributeSyntax GetAttributeSyntax(this TypeDeclarationSyntax syntaxNode, string attributeName)
         {
-            string attributeFullName = "";
-            if(attributeName.EndsWith("Attribute"))
-            {
-                attributeFullName = attributeName;
-                attributeName = attributeName.Substring(0, attributeName.Length - "Attribute".Length);
-            }
-            else
-            {
-                attributeFullName = attributeName + "Attribute";
-            }
+            string[] attributeNames = attributeName.EndsWith("Attribute")
+                ? [attributeName.Substring(0, attributeName.Length - "Attribute".Length), attributeName]
+                : [attributeName, attributeName + "Attribute"];
 
-            return syntaxNode.AttributeLists.Select(al => al.Attributes.FirstOrDefault(a => a.Name.ToString() == attributeName || a.Name.ToString() == attributeFullName)).First(a => a != null);
+            return syntaxNode.AttributeLists.Select(al => al.Attributes.FirstOrDefault(a => attributeNames.Contains(a.Name.ToString()))).First(a => a != null);
         }
 
         public static AttributeListSyntax RemoveIfContains(this AttributeListSyntax list, AttributeSyntax attribute)
