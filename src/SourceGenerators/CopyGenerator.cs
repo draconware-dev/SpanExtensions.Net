@@ -353,17 +353,20 @@ namespace SpanExtensions.SourceGenerators
 
             public override int GetHashCode()
             {
-                const int multiplier = -1521134295;
-                int hashCode = -573548719;
-                hashCode = (hashCode * multiplier) + EqualityComparer<string[]>.Default.GetHashCode(Usings);
-                hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(Namespace);
-                hashCode = (hashCode * multiplier) + EqualityComparer<TypeDeclaration[]>.Default.GetHashCode(NestedTypeDeclarations);
-                hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(SourceCode);
-                hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(FindAndReplaces);
-                hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(RegexReplaces);
-                hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(GeneratedFileTag);
-                hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(DiagnosticMessage ?? "");
-                return hashCode;
+                unchecked
+                {
+                    const int multiplier = -1521134295;
+                    int hashCode = -573548719;
+                    hashCode = (hashCode * multiplier) + EqualityComparer<string[]>.Default.GetHashCode(Usings);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(Namespace);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<TypeDeclaration[]>.Default.GetHashCode(NestedTypeDeclarations);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(SourceCode);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(FindAndReplaces);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<(string, string)[]>.Default.GetHashCode(RegexReplaces);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(GeneratedFileTag);
+                    hashCode = (hashCode * multiplier) + EqualityComparer<string>.Default.GetHashCode(DiagnosticMessage ?? "");
+                    return hashCode;
+                }
             }
 
             public sealed class Comparer : IEqualityComparer<Capture?>
@@ -433,14 +436,17 @@ namespace SpanExtensions.SourceGenerators
             {
                 static int StringHash(string s) => EqualityComparer<string>.Default.GetHashCode(s);
 
-                const int multiplier = -1521134295;
-                int hashCode = -754136522;
-                hashCode = (hashCode * multiplier) + StringHash(Modifiers);
-                hashCode = (hashCode * multiplier) + StringHash(Keyword);
-                hashCode = (hashCode * multiplier) + StringHash(Name);
-                hashCode = (hashCode * multiplier) + StringHash(TypeParameters);
-                hashCode = (hashCode * multiplier) + StringHash(Constraints);
-                return hashCode;
+                unchecked
+                {
+                    const int multiplier = -1521134295;
+                    int hashCode = -754136522;
+                    hashCode = (hashCode * multiplier) + StringHash(Modifiers);
+                    hashCode = (hashCode * multiplier) + StringHash(Keyword);
+                    hashCode = (hashCode * multiplier) + StringHash(Name);
+                    hashCode = (hashCode * multiplier) + StringHash(TypeParameters);
+                    hashCode = (hashCode * multiplier) + StringHash(Constraints);
+                    return hashCode;
+                }
             }
 
             public override string ToString()
