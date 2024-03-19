@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3] - 2024-1-25
 
+### Added 
+
+- Compatibility with **.Net 8**
+- `(Readonly-)Span<T>.First()`
+- `(Readonly-)Span<T>.First(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.FirstOrDefault()`
+- `(Readonly-)Span<T>.FirstOrDefault(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.FirstOrDefault(T defaultValue)`
+- `(Readonly-)Span<T>.FirstOrDefault(Predicate<T> predicate, T defaultValue)`
+- `(Readonly-)Span<T>.Last()`
+- `(Readonly-)Span<T>.Last(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.LastOrDefault()`
+- `(Readonly-)Span<T>.LastOrDefault(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.LastOrDefault(T defaultValue)`
+- `(Readonly-)Span<T>.LastOrDefault(Predicate<T> predicate, T defaultValue)`
+- `(Readonly-)Span<T>.Single()`
+- `(Readonly-)Span<T>.Single(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.SingleOrDefault()`
+- `(Readonly-)Span<T>.SingleOrDefault(Predicate<T> predicate)`
+- `(Readonly-)Span<T>.SingleOrDefault(T defaultValue)`
+- `(Readonly-)Span<T>.SingleOrDefault(Predicate<T> predicate, T defaultValue)`
+- `(Readonly-)Span<T>.ElementAt(int index)`
+- `(Readonly-)Span<T>.ElementAt(Index index)`
+- `(Readonly-)Span<T>.ElementAtOrDefault(int index)`
+- `(Readonly-)Span<T>.ElementAtOrDefault(Index index)`
+- `(Readonly-)Span<T>.ElementAtOrDefault(int index, T defaultValue)`
+- `(Readonly-)Span<T>.ElementAtOrDefault(Index index, T defaultValue)`
+- `(Readonly-)Span<T>.Min()` (https://github.com/draconware-dev/SpanExtensions.Net/pull/13)
+- `(Readonly-)Span<T>.Min(Func<TSource, TResult> selector)`
+- `(Readonly-)Span<T>.MinBy(Func<TSource, TKey> keySelector)`
+- `(Readonly-)Span<T>.MinBy(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)`
+- `(Readonly-)Span<T>.Max()` (https://github.com/draconware-dev/SpanExtensions.Net/pull/13)
+- `(Readonly-)Span<T>.Max(Func<TSource, TResult> selector)`
+- `(Readonly-)Span<T>.MaxBy(Func<TSource, TKey> keySelector)`
+- `(Readonly-)Span<T>.MaxBy(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)`
+- nuget badge to README (https://github.com/draconware-dev/SpanExtensions.Net/pull/12)
+
 ### Changed 
 
 - documentation comments to better reflect the dotnet style (https://github.com/draconware-dev/SpanExtensions.Net/pull/8)
