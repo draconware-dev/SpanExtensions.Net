@@ -11,7 +11,7 @@ static class ExceptionHelpers
 #endif
     string? paramName = null) where T : IComparable<T>
     {
-        if(value.CompareTo(other) >= 0)   
+        if(value.CompareTo(other) >= 0)
         {
             ThrowGreaterThanOrEqual(value, other, paramName);
         }
@@ -84,7 +84,7 @@ static class ExceptionHelpers
     }
 #endif
 
-    [DoesNotReturn] 
+    [DoesNotReturn]
     static void ThrowGreaterThanOrEqual<T>(T value, T other, string? paramName)
     {
         throw new ArgumentOutOfRangeException(paramName, value, $"{paramName} ('{value}') must be less than '{other}'. (Parameter '{paramName}')");
