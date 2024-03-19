@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3] - 2024-1-25
+## [1.3] - 2024-3-20
 
 ### Added 
 
@@ -43,10 +43,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `(Readonly-)Span<T>.MaxBy(Func<TSource, TKey> keySelector)`
 - `(Readonly-)Span<T>.MaxBy(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)`
 - nuget badge to README (https://github.com/draconware-dev/SpanExtensions.Net/pull/12)
+- `CountExceedingBehaviour`, which is passed to Split, defining how to properly handle its remaining elements.
 
 ### Changed 
 
 - documentation comments to better reflect the dotnet style (https://github.com/draconware-dev/SpanExtensions.Net/pull/8)
+- swapped order of `count` and `stringSplitOptions arguments` in `Split` methods.
+- renamed argument `span` in `Split` methods to `source`.
+
+### Fixed 
+
+- empty spans being ignored if they are the last element to be returned from `Split` and are therefore not returned. (https://github.com/draconware-dev/SpanExtensions.Net/pull/10)
 
 ## [1.2.1] - 2024-1-25
 
