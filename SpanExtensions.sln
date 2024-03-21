@@ -5,16 +5,27 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpanExtensions", "src\SpanExtensions.csproj", "{75DE5AFD-663E-415D-9B95-6BC513BD4A07}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGenerators", "src\SourceGenerators\SourceGenerators.csproj", "{F21A6902-D205-4127-8DF4-49B5548BF28F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DebugGenerators|Any CPU = DebugGenerators|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.DebugGenerators|Any CPU.ActiveCfg = DebugGenerators|Any CPU
+		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.DebugGenerators|Any CPU.Build.0 = DebugGenerators|Any CPU
 		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75DE5AFD-663E-415D-9B95-6BC513BD4A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.DebugGenerators|Any CPU.ActiveCfg = DebugGenerators|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.DebugGenerators|Any CPU.Build.0 = DebugGenerators|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21A6902-D205-4127-8DF4-49B5548BF28F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,14 +26,25 @@
 		<PackageId>SpanExtensions.Net</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
+		<Configurations>Debug;Release;DebugGenerators</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>portable</DebugType>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGenerators|AnyCPU'">
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <DebugType>portable</DebugType>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
 		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugGenerators|x64'">
+    <TargetFrameworks>net8.0</TargetFrameworks>
+    <DebugType>portable</DebugType>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -45,9 +56,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+    <Compile Remove="SourceGenerators\**" />
+    <EmbeddedResource Remove="SourceGenerators\**" />
+    <None Remove="SourceGenerators\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Include="README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
 		</None>
 		<None Include="..\LICENSE">
 			<Pack>True</Pack>
@@ -57,10 +74,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="icon.png">
+    <None Include="icon.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
-	  </None>
+    </None>
 	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="SourceGenerators\SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
 
 </Project>
