@@ -6,7 +6,6 @@ namespace SpanExtensions.Tests.UnitTests
     {
         public sealed partial class SplitAny
         {
-
             [Fact]
             public void EmptySourceResultInEmptySpan()
             {

@@ -6,22 +6,6 @@ namespace SpanExtensions.Tests.UnitTests
     {
         public sealed partial class SplitAny_StringSplitOptions
         {
-            //            [Fact]
-            //            public void EnumerationReturnsReadOnlySpans()
-            //            {
-            //#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
-            //                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], StringSplitOptions.None))
-            //                {
-            //                    Assert.True(span is ReadOnlySpan<char>);
-            //                }
-
-            //                foreach(var span in "abaca".AsSpan().SplitAny(['b', 'c'], 10, StringSplitOptions.None))
-            //                {
-            //                    Assert.True(span is ReadOnlySpan<char>);
-            //                }
-            //#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
-            //            }
-
             [Theory]
             [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
             public void EmptySourceResultInEmptySpanUnless_StringSplitOptions_RemoveEmptyEntries_IsSet(StringSplitOptions options)
