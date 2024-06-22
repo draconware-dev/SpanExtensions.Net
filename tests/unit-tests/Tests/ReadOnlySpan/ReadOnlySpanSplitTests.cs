@@ -7,6 +7,7 @@
         internal static readonly char[][] EmptyNestedCharArray = [[]];
         internal static readonly char[][] NestedABBAArray = [['a', 'b', 'b', 'a']];
         internal static readonly char[] ABBAArray = ['a', 'b', 'b', 'a'];
-        internal static readonly CountExceedingBehaviour InvalidCountExceedingBehaviour = (CountExceedingBehaviour) byte.MaxValue;
+        internal static readonly CountExceedingBehaviour InvalidCountExceedingBehaviour = (CountExceedingBehaviour)byte.MaxValue;
+        internal static readonly StringSplitOptions InvalidStringSplitOptions = (StringSplitOptions)byte.MaxValue;
     }
 }

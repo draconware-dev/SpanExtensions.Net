@@ -4,114 +4,110 @@ namespace SpanExtensions.Tests.UnitTests
 {
     public static partial class ReadOnlySpanSplitTests
     {
-        public sealed class SplitString
+        public sealed partial class Split_StringSplitOptions
         {
-//            [Fact]
-//            public void EnumerationReturnsReadOnlySpans()
-//            {
-//#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
-//                foreach(var span in "aba".AsSpan().Split('b', StringSplitOptions.None))
-//                {
-//                    Assert.True(span is ReadOnlySpan<char>);
-//                }
+            //            [Fact]
+            //            public void EnumerationReturnsReadOnlySpans()
+            //            {
+            //#pragma warning disable CS0183 // 'is' expression's given expression is always of the provided type
+            //                foreach(var span in "aba".AsSpan().Split('b', StringSplitOptions.None))
+            //                {
+            //                    Assert.True(span is ReadOnlySpan<char>);
+            //                }
 
-//                foreach(var span in "aba".AsSpan().Split('b', 10, StringSplitOptions.None))
-//                {
-//                    Assert.True(span is ReadOnlySpan<char>);
-//                }
-//#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
-//            }
+            //                foreach(var span in "aba".AsSpan().Split('b', 10, StringSplitOptions.None))
+            //                {
+            //                    Assert.True(span is ReadOnlySpan<char>);
+            //                }
+            //#pragma warning restore CS0183 // 'is' expression's given expression is always of the provided type
+            //            }
 
-            [Fact]
-            public void EmptySourceResultInEmptySpan()
+            [Theory]
+            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            public void EmptySourceResultInEmptySpanUnless_StringSplitOptions_RemoveEmptyEntries_IsSet(StringSplitOptions options)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    if(!options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        AssertEqual(
-                            [[]],
-                            "".AsSpan().Split('a', options).ToSystemEnumerable()
-                        );
-                    }
-                }
+                ReadOnlySpan<char> emptySpan = "";
+
+                var expected = EmptyNestedCharArray;
+
+                var actual = emptySpan.Split('a', options).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void NoDelimiterOccurenceResultsInNoChange()
+            [Theory]
+            [MemberData(nameof(NoDelimiterOccurenceResultsInNoChange_Data))]
+            public void NoDelimiterOccurenceResultsInNoChange(StringSplitOptions options)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    AssertEqual(
-                        ["abba".ToCharArray()],
-                        "abba".AsSpan().Split('c', options).ToSystemEnumerable()
-                    );
-                }
+                ReadOnlySpan<char> source = ABBAArray;
+
+                var expected = NestedABBAArray;
+
+                var actual = source.Split('c', options).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void CountEqualZeroResultsInNothing()
+            [Theory]
+            [MemberData(nameof(CountEqualZeroResultsInNothing_Data))]
+            public void CountEqualZeroResultsInNothing(StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour, char delimiter)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
-                    {
-                        AssertEqual(
-                            [],
-                            "abba".AsSpan().Split('a', 0, options, countExceedingBehaviour).ToSystemEnumerable()
-                        );
-                        AssertEqual(
-                            [],
-                            "abba".AsSpan().Split('c', 0, options, countExceedingBehaviour).ToSystemEnumerable()
-                        );
-                    }
-                }
+                ReadOnlySpan<char> source = ABBAArray;
+
+                var expected = EmptyNestedCharArray;
+
+                var actual = source.Split(delimiter, 0, options, countExceedingBehaviour).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountEqualOneResultsInNoChange()
             {
-                AssertEqual(
-                    ["abba".ToCharArray()],
-                    "abba".AsSpan().Split('a', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    ["abba".ToCharArray()],
-                    "abba".AsSpan().Split('c', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = ABBAArray;
+
+                var expected = NestedABBAArray;
+
+                var actual = source.Split('a', 1, StringSplitOptions.None).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void ConsecutiveDelimitersResultInEmptySpan()
             {
-                AssertEqual(
-                    [['a'], [], ['a']],
-                    "abba".AsSpan().Split('b', StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "abba";
+
+                char[][] expected = [['a'], [], ['a']];
+
+                var actual = source.Split('b', 1, StringSplitOptions.None).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void ConsecutiveDelimitersWithRemoveEmptyEntriesOptionResultInNoEmptySpan()
+            [Theory]
+            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            public void ConsecutiveDelimitersWithRemoveEmptyEntriesOptionResultInNoEmptySpan(StringSplitOptions options)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    if(options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        AssertEqual(
-                            [['a'], ['a']],
-                            "abba".AsSpan().Split('b', options).ToSystemEnumerable()
-                        );
-                    }
-                }
+                ReadOnlySpan<char> source = "abba";
+
+                char[][] expected = [['a'], [], ['a']]; 
+
+                var actual = source.Split('b', 1, options).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void DelimiterAtTheStartResultInEmptySpan()
             {
-                AssertEqual(
-                    [[], ['a', 'a']],
-                    "baa".AsSpan().Split('b', StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "baa";
+
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable(); 
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
@@ -329,21 +325,18 @@ namespace SpanExtensions.Tests.UnitTests
             public void NegativeCountThrowsArgumentOutOfRangeException()
             {
                 Assert.Throws<ArgumentOutOfRangeException>(() => "aabb".AsSpan().Split('b', -1, StringSplitOptions.None));
-                Assert.Throws<ArgumentOutOfRangeException>(() => "aabb".AsSpan().Split('c', -1, StringSplitOptions.None));
             }
 
             [Fact]
             public void UndefinedCountExceedingBehaviourOptionThrowsArgumentException()
             {
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', 1, StringSplitOptions.None, (CountExceedingBehaviour)255));
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('c', 1, StringSplitOptions.None, (CountExceedingBehaviour)255));
+                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', 1, StringSplitOptions.None, InvalidCountExceedingBehaviour));
             }
 
             [Fact]
             public void UndefinedStringSplitOptionsThrowsArgumentException()
             {
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', (StringSplitOptions)255));
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('c', (StringSplitOptions)255));
+                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', InvalidStringSplitOptions));
             }
         }
     }

@@ -16,7 +16,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 list.Add(element.ToArray());
 
-                if (list.Count >= maxCount)
+                if(list.Count >= maxCount)
                 {
                     throw new IndexOutOfRangeException($"Enumeration exceeded {maxCount}.");
                 }

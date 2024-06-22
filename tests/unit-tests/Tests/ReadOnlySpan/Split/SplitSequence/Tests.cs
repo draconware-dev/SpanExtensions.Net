@@ -14,7 +14,7 @@ namespace SpanExtensions.Tests.UnitTests
             //                {
             //                    Assert.True(span is ReadOnlySpan<char>);
             //                }
-            
+
             //                foreach(var span in "abca".AsSpan().Split(['b', 'c'], 10))
             //                {
             //                    Assert.True(span is ReadOnlySpan<char>);
@@ -113,7 +113,7 @@ namespace SpanExtensions.Tests.UnitTests
             public void DelimiterAtTheEndResultInEmptySpan()
             {
                 ReadOnlySpan<char> source = "aabc";
-                 
+
                 char[][] expected = [['a', 'a'], []];
 
                 var actual = source.Split(['b', 'c']).ToSystemEnumerable();
