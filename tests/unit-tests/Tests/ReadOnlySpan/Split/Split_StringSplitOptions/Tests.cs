@@ -20,7 +20,7 @@ namespace SpanExtensions.Tests.UnitTests
             }
 
             [Theory]
-            [MemberData(nameof(NoDelimiterOccurenceResultsInNoChange_Data))]
+            [MemberData(nameof(StringSplitOptions_Data))]
             public void NoDelimiterOccurenceResultsInNoChange(StringSplitOptions options)
             {
                 ReadOnlySpan<char> source = ABBAArray;
@@ -75,7 +75,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 ReadOnlySpan<char> source = "abba";
 
-                char[][] expected = [['a'], [], ['a']]; 
+                char[][] expected = [['a'], [], ['a']];
 
                 var actual = source.Split('b', 1, options).ToSystemEnumerable();
 
@@ -89,220 +89,202 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [[], ['a', 'a']];
 
-                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable(); 
+                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void DelimiterAtTheStartWithRemoveEmptyEntriesOptionResultInNoEmptySpan()
+            [Theory]
+            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            public void DelimiterAtTheStartWithRemoveEmptyEntriesOptionResultInNoEmptySpan(StringSplitOptions options)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    if(options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        AssertEqual(
-                            [['a', 'a']],
-                            "baa".AsSpan().Split('b', options).ToSystemEnumerable()
-                        );
-                    }
-                }
+                ReadOnlySpan<char> source = "baa";
+
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', options).ToSystemEnumerable();
+                 
+                AssertEqual(expected, actual); 
             }
 
             [Fact]
             public void DelimiterAtTheEndResultInEmptySpan()
             {
-                AssertEqual(
-                    [['a', 'a'], []],
-                    "aab".AsSpan().Split('b', StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "aab";
+
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable();
+                 
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void DelimiterAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpan()
+            [Theory]
+            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            public void DelimiterAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpan(StringSplitOptions options)
             {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    if(options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        AssertEqual(
-                            [['a', 'a']],
-                            "aab".AsSpan().Split('b', options).ToSystemEnumerable()
-                        );
-                    }
-                }
+                ReadOnlySpan<char> source = "aab";
+
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', options).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter()
+            [Theory]
+            [MemberData(nameof(CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter_Data))]
+            public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter(char[][] expected, string sourceString, int count, char delimiter)
             {
-                AssertEqual(
-                    [['a', 'a', 'b', 'a', 'a']],
-                    "aabaa".AsSpan().Split('b', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['a', 'a'], ['a', 'a', 'b', 'a', 'a']],
-                    "aabaabaa".AsSpan().Split('b', 2, StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = sourceString;
+
+                var actual = source.Split(delimiter, count, StringSplitOptions.None).ToSystemEnumerable();
+
+                AssertEqual(expected, actual); 
             }
 
-            [Fact]
-            public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter()
+            [Theory]
+            [MemberData(nameof(DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter_Data))]
+            public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter(char[][] expected, string sourceString, int count, char delimiter)
             {
-                AssertEqual(
-                    [['a', 'a', 'b']],
-                    "aab".AsSpan().Split('b', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['a', 'a'], ['a', 'b']],
-                    "aabab".AsSpan().Split('b', 2, StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = sourceString;
+
+                var actual = source.Split(delimiter, count).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void DefaultCountExceedingBehaviourOptionIsAppendRemainingElements()
+
+            [Theory]
+            [MemberData(nameof(CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut_Data))]
+            public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut(char[][] expected, string sourceString, int count, char delimiter)
             {
-                AssertEqual(
-                    "aabaa".AsSpan().Split('b', 1, StringSplitOptions.None, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabaa".AsSpan().Split('b', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    "aabaabaa".AsSpan().Split('b', 2, StringSplitOptions.None, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabaabaa".AsSpan().Split('b', 2, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    "aab".AsSpan().Split('b', 1, StringSplitOptions.None, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aab".AsSpan().Split('b', 1, StringSplitOptions.None).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    "aabab".AsSpan().Split('b', 2, StringSplitOptions.None, CountExceedingBehaviour.AppendRemainingElements).ToSystemEnumerable(),
-                    "aabab".AsSpan().Split('b', 2, StringSplitOptions.None).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = sourceString;
+
+                var actual = source.Split(delimiter, count, StringSplitOptions.None, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut()
+            [Theory]
+            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            public void ConsecutiveDelimitersAtTheEndWithCountEqualDelimiterCountWithRemoveEmptyEntriesOptionResultInNoSpanWithDelimiter(StringSplitOptions options)
             {
-                AssertEqual(
-                    [['a', 'a']],
-                    "aabaa".AsSpan().Split('b', 1, StringSplitOptions.None, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['a', 'a'], ['a', 'a']],
-                    "aabaabaa".AsSpan().Split('b', 2, StringSplitOptions.None, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable()
-                );
-            }
+                ReadOnlySpan<char> source = "aabb";
 
-            [Fact]
-            public void ConsecutiveDelimitersAtTheEndWithCountEqualDelimiterCountWithRemoveEmptyEntriesOptionResultInNoSpanWithDelimiter()
-            {
-                foreach(StringSplitOptions options in stringSplitOptions)
-                {
-                    if(options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        AssertEqual(
-                            [['a', 'a']],
-                            "aabb".AsSpan().Split('b', 2, options).ToSystemEnumerable()
-                        );
-                    }
-                }
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', 2, options).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void TrimEntriesOptionTrimsEverySpan()
             {
-                AssertEqual(
-                    [['a'], ['a']],
-                    " a\tb\na\r".AsSpan().Split('b', StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = " a\tb\na\r";
+
+                char[][] expected = [[], ['a', 'a']];
+
+                var actual = source.Split('b', StringSplitOptions.TrimEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void WhiteSpaceSpanWithTrimEntriesAndRemoveEmptyEntriesOptionsReturnsNothing()
             {
-                AssertEqual(
-                    [],
-                    " \t".AsSpan().Split('_', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = " \t";
+
+                char[][] expected = EmptyNestedCharArray;
+
+                var actual = source.Split('_', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void ConsecutiveDelimitersAtTheEndWithRemoveEmptyEntriesOptionResultInNoEmptySpans()
             {
-                AssertEqual(
-                    [['a', 'a']],
-                    "aabb".AsSpan().Split('b', StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "aabb";
+
+                char[][] expected = EmptyNestedCharArray;
+
+                var actual = source.Split('b', StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountEqualOneWithRemoveEmptyEntriesOptionResultsInNothingIfSourceEmpty()
             {
-                AssertEqual(
-                    [],
-                    "".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "";
+
+                char[][] expected = EmptyNestedCharArray;
+
+                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountEqualOneWithRemoveEmptyEntriesOptionDoesNotRecursivelyRemoveEmptySpansAtTheStart()
             {
-                AssertEqual(
-                    [['b', 'a', 'a']],
-                    "baa".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['b', 'b', 'a', 'a']],
-                    "bbaa".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "baa";
+
+                char[][] expected = [['b', 'a', 'a']];
+
+                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountGreaterThanOneWithRemoveEmptyEntriesOptionRecursivelyRemovesEmptySpansAtTheStart()
             {
-                AssertEqual(
-                    [['a', 'a']],
-                    "baa".AsSpan().Split('b', 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['a', 'a']],
-                    "bbaa".AsSpan().Split('b', 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = "baa";
+
+                char[][] expected = [['a', 'a']];
+
+                var actual = source.Split('b', 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsResultsInNothingIfSourceWhiteSpace()
             {
-                AssertEqual(
-                    [],
-                    " \t".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = " \t";
+
+                char[][] expected = EmptyNestedCharArray;
+
+                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountEqualOneWithRemoveEmptyEntriesAndTrimEntriesOptionsDoesNotRecursivelyRemoveWhiteSpaceSpansAtTheStart()
             {
-                AssertEqual(
-                    [['b', '\t', 'a', 'a']],
-                    " b\taa\n".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['b', '\t', 'b', '\n', 'a', 'a']],
-                    " b\tb\naa\r".AsSpan().Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = " b\taa\n";
+
+                char[][] expected = [['b', '\t', 'a', 'a']];
+
+                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual);
             }
 
             [Fact]
             public void CountGreaterThanOneWithRemoveEmptyEntriesAndTrimEntriesOptionsRecursivelyRemovesWhiteSpaceSpansAtTheStart()
             {
-                AssertEqual(
-                    [['a', 'a']],
-                    " b\taa\n".AsSpan().Split('b', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
-                AssertEqual(
-                    [['a', 'a']],
-                    " b\tb\naa\r".AsSpan().Split('b', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable()
-                );
+                ReadOnlySpan<char> source = " b\taa\n";
+
+                char[][] expected = [['a', 'a']];
+
+                var actual = source.Split('b', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+
+                AssertEqual(expected, actual); 
             }
 
             [Fact]
