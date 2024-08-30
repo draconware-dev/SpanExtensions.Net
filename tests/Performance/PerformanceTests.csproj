@@ -13,7 +13,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\src\SpanExtensions.csproj" />
+    <ProjectReference Include="..\..\src\SpanExtensions.csproj" />
   </ItemGroup>
 
 </Project>

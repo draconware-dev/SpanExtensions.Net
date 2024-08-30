@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpanExtensions", "src\SpanExtensions.csproj", "{75DE5AFD-663E-415D-9B95-6BC513BD4A07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTests", "PerformanceTests\PerformanceTests.csproj", "{CE74F420-1038-4E51-AC31-00DA964CC4F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerformanceTests", "tests\Performance\PerformanceTests.csproj", "{CE74F420-1038-4E51-AC31-00DA964CC4F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
