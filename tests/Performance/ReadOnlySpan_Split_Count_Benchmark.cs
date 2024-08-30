@@ -11,10 +11,12 @@ namespace SpanExtensions.Tests.Performance
         public int Split_ReadOnlySpan(ReadOnlySpan<char> value, char delimiter, int count)
         {
             int length = 0;
+
             foreach(ReadOnlySpan<char> part in value.Split(delimiter, count))
             {
                 length += part.Length;
             }
+
             return length;
         }
 
@@ -22,7 +24,14 @@ namespace SpanExtensions.Tests.Performance
         [ArgumentsSource(nameof(GetArgsWithDelimiterAndCount))]
         public int Split_String(string value, char delimiter, int count)
         {
-            return value.Split(delimiter, count).Length;
+            int length = 0;
+
+            foreach(string part in value.Split(delimiter, count))
+            {
+                length += part.Length;
+            }
+
+            return length;
         }
 
         [Benchmark]
@@ -30,10 +39,12 @@ namespace SpanExtensions.Tests.Performance
         public int Split_CutLastElements_ReadOnlySpan(ReadOnlySpan<char> value, char delimiter, int count)
         {
             int length = 0;
+
             foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, CountExceedingBehaviour.CutLastElements))
             {
                 length += part.Length;
             }
+
             return length;
         }
 
