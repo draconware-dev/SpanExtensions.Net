@@ -7,7 +7,7 @@ namespace SpanExtensions.Tests.UnitTests
         public sealed partial class SplitAny_StringSplitOptions
         {
             [Theory]
-            [MemberData(nameof(StringSplitOptionsWithRemoveEmptyEntries))]
+            [MemberData(nameof(StringSplitOptionsWithoutRemoveEmptyEntries))]
             public void EmptySourceResultInEmptySpanUnless_StringSplitOptions_RemoveEmptyEntries_IsSet(StringSplitOptions options)
             {
                 ReadOnlySpan<char> emptySpan = "";

@@ -8,6 +8,8 @@ namespace SpanExtensions.Tests.UnitTests
         {
             public static TheoryData<StringSplitOptions> StringSplitOptionsWithRemoveEmptyEntries
                => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
+            public static TheoryData<StringSplitOptions> StringSplitOptionsWithoutRemoveEmptyEntries
+               => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => !x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
             public static TheoryData<StringSplitOptions> StringSplitOptions_Data
                => (TheoryData<StringSplitOptions>)stringSplitOptions;
             public static TheoryData<char[][], string, int, char[]> CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter_Data
