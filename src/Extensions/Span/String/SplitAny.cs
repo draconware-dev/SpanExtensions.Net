@@ -53,7 +53,7 @@ namespace SpanExtensions
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         /// <returns>An instance of the ref struct <see cref="SpanSplitAnyStringSplitOptionsWithCountEnumerator"/>, which works the same way as every <see cref="IEnumerator"/> does and can be used in a foreach construct.</returns>
-        public static SpanSplitAnyStringSplitOptionsWithCountEnumerator SplitAny(this Span<char> source, ReadOnlySpan<char> delimiters, StringSplitOptions options, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
+        public static SpanSplitAnyStringSplitOptionsWithCountEnumerator SplitAny(this Span<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
             return new SpanSplitAnyStringSplitOptionsWithCountEnumerator(source, delimiters, count, options, countExceedingBehaviour);
         }
