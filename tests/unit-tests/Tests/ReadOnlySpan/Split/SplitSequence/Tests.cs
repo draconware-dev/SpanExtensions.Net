@@ -107,33 +107,33 @@ namespace SpanExtensions.Tests.UnitTests
 
             [Theory]
             [MemberData(nameof(CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter_Data))]
-            public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter(char[][] expected, string sourceString, int count, char[] delimiters)
+            public void CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter(char[][] expected, string sourceString, int count, char[] delimiter)
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiters, count).ToSystemEnumerable();
+                var actual = source.Split(delimiter, count).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
 
             [Theory]
             [MemberData(nameof(DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter_Data))]
-            public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter(char[][] expected, string sourceString, int count, char[] delimiters)
+            public void DelimiterAtTheEndWithCountEqualDelimiterCountResultsInSpanWithDelimiter(char[][] expected, string sourceString, int count, char[] delimiter)
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiters, count).ToSystemEnumerable();
+                var actual = source.Split(delimiter, count).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
 
             [Theory]
             [MemberData(nameof(CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut_Data))]
-            public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut(char[][] expected, string sourceString, int count, char[] delimiters)
+            public void CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut(char[][] expected, string sourceString, int count, char[] delimiter)
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiters, count).ToSystemEnumerable();
+                var actual = source.Split(delimiter, count).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
