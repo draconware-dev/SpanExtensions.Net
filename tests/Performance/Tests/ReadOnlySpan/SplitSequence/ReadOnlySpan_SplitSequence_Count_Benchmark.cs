@@ -39,7 +39,7 @@ public class ReadOnlySpan_SplitSequence_Count_Benchmark
     {
         int length = 0;
 
-        foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, CountExceedingBehaviour.CutLastElements))
+        foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, CountExceedingBehaviour.CutRemainingElements))
         {
             length += part.Length;
         }

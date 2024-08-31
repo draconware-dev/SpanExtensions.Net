@@ -15,17 +15,17 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
         public static IEnumerable<T> Where<T>(this ReadOnlySpan<T> source, Predicate<T> predicate)
         {
-            ReadOnlySpan<T>.Enumerator e = source.GetEnumerator();
+            List<T> list = new List<T>();
 
-            while(e.MoveNext())
+            foreach (T current in source)
             {
-                T current = e.Current;
-
-                if(predicate(current)) 
+                if(predicate(current))
                 {
-                    yield return current;
+                    list.Add(current);
                 }
             }
+
+            return list;
         }
 
         /// <summary>
@@ -38,15 +38,19 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
         public static IEnumerable<T> Where<T>(this ReadOnlySpan<T> source, Func<T, int, bool> predicate)
         {
+            List<T> list = new List<T>();
+            
             for(int i = 0; i < source.Length; i++)
             {
                 T current = source[i];
 
                 if(predicate(current, i))
                 {
-                    yield return current;
+                    list.Add(current);
                 }
             }
+
+            return list;
         }
     }
 }

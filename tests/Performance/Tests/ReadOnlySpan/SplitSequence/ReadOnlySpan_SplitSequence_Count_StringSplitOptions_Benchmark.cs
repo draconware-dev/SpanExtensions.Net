@@ -39,7 +39,7 @@ public class ReadOnlySpan_SplitSequence_Count_StringSplitOptions_Benchmark
     {
         int length = 0;
 
-        foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options, CountExceedingBehaviour.CutLastElements))
+        foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options, CountExceedingBehaviour.CutRemainingElements))
         {
             length += part.Length;
         }
