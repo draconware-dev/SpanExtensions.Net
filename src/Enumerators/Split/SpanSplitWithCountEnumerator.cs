@@ -6,12 +6,12 @@ namespace SpanExtensions.Enumerators
     /// Supports iteration over a <see cref="ReadOnlySpan{T}"/> by splitting it a a specified delimiter of type <typeparamref name="T"/> with an upper limit of splits performed.
     /// </summary>
     /// <typeparam name="T">The type of elements in the enumerated <see cref="ReadOnlySpan{T}"/>.</typeparam>
-    public ref struct SpanSplitWithCountEnumerator<T> where T : IEquatable<T> 
+    public ref struct SpanSplitWithCountEnumerator<T> where T : IEquatable<T>
     {
         ReadOnlySpan<T> Span;
         readonly T Delimiter;
         readonly int Count;
-        readonly CountExceedingBehaviour CountExceedingBehaviour; 
+        readonly CountExceedingBehaviour CountExceedingBehaviour;
         int currentCount;
         bool enumerationDone;
         readonly int CountMinusOne;
@@ -68,18 +68,18 @@ namespace SpanExtensions.Enumerators
             switch(CountExceedingBehaviour)
             {
                 case CountExceedingBehaviour.CutLastElements:
-                    break; 
+                    break;
                 case CountExceedingBehaviour.AppendLastElements:
-                    if(currentCount == CountMinusOne) 
+                    if(currentCount == CountMinusOne)
                     {
-                        ReadOnlySpan<T> lower  = span[..index]; 
-                        ReadOnlySpan<T> upper = span[(index + 1)..]; 
-                        Span<T> temp = new T[lower.Length + upper.Length];  
-                        lower.CopyTo(temp[..index]); 
+                        ReadOnlySpan<T> lower = span[..index];
+                        ReadOnlySpan<T> upper = span[(index + 1)..];
+                        Span<T> temp = new T[lower.Length + upper.Length];
+                        lower.CopyTo(temp[..index]);
                         upper.CopyTo(temp[index..]);
-                        Current = temp;  
+                        Current = temp;
                         currentCount++;
-                        return true; 
+                        return true;
                     }
                     break;
                 default:

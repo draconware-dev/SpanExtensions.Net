@@ -315,9 +315,9 @@ namespace SpanExtensions
         public static ReadOnlySpan<T> SkipWhile<T>(this ReadOnlySpan<T> source, Predicate<T> condition)
         {
             int count = 0;
-            while (count < source.Length)
+            while(count < source.Length)
             {
-                T t  = source[count];
+                T t = source[count];
                 if(!condition(t))
                 {
                     return source.Skip(count);
