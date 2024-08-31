@@ -13,9 +13,9 @@ namespace SpanExtensions
         /// </summary>
         /// <param name="countExceedingBehaviour"> The invalid <see cref="CountExceedingBehaviour"/>.  </param>
         public InvalidCountExceedingBehaviourException(CountExceedingBehaviour countExceedingBehaviour) :
-            base($"CountExceedingBehaviour with ID '{(int) countExceedingBehaviour} is not defined. CountExceedingBehaviour only defines {GetCountExceedingBehaviourNamesListed()}.")
+            base($"CountExceedingBehaviour with ID '{(int)countExceedingBehaviour} is not defined. CountExceedingBehaviour only defines {GetCountExceedingBehaviourNamesListed()}.")
         {
-            
+
         }
 
         static string GetCountExceedingBehaviourNamesListed()
@@ -24,7 +24,7 @@ namespace SpanExtensions
 #if NET5_0_OR_GREATER
             countExceedingBehaviourNames = Enum.GetNames<CountExceedingBehaviour>();
 #else
-            countExceedingBehaviourNames = (string[]) Enum.GetNames(typeof(CountExceedingBehaviour));
+            countExceedingBehaviourNames = (string[])Enum.GetNames(typeof(CountExceedingBehaviour));
 #endif
             switch(countExceedingBehaviourNames.Length)
             {
@@ -33,7 +33,7 @@ namespace SpanExtensions
                 case 1:
                     return countExceedingBehaviourNames[0];
                 default:
-                    string first = countExceedingBehaviourNames[0]; 
+                    string first = countExceedingBehaviourNames[0];
                     string end = string.Join(',', countExceedingBehaviourNames, 1, countExceedingBehaviourNames.Length - 1);
                     return $"{first} and {end}";
             }
