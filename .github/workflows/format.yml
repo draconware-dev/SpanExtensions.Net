@@ -19,7 +19,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Format
-      run: dotnet format Style
+      run: dotnet format style
     - name: Commit & Push
       run: |
         git config --global user.name "github-actions[bot]"
