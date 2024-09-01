@@ -1,0 +1,37 @@
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Pack
+      run: dotnet pack --no-build -c Release -o ${{github.workspace}}/Packages
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nupkg
+        path: ${{github.workspace}}/Packages/*.nupkg
+    - name: Download Artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: nupkg
+        path: ${{github.workspace}}/Packages/*.nupkg
+        
+    - name: Push To Nuget
+      run: dotnet nuget push "${{github.workspace}}/Packages/*.nupkg" -k ${{secrets.NUGET_API_KEY_SPANEXTENSIONS}} -s https://api.nuget.org/v3/index.json --skip-duplicate

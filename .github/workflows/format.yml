@@ -1,0 +1,28 @@
+
+name: Format
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+        
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Format
+      run: dotnet format Style
+    - name: Commit & Push
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@user.noreply.github.com"
+        git commit -a -m"formatted code"
+        git push
