@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using SpanExtensions;
 
 static class ExceptionHelpers
 {
@@ -28,6 +30,27 @@ static class ExceptionHelpers
         }
     }
 
+    internal static void ThrowIfInvalid(CountExceedingBehaviour countExceedingBehaviour,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(countExceedingBehaviour))] 
+#endif
+    string? paramName = null)
+    {
+#if NET5_0_OR_GREATER
+        if(!Enum.IsDefined(countExceedingBehaviour))
+#else
+        if(!Enum.IsDefined(typeof(CountExceedingBehaviour), countExceedingBehaviour))
+#endif
+        {
+#if NET5_0_OR_GREATER
+            string[] names = Enum.GetNames<CountExceedingBehaviour>();
+#else
+            string[] names = Enum.GetNames(typeof(CountExceedingBehaviour));
+#endif
+            throw new ArgumentException($"{nameof(CountExceedingBehaviour)} does not define an option with the value '{countExceedingBehaviour}'. Valid options are {string.Join(", ", names)}.", nameof(countExceedingBehaviour));
+        }
+    }
+    
     internal static void ThrowIfOutOfBounds<T>(T value, T lowerBound, T upperBound,
 #if NET8_0_OR_GREATER
         [CallerArgumentExpression(nameof(value))] 
@@ -60,6 +83,7 @@ static class ExceptionHelpers
             ThrowNegative(value, paramName);
         }
     }
+
 #else
     internal static void ThrowIfOutOfArrayBounds(int value, int upperBound,
 #if NET8_0_OR_GREATER

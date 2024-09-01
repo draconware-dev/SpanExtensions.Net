@@ -32,14 +32,16 @@ namespace SpanExtensions.Enumerators
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitSequenceStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
+            ExceptionHelpers.ThrowIfNegative(count, nameof(count));
+            ExceptionHelpers.ThrowIfInvalid(countExceedingBehaviour, nameof(countExceedingBehaviour));
             Span = source;
             Delimiter = delimiter;
             DelimiterLength = Delimiter.Length;
             DelimiterIsEmpty = Delimiter.IsEmpty;
-            CurrentCount = DelimiterIsEmpty ? 0 : count.ThrowIfNegative();
+            CurrentCount = DelimiterIsEmpty ? 0 : count;
             TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
-            CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
+            CountExceedingBehaviour = countExceedingBehaviour;
             EnumerationDone = count == 0;
             Current = default;
 
@@ -90,7 +92,7 @@ namespace SpanExtensions.Enumerators
                                 continue;
                             }
 
-                            if(CountExceedingBehaviour.IsCutRemainingElements())
+                            if(CountExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements)
                             {
                                 Span = beforeDelimiter;
                             }
@@ -102,7 +104,7 @@ namespace SpanExtensions.Enumerators
                     }
                     else
                     {
-                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsAppendRemainingElements() || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
                     }
 
                     if(TrimEntries)

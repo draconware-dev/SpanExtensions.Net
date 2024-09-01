@@ -9,45 +9,6 @@ namespace SpanExtensions
     {
 #if NETCOREAPP3_0_OR_GREATER
         /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative.
-        /// </summary>
-        /// <param name="value">The argument to validate as non-negative.</param>
-        /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-        /// <returns><paramref name="value"/>.</returns>
-        public static int ThrowIfNegative(this int value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        {
-#if NET8_0_OR_GREATER
-            ArgumentOutOfRangeException.ThrowIfNegative(value, paramName);
-#else
-            if(value < 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"{paramName} ('{value}') must be a non-negative value.");
-            }
-#endif
-
-            return value;
-        }
-#else
-        /// <summary>
-        /// Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative.
-        /// </summary>
-        /// <param name="value">The argument to validate as non-negative.</param>
-        /// <returns><paramref name="value"/>.</returns>
-        public static int ThrowIfNegative(this int value)
-        {
-            if(value < 0)
-            {
-#pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one
-                throw new ArgumentOutOfRangeException(null, value, $" ('{value}') must be a non-negative value.");
-#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one
-            }
-
-            return value;
-        }
-#endif
-
-#if NETCOREAPP3_0_OR_GREATER
-        /// <summary>
         /// Throws an <see cref="ArgumentException"/> if <paramref name="options"/> is not a valid flag.
         /// </summary>
         /// <param name="options">The argument to validate as a valid flag.</param>

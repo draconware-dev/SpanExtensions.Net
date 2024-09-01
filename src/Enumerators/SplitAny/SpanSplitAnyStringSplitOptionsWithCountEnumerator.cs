@@ -31,12 +31,14 @@ namespace SpanExtensions.Enumerators
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitAnyStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiters, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
+            ExceptionHelpers.ThrowIfNegative(count, nameof(count));
+            ExceptionHelpers.ThrowIfInvalid(countExceedingBehaviour, nameof(countExceedingBehaviour));
             Span = source;
             Delimiters = delimiters;
-            CurrentCount = count.ThrowIfNegative();
+            CurrentCount = count;
             TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
             RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
-            CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
+            CountExceedingBehaviour = countExceedingBehaviour;
             EnumerationDone = count == 0;
             Current = default;
 
@@ -87,7 +89,7 @@ namespace SpanExtensions.Enumerators
                                 continue;
                             }
 
-                            if(CountExceedingBehaviour.IsCutRemainingElements())
+                            if(CountExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements)
                             {
                                 Span = beforeDelimiter;
                             }
@@ -99,7 +101,7 @@ namespace SpanExtensions.Enumerators
                     }
                     else
                     {
-                        Current = delimiterIndex == -1 || CountExceedingBehaviour.IsAppendRemainingElements() ? Span : Span[..delimiterIndex];
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements ? Span : Span[..delimiterIndex];
                     }
 
                     if(TrimEntries)

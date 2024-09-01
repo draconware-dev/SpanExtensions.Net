@@ -29,9 +29,10 @@ namespace SpanExtensions.Enumerators
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitWithCountEnumerator(ReadOnlySpan<T> source, T delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
+            ExceptionHelpers.ThrowIfNegative(count, nameof(count));
             Span = source;
             Delimiter = delimiter;
-            CurrentCount = count.ThrowIfNegative();
+            CurrentCount = count;
             CountExceedingBehaviour = countExceedingBehaviour.ThrowIfInvalid();
             EnumerationDone = count == 0;
             Current = default;
@@ -62,7 +63,7 @@ namespace SpanExtensions.Enumerators
             {
                 EnumerationDone = true;
 
-                Current = delimiterIndex == -1 || CountExceedingBehaviour.IsAppendRemainingElements() ? Span : Span[..delimiterIndex];
+                Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements ? Span : Span[..delimiterIndex];
 
                 return true;
             }
