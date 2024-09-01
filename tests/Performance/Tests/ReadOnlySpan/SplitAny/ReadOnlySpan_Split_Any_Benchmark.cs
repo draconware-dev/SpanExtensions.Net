@@ -9,36 +9,36 @@ namespace SpanExtensions.Tests.Performance
         [ArgumentsSource(nameof(GetArgsWithDelimiter))]
         public int Split_Any_ReadOnlySpan(ReadOnlySpan<char> value, char[] delimiters)
         {
-            int length = 0;
+            int iterations = 0;
 
             foreach(ReadOnlySpan<char> part in value.SplitAny(delimiters))
             {
-                length += part.Length;
+                iterations++;
             }
 
-            return length;
+            return iterations;
         }
 
         [Benchmark(Baseline = true)]
         [ArgumentsSource(nameof(GetArgsWithDelimiter))]
         public int Split_Any_String(string value, char[] delimiters)
         {
-            int length = 0;
+            int iterations = 0;
 
             foreach(string part in value.Split(delimiters))
             {
-                length += part.Length;
+                iterations++;
             }
 
-            return length;
+            return iterations;
         }
 
         public IEnumerable<object[]> GetArgsWithDelimiter()
         {
-            yield return new object[] { "abcde", new object[] { 'b', 'd' } };
-            yield return new object[] { "abcdefg", new object[] { 'b', 'd', 'f' } };
-            yield return new object[] { "abba", new object[] { 'b', 'a' } };
-            yield return new object[] { "1234567890", new object[] { '1', '5', '7' } };
+            yield return ["abcde", new char[] { 'b', 'd' }];
+            yield return ["abcdefg", new char[] { 'b', 'd', 'f' }];
+            yield return ["abba", new char[] { 'b', 'a' } ];
+            yield return ["1234567890", new char[] { '1', '5', '7' }];
         }
     }
 }

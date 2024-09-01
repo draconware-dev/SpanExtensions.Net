@@ -9,28 +9,28 @@ public class ReadOnlySpan_SplitSequence_StringSplitOptions_Benchmark
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndStringSplitOptions))]
     public int Split_StringSplitOptions_ReadOnlySpan(ReadOnlySpan<char> value, ReadOnlySpan<char> delimiter, StringSplitOptions options)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter, options))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark(Baseline = true)]
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndStringSplitOptions))]
     public int Split_StringSplitOptions_String(string value, string delimiter, StringSplitOptions options)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(string part in value.Split(delimiter, options))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     public IEnumerable<object[]> GetArgsWithDelimiterAndStringSplitOptions()

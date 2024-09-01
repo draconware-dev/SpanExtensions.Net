@@ -9,28 +9,28 @@ public class ReadOnlySpan_Split_Benchmark
     [ArgumentsSource(nameof(GetArgsWithDelimiter))]
     public int Split_ReadOnlySpan(ReadOnlySpan<char> value, char delimiter)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark(Baseline = true)]
     [ArgumentsSource(nameof(GetArgsWithDelimiter))]
     public int Split_String(string value, char delimiter)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(string part in value.Split(delimiter))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     public IEnumerable<object[]> GetArgsWithDelimiter()

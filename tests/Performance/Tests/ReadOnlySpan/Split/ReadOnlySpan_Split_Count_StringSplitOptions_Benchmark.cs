@@ -9,42 +9,42 @@ public class ReadOnlySpan_Split_Count_StringSplitOptions_Benchmark
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCountAndStringSplitOptions))]
     public int Split_Count_StringSplitOptions_ReadOnlySpan(ReadOnlySpan<char> value, char delimiter, int count, StringSplitOptions options)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark(Baseline = true)]
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCountAndStringSplitOptions))]
     public int Split_Count_StringSplitOptions_String(string value, char delimiter, int count, StringSplitOptions options)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(string part in value.Split(delimiter, count, options))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCountAndStringSplitOptions))]
     public int Split_Count_StringSplitOptions_CountExceedingBehaviour_CutLastElements_ReadOnlySpan(ReadOnlySpan<char> value, char delimiter, int count, StringSplitOptions options)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options, CountExceedingBehaviour.CutRemainingElements))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     public IEnumerable<object[]> GetArgsWithDelimiterAndCountAndStringSplitOptions()

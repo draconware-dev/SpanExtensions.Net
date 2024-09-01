@@ -9,42 +9,42 @@ public class ReadOnlySpan_SplitSequence_Count_Benchmark
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCount))]
     public int Split_ReadOnlySpan(ReadOnlySpan<char> value, ReadOnlySpan<char> delimiter, int count)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter, count))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark(Baseline = true)]
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCount))]
     public int Split_String(string value, string delimiter, int count)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(string part in value.Split(delimiter, count))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArgsWithDelimiterAndCount))]
     public int Split_CutLastElements_ReadOnlySpan(ReadOnlySpan<char> value, ReadOnlySpan<char> delimiter, int count)
     {
-        int length = 0;
+        int iterations = 0;
 
         foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, CountExceedingBehaviour.CutRemainingElements))
         {
-            length += part.Length;
+            iterations++;
         }
 
-        return length;
+        return iterations;
     }
 
     public IEnumerable<object[]> GetArgsWithDelimiterAndCount()
