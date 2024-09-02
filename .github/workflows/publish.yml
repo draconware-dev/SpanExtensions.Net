@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  publish:
 
     runs-on: ubuntu-latest
         
@@ -21,17 +21,37 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Pack
-      run: dotnet pack --no-build -c Release -o ${{github.workspace}}/Packages
+      run: dotnet pack --no-build --include-symbols -c Release -o ${{github.workspace}}/Packages
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: nupkg
-        path: ${{github.workspace}}/Packages/*.nupkg
+        path: |
+          ${{github.workspace}}/Packages/*.nupkg
+          ${{github.workspace}}/Packages/*.snupkg   ,.
     - name: Download Artifact
       uses: actions/download-artifact@v4
       with:
         name: nupkg
-        path: ${{github.workspace}}/Packages/*.nupkg
-        
+        path: |
+          ${{github.workspace}}/Packages/*.nupkg
+          ${{github.workspace}}/Packages/*.snupkg
+    - name: Extract Version
+      uses: mavrosxristoforos/get-xml-info@1.0
+      with:
+       xml-file: '{{github.workspace}}/src/SpanExtensions.csproj'
+       xpath: '/Project//PropertyGroup//Version'
+    - name: Store Environment Variable
+      run: echo "VERSION=v${{ steps.getxml.outputs.info }}" >> $GITHUB_ENV
+    - name: Download release notes
+      run: curl -o release-notes.md https://drive.google.com/uc?export=download&id=1LdP8rvPZ9ra4mc4vmv3smcDwVD96Zwn8
+    - name: Create Tag
+      run: |
+        git tag -a ${{ env.Version }}
+        git push origin ${{ env.Version }}
+    - name: Create Release
+      run: gh release create ${{ env.Version }} --title ${{ env.Version }} --notes-file release-notes.md ${{github.workspace}}/Packages/*.nupkg ${{github.workspace}}/Packages/*.snupkg
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push To Nuget
       run: dotnet nuget push "${{github.workspace}}/Packages/*.nupkg" -k ${{secrets.NUGET_API_KEY_SPANEXTENSIONS}} -s https://api.nuget.org/v3/index.json --skip-duplicate
