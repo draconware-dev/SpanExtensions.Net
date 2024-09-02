@@ -25,9 +25,6 @@ jobs:
       run: dotnet build --no-restore
     - name: Format
       run: dotnet format style
-    - name: Run a script
-      run: |
-          echo "The workspace directory is ${{ github.workspace }}"
     - name: Commit & Push
       run: |
         git config --global user.name "github-actions[bot]"
