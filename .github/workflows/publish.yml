@@ -37,6 +37,7 @@ jobs:
           ${{github.workspace}}/Packages/*.nupkg
           ${{github.workspace}}/Packages/*.snupkg
     - name: Extract Version
+      id: extract_version
       uses: mavrosxristoforos/get-xml-info@1.0
       with:
        xml-file: '{{github.workspace}}/src/SpanExtensions.csproj'
@@ -47,10 +48,10 @@ jobs:
       run: curl -o release-notes.md https://drive.google.com/uc?export=download&id=1LdP8rvPZ9ra4mc4vmv3smcDwVD96Zwn8
     - name: Create Tag
       run: |
-        git tag -a ${{ env.Version }} -m"${{ env.Version }}"
-        git push origin ${{ env.Version }}
+        git tag -a ${{ env.VERSION }} -m"${{ env.VERSION }}"
+        git push origin ${{ env.VERSION }}
     - name: Create Release
-      run: gh release create ${{ env.Version }} --title ${{ env.Version }} --notes-file release-notes.md ${{github.workspace}}/Packages/*.nupkg ${{github.workspace}}/Packages/*.snupkg
+      run: gh release create ${{ env.VERSION }} --title ${{ env.VERSION }} --notes-file release-notes.md ${{github.workspace}}/Packages/*.nupkg ${{github.workspace}}/Packages/*.snupkg
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Push To Nuget
