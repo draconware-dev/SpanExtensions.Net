@@ -3,7 +3,27 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+and this project adheres not (yet) to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+ 
+
+## [1.4] - 2024-9-3
+
+### Added 
+
+- `(Readonly-)Span<T>.Count()`
+- `(Readonly-)Span<T>.Count(Predicate<T> predicate)`
+
+### Changed 
+
+- `Split` to throw an `ArgumentException` instead of an `InvalidCountExceedingBehaviourException`
+
+### Removed 
+
+- `InvalidCountExceedingBehaviourException`
+
+### Fixed 
+
+- various issues with `Split` (https://github.com/draconware-dev/SpanExtensions.Net/pull/11) 
 
 ## [1.3] - 2024-3-19
 
