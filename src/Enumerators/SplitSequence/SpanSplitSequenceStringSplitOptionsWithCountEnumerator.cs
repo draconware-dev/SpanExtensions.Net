@@ -34,21 +34,18 @@ namespace SpanExtensions.Enumerators
         {
             ExceptionHelpers.ThrowIfNegative(count, nameof(count));
             ExceptionHelpers.ThrowIfInvalid(countExceedingBehaviour, nameof(countExceedingBehaviour));
+            ExceptionHelpers.ThrowIfInvalid(options, nameof(options));
+
             Span = source;
             Delimiter = delimiter;
             DelimiterLength = Delimiter.Length;
             DelimiterIsEmpty = Delimiter.IsEmpty;
-            CurrentCount = DelimiterIsEmpty ? 0 : count;
-            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
-            RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
+            CurrentCount = DelimiterIsEmpty || count == 1 ? 0 : count;
+            TrimEntries = options.HasFlag((StringSplitOptions)2); // StringSplitOptions.TrimEntries
+            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
             CountExceedingBehaviour = countExceedingBehaviour;
             EnumerationDone = count == 0;
             Current = default;
-
-            if(count == 1) // special case
-            {
-                CurrentCount = 0;
-            }
         }
 
         /// <summary>

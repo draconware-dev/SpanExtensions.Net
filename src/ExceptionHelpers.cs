@@ -7,6 +7,25 @@ using SpanExtensions;
 
 static class ExceptionHelpers
 {
+    static readonly StringSplitOptions NegatedCombinationOfAllValidStringSplitOptions;
+
+    static ExceptionHelpers()
+    {
+#if NET5_0_OR_GREATER
+        StringSplitOptions[] flags = Enum.GetValues<StringSplitOptions>();
+#else
+        StringSplitOptions[] flags = (StringSplitOptions[])Enum.GetValues(typeof(StringSplitOptions));
+#endif
+
+        int combination = 0;
+        foreach(int flag in flags)
+        {
+            combination |= flag;
+        }
+
+        NegatedCombinationOfAllValidStringSplitOptions = (StringSplitOptions) ~combination;
+    }
+
     internal static void ThrowIfGreaterThanOrEqual<T>(T value, T other,
 #if NET8_0_OR_GREATER
         [CallerArgumentExpression(nameof(value))] 
@@ -48,6 +67,18 @@ static class ExceptionHelpers
             string[] names = Enum.GetNames(typeof(CountExceedingBehaviour));
 #endif
             throw new ArgumentException($"{nameof(CountExceedingBehaviour)} does not define an option with the value '{countExceedingBehaviour}'. Valid options are {string.Join(", ", names)}.", nameof(countExceedingBehaviour));
+        }
+    }
+
+    internal static void ThrowIfInvalid(this StringSplitOptions options,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(options))] 
+#endif
+    string? paramName = null)
+    {
+        if((options & NegatedCombinationOfAllValidStringSplitOptions) != 0)
+        {
+            throw new ArgumentException("Value of flag is invalid.", paramName);
         }
     }
 

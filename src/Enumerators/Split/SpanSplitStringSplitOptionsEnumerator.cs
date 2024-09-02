@@ -27,10 +27,12 @@ namespace SpanExtensions.Enumerators
         /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         public SpanSplitStringSplitOptionsEnumerator(ReadOnlySpan<char> source, char delimiter, StringSplitOptions options)
         {
+            ExceptionHelpers.ThrowIfInvalid(options, nameof(options));
+
             Span = source;
             Delimiter = delimiter;
-            TrimEntries = options.ThrowIfInvalid().IsTrimEntriesSet();
-            RemoveEmptyEntries = options.IsRemoveEmptyEntriesSet();
+            TrimEntries = options.HasFlag((StringSplitOptions)2); // StringSplitOptions.TrimEntries
+            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
             EnumerationDone = false;
             Current = default;
         }

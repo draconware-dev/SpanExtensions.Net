@@ -185,7 +185,7 @@ namespace SpanExtensions.Tests.UnitTests
                 ReadOnlySpan<char> source = " a\tb\na\r";
 
                 char[][] expected = [['a'], ['a']];
-               
+
                 var actual = source.Split('b', StringSplitOptions.TrimEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
