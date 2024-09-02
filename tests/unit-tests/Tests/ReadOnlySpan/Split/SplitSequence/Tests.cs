@@ -42,19 +42,18 @@ namespace SpanExtensions.Tests.UnitTests
                 AssertEqual(expected, actual);
             }
 
-            [Fact]
-            public void CountEqualZeroResultsInNothing()
+            [Theory]
+            [InlineData(CountExceedingBehaviour.AppendRemainingElements)]
+            [InlineData(CountExceedingBehaviour.CutRemainingElements)]
+            public void CountEqualZeroResultsInNothing(CountExceedingBehaviour countExceedingBehaviour)
             {
-                foreach(CountExceedingBehaviour countExceedingBehaviour in countExceedingBehaviours)
-                {
-                    ReadOnlySpan<char> source = ABBAArray;
+                ReadOnlySpan<char> source = ABBAArray;
 
-                    var expected = EmptyNestedCharArray;
+                char[][] expected = [];
 
-                    var actual = source.Split(['a', 'b'], 0, countExceedingBehaviour).ToSystemEnumerable();
+                var actual = source.Split(['a', 'b'], 0, countExceedingBehaviour).ToSystemEnumerable();
 
-                    AssertEqual(expected, actual);
-                }
+                AssertEqual(expected, actual);
             }
 
             [Fact]
@@ -133,7 +132,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiter, count).ToSystemEnumerable();
+                var actual = source.Split(delimiter, count, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }

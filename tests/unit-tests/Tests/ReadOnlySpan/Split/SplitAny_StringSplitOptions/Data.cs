@@ -7,11 +7,11 @@ namespace SpanExtensions.Tests.UnitTests
         public sealed partial class SplitAny_StringSplitOptions
         {
             public static TheoryData<StringSplitOptions> StringSplitOptionsWithRemoveEmptyEntries
-               => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
+               => new TheoryData<StringSplitOptions>(stringSplitOptions.Where(x => x.HasFlag(StringSplitOptions.RemoveEmptyEntries)));
             public static TheoryData<StringSplitOptions> StringSplitOptionsWithoutRemoveEmptyEntries
-               => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => !x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
+               => new TheoryData<StringSplitOptions>(stringSplitOptions.Where(x => !x.HasFlag(StringSplitOptions.RemoveEmptyEntries)));
             public static TheoryData<StringSplitOptions> StringSplitOptions_Data
-               => (TheoryData<StringSplitOptions>)stringSplitOptions;
+               => new TheoryData<StringSplitOptions>(stringSplitOptions);
             public static TheoryData<char[][], string, int, char[]> CountEqualDelimiterCountResultsInSpanWithEverythingAfterAndIncludingLastDelimiter_Data
                 => new TheoryData<char[][], string, int, char[]>
                 {

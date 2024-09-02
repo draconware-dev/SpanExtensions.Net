@@ -5,11 +5,11 @@
         public sealed partial class SplitStringSequence
         {
             public static TheoryData<StringSplitOptions> StringSplitOptionsWithRemoveEmptyEntries
-               => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
+               => new TheoryData<StringSplitOptions>(stringSplitOptions.Where(x => x.HasFlag(StringSplitOptions.RemoveEmptyEntries)));
             public static TheoryData<StringSplitOptions> StringSplitOptionsWithoutRemoveEmptyEntries
-               => (TheoryData<StringSplitOptions>)stringSplitOptions.Where(x => !x.HasFlag(StringSplitOptions.RemoveEmptyEntries));
+               => new TheoryData<StringSplitOptions>(stringSplitOptions.Where(x => !x.HasFlag(StringSplitOptions.RemoveEmptyEntries)));
             public static TheoryData<StringSplitOptions> StringSplitOptions_Data
-               => (TheoryData<StringSplitOptions>)stringSplitOptions;
+               => new TheoryData<StringSplitOptions>(stringSplitOptions);
             public static TheoryData<StringSplitOptions, CountExceedingBehaviour, char[]> CountEqualZeroResultsInNothing_Data
                 => new TheoryData<StringSplitOptions, CountExceedingBehaviour, char[]>
                 {
@@ -37,8 +37,8 @@
             public static TheoryData<char[][], string, int, char[]> CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut_Data
                 => new TheoryData<char[][], string, int, char[]>
                 {
-                    { new char[][] { ['a', 'a'] }, "aabaa", 1, ['b', 'c'] },
-                    { new char[][] { ['a', 'a'], ['a', 'a'] }, "aabaabcaa", 2, ['b', 'c'] }
+                    { new char[][] { ['a', 'a'] }, "aabcaa", 1, ['b', 'c'] },
+                    { new char[][] { ['a', 'a'], ['a', 'a'] }, "aabcaabcaa", 2, ['b', 'c'] }
                 };
         }
     }

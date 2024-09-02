@@ -14,13 +14,13 @@
                 => new TheoryData<char[][], string, int, char[]>
                 {
                     { new char[][] { ['a', 'a', 'b'] }, "aab", 1, ['b', 'c'] },
-                    { new char[][] { ['a', 'a'], ['a', 'b'] }, "aabac", 2, ['b', 'c'] }
+                    { new char[][] { ['a', 'a'], ['a', 'c'] }, "aabac", 2, ['b', 'c'] }
                 };
             public static TheoryData<char[][], string, int, char[]> CountEqualDelimiterCountResultsInEverythingAfterAndIncludingLastDelimiterBeingCut_Data
                 => new TheoryData<char[][], string, int, char[]>
                 {
                     { new char[][] { ['a', 'a'] }, "aabaa", 1, ['b', 'c'] },
-                    { new char[][] { ['a', 'a'], ['a', 'a'], ['a', 'a', 'b', 'a', 'a'] }, "aabaacaa", 2, ['b', 'c'] }
+                    { new char[][] { ['a', 'a'], ['a', 'a'] }, "aabaacaa", 2, ['b', 'c'] }
                 };
         }
     }

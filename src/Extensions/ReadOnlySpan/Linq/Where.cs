@@ -17,7 +17,7 @@ namespace SpanExtensions
         {
             List<T> list = new List<T>();
 
-            foreach (T current in source)
+            foreach(T current in source)
             {
                 if(predicate(current))
                 {
@@ -39,7 +39,7 @@ namespace SpanExtensions
         public static IEnumerable<T> Where<T>(this ReadOnlySpan<T> source, Func<T, int, bool> predicate)
         {
             List<T> list = new List<T>();
-            
+
             for(int i = 0; i < source.Length; i++)
             {
                 T current = source[i];

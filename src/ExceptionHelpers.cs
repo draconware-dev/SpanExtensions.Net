@@ -50,7 +50,7 @@ static class ExceptionHelpers
             throw new ArgumentException($"{nameof(CountExceedingBehaviour)} does not define an option with the value '{countExceedingBehaviour}'. Valid options are {string.Join(", ", names)}.", nameof(countExceedingBehaviour));
         }
     }
-    
+
     internal static void ThrowIfOutOfBounds<T>(T value, T lowerBound, T upperBound,
 #if NET8_0_OR_GREATER
         [CallerArgumentExpression(nameof(value))] 

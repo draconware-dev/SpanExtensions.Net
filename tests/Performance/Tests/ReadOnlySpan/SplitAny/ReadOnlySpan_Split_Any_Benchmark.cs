@@ -37,7 +37,7 @@ namespace SpanExtensions.Tests.Performance
         {
             yield return ["abcde", new char[] { 'b', 'd' }];
             yield return ["abcdefg", new char[] { 'b', 'd', 'f' }];
-            yield return ["abba", new char[] { 'b', 'a' } ];
+            yield return ["abba", new char[] { 'b', 'a' }];
             yield return ["1234567890", new char[] { '1', '5', '7' }];
         }
     }

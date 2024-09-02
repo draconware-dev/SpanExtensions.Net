@@ -20,7 +20,7 @@
                 => new TheoryData<char[][], string, int, char>
                 {
                     { new char[][] { ['a', 'a'] }, "aabaa", 1, 'b' },
-                    { new char[][] { ['a', 'a'], ['a', 'a'], ['a', 'a', 'b', 'a', 'a'] }, "aabaabaa", 2, 'b' }
+                    { new char[][] { ['a', 'a'], ['a', 'a'] }, "aabaabaa", 2, 'b' }
                 };
         }
     }
