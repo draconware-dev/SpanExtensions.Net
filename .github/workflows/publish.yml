@@ -48,7 +48,7 @@ jobs:
     - name: Store Environment Variable
       run: echo "VERSION=v${{ steps.extract_version.outputs.info }}" >> $GITHUB_ENV
     - name: Download release notes
-      run: curl -o release-notes.md https://drive.google.com/uc?export=download&id=1LdP8rvPZ9ra4mc4vmv3smcDwVD96Zwn8
+      run: curl -o release-notes.md "https://drive.google.com/uc?export=download&id=1LdP8rvPZ9ra4mc4vmv3smcDwVD96Zwn8" -L 
     - name: Create Tag
       run: |
         git config --global user.name "github-actions[bot]"
