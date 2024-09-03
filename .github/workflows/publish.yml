@@ -40,7 +40,7 @@ jobs:
       id: extract_version
       uses: mavrosxristoforos/get-xml-info@1.0
       with:
-       xml-file: '{{github.workspace}}/src/SpanExtensions.csproj'
+       xml-file: '${{github.workspace}}/src/SpanExtensions.csproj'
        xpath: '/Project//PropertyGroup//Version'
     - name: Store Environment Variable
       run: echo "VERSION=v${{ steps.extract_version.outputs.info }}" >> $GITHUB_ENV
