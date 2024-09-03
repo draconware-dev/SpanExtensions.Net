@@ -21,7 +21,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Pack
-      run: dotnet pack --no-build --include-symbols -c Release -o ${{github.workspace}}/Packages
+      run: dotnet pack --no-build --include-symbols -p:SymbolPackageFormat=snupkg -c Release -o ${{github.workspace}}/Packages
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
