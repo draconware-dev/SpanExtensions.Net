@@ -10,11 +10,11 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<T> Span;
         readonly ReadOnlySpan<T> Delimiter;
-        readonly int Count;
+        readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
-        int currentCount;
-        bool enumerationDone;
-        readonly int CountMinusOne;
+        int CurrentCount;
+        bool EnumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -30,14 +30,16 @@ namespace SpanExtensions.Enumerators
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitSequenceWithCountEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> delimiter, int count, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
+            ExceptionHelpers.ThrowIfNegative(count, nameof(count));
+            ExceptionHelpers.ThrowIfInvalid(countExceedingBehaviour, nameof(countExceedingBehaviour));
             Span = source;
             Delimiter = delimiter;
-            Count = count;
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
+            CurrentCount = DelimiterIsEmpty ? 1 : count;
             CountExceedingBehaviour = countExceedingBehaviour;
+            EnumerationDone = count == 0;
             Current = default;
-            currentCount = 0;
-            enumerationDone = false;
-            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -54,46 +56,26 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<T> span = Span;
-            if(currentCount == Count)
+            int delimiterIndex = Span.IndexOf(Delimiter);
+
+            if(delimiterIndex == -1 || CurrentCount == 1)
             {
-                return false;
-            }
-            int index = span.IndexOf(Delimiter);
-            switch(CountExceedingBehaviour)
-            {
-                case CountExceedingBehaviour.CutRemainingElements:
-                    break;
-                case CountExceedingBehaviour.AppendRemainingElements:
-                    if(currentCount == CountMinusOne)
-                    {
-                        ReadOnlySpan<T> lower = span[..index];
-                        ReadOnlySpan<T> upper = span[(index + Delimiter.Length)..];
-                        Span<T> temp = new T[lower.Length + upper.Length];
-                        lower.CopyTo(temp[..index]);
-                        upper.CopyTo(temp[(index + Delimiter.Length - 1)..]);
-                        Current = temp;
-                        currentCount++;
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
-            }
-            if(index == -1 || index >= span.Length)
-            {
-                enumerationDone = true;
-                Current = span;
+                EnumerationDone = true;
+
+                Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
+
                 return true;
             }
-            currentCount++;
-            Current = span[..index];
-            Span = span[(index + Delimiter.Length)..];
+
+            Current = Span[..delimiterIndex];
+            Span = Span[(delimiterIndex + DelimiterLength)..];
+
+            CurrentCount--;
             return true;
         }
     }

@@ -9,12 +9,14 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<char> Span;
         readonly ReadOnlySpan<char> Delimiter;
-        readonly StringSplitOptions Options;
-        readonly int Count;
+        readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
+        readonly bool TrimEntries;
+        readonly bool RemoveEmptyEntries;
         readonly CountExceedingBehaviour CountExceedingBehaviour;
-        int currentCount;
-        bool enumerationDone;
-        readonly int CountMinusOne;
+        int CurrentCount;
+        bool EnumerationDone;
+
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
         /// </summary>
@@ -25,20 +27,25 @@ namespace SpanExtensions.Enumerators
         /// </summary>
         /// <param name="source">The <see cref="ReadOnlySpan{Char}"/> to be split.</param>
         /// <param name="delimiter">An instance of <see cref="ReadOnlySpan{Char}"/> that delimits the various sub-ReadOnlySpans in <paramref name="source"/>.</param>
-        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="count">The maximum number of sub-ReadOnlySpans to split into.</param>
+        /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim results and include empty results.</param>
         /// <param name="countExceedingBehaviour">The handling of the instances more than count.</param>
         public SpanSplitSequenceStringSplitOptionsWithCountEnumerator(ReadOnlySpan<char> source, ReadOnlySpan<char> delimiter, int count, StringSplitOptions options, CountExceedingBehaviour countExceedingBehaviour = CountExceedingBehaviour.AppendRemainingElements)
         {
+            ExceptionHelpers.ThrowIfNegative(count, nameof(count));
+            ExceptionHelpers.ThrowIfInvalid(countExceedingBehaviour, nameof(countExceedingBehaviour));
+            ExceptionHelpers.ThrowIfInvalid(options, nameof(options));
+
             Span = source;
             Delimiter = delimiter;
-            Count = count;
-            Options = options;
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
+            CurrentCount = DelimiterIsEmpty || count == 1 ? 0 : count;
+            TrimEntries = options.HasFlag((StringSplitOptions)2); // StringSplitOptions.TrimEntries
+            RemoveEmptyEntries = options.HasFlag(StringSplitOptions.RemoveEmptyEntries);
             CountExceedingBehaviour = countExceedingBehaviour;
+            EnumerationDone = count == 0;
             Current = default;
-            currentCount = 0;
-            enumerationDone = false;
-            CountMinusOne = Math.Max(Count - 1, 0);
         }
 
         /// <summary>
@@ -55,75 +62,72 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<char> span = Span;
-            if(currentCount == Count)
+            while(true) // if RemoveEmptyEntries options flag is set, repeat until a non-empty span is found, or the end is reached
             {
-                return false;
-            }
-            int index = span.IndexOf(Delimiter);
+                int delimiterIndex = Span.IndexOf(Delimiter);
 
-            switch(CountExceedingBehaviour)
-            {
-                case CountExceedingBehaviour.CutRemainingElements:
-                    break;
-                case CountExceedingBehaviour.AppendRemainingElements:
-                    if(currentCount == CountMinusOne)
-                    {
-                        ReadOnlySpan<char> lower = span[..index];
-                        ReadOnlySpan<char> upper = span[(index + Delimiter.Length)..];
-                        Span<char> temp = new char[lower.Length + upper.Length];
-                        lower.CopyTo(temp[..index]);
-                        upper.CopyTo(temp[(index + Delimiter.Length - 1)..]);
-                        Current = temp;
-                        currentCount++;
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new InvalidCountExceedingBehaviourException(CountExceedingBehaviour);
-            }
-            if(index == -1 || index >= span.Length)
-            {
-                enumerationDone = true;
-                Current = span;
-                return true;
-            }
-            currentCount++;
-            Current = span[..index];
-
-#if NET5_0_OR_GREATER
-            if(Options.HasFlag(StringSplitOptions.TrimEntries))
-            {
-                Current = Current.Trim();
-            }
-#endif
-            if(Options.HasFlag(StringSplitOptions.RemoveEmptyEntries))
-            {
-                if(Current.IsEmpty)
+                if(delimiterIndex == -1 || CurrentCount <= 1)
                 {
-                    Span = span[(index + Delimiter.Length)..];
-                    if(Span.IsEmpty)
+                    EnumerationDone = true;
+
+                    if(CurrentCount != 0 && delimiterIndex != -1 && RemoveEmptyEntries) // skip all empty (after trimming if necessary) entries from the left
                     {
-                        enumerationDone = true;
-                        return false;
+                        do
+                        {
+                            ReadOnlySpan<char> beforeDelimiter = Span[..delimiterIndex];
+
+                            if(TrimEntries ? beforeDelimiter.IsWhiteSpace() : beforeDelimiter.IsEmpty)
+                            {
+                                Span = Span[(delimiterIndex + DelimiterLength)..];
+                                delimiterIndex = Span.IndexOf(Delimiter);
+
+                                continue;
+                            }
+
+                            if(CountExceedingBehaviour == CountExceedingBehaviour.CutRemainingElements)
+                            {
+                                Span = beforeDelimiter;
+                            }
+                            break;
+                        }
+                        while(delimiterIndex != -1);
+
+                        Current = Span;
                     }
-                    return MoveNext();
+                    else
+                    {
+                        Current = delimiterIndex == -1 || CountExceedingBehaviour == CountExceedingBehaviour.AppendRemainingElements || DelimiterIsEmpty ? Span : Span[..delimiterIndex];
+                    }
+
+                    if(TrimEntries)
+                    {
+                        Current = Current.Trim();
+                    }
+
+                    return !(RemoveEmptyEntries && Current.IsEmpty);
                 }
 
-                Span = span[(index + 1)..];
-                if(Span.IsEmpty)
+                Current = Span[..delimiterIndex];
+                Span = Span[(delimiterIndex + DelimiterLength)..];
+
+                if(TrimEntries)
                 {
-                    enumerationDone = true;
+                    Current = Current.Trim();
                 }
+
+                if(RemoveEmptyEntries && Current.IsEmpty)
+                {
+                    continue;
+                }
+
+                CurrentCount--;
                 return true;
             }
-            Span = span[(index + Delimiter.Length)..];
-            return true;
         }
     }
 }

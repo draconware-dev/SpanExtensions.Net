@@ -10,7 +10,9 @@ namespace SpanExtensions.Enumerators
     {
         ReadOnlySpan<T> Span;
         readonly ReadOnlySpan<T> Delimiter;
-        bool enumerationDone;
+        readonly int DelimiterLength;
+        readonly bool DelimiterIsEmpty;
+        bool EnumerationDone;
 
         /// <summary>
         /// Gets the element in the collection at the current position of the enumerator.
@@ -26,8 +28,10 @@ namespace SpanExtensions.Enumerators
         {
             Span = source;
             Delimiter = delimiter;
+            DelimiterLength = Delimiter.Length;
+            DelimiterIsEmpty = Delimiter.IsEmpty;
+            EnumerationDone = false;
             Current = default;
-            enumerationDone = false;
         }
 
         /// <summary>
@@ -44,22 +48,25 @@ namespace SpanExtensions.Enumerators
         /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the collection.</returns>
         public bool MoveNext()
         {
-            if(enumerationDone)
+            if(EnumerationDone)
             {
                 return false;
             }
 
-            ReadOnlySpan<T> span = Span;
-            int index = span.IndexOf(Delimiter);
+            int delimiterIndex = Span.IndexOf(Delimiter);
 
-            if(index == -1 || index >= span.Length)
+            if(delimiterIndex == -1 || DelimiterIsEmpty)
             {
-                enumerationDone = true;
-                Current = span;
+                EnumerationDone = true;
+
+                Current = Span;
+
                 return true;
             }
-            Current = span[..index];
-            Span = span[(index + Delimiter.Length)..];
+
+            Current = Span[..delimiterIndex];
+            Span = Span[(delimiterIndex + DelimiterLength)..];
+
             return true;
         }
     }

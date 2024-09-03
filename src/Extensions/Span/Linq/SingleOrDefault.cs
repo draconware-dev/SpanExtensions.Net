@@ -39,7 +39,7 @@ namespace SpanExtensions
         /// <returns>The single element in <paramref name="source"/>.</returns>
         public static T? SingleOrDefault<T>(this Span<T> source)
         {
-            return ReadOnlySpanExtensions.SingleOrDefault<T>(source);    
+            return ReadOnlySpanExtensions.SingleOrDefault<T>(source);
         }
 
         /// <summary>

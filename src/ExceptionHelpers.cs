@@ -1,10 +1,31 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using SpanExtensions;
 
 static class ExceptionHelpers
 {
+    static readonly StringSplitOptions NegatedCombinationOfAllValidStringSplitOptions;
+
+    static ExceptionHelpers()
+    {
+#if NET5_0_OR_GREATER
+        StringSplitOptions[] flags = Enum.GetValues<StringSplitOptions>();
+#else
+        StringSplitOptions[] flags = (StringSplitOptions[])Enum.GetValues(typeof(StringSplitOptions));
+#endif
+
+        int combination = 0;
+        foreach(int flag in flags)
+        {
+            combination |= flag;
+        }
+
+        NegatedCombinationOfAllValidStringSplitOptions = (StringSplitOptions) ~combination;
+    }
+
     internal static void ThrowIfGreaterThanOrEqual<T>(T value, T other,
 #if NET8_0_OR_GREATER
         [CallerArgumentExpression(nameof(value))] 
@@ -25,6 +46,39 @@ static class ExceptionHelpers
         if(value.CompareTo(other) < 0)
         {
             ThrowLessThan(value, other, paramName);
+        }
+    }
+
+    internal static void ThrowIfInvalid(CountExceedingBehaviour countExceedingBehaviour,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(countExceedingBehaviour))] 
+#endif
+    string? paramName = null)
+    {
+#if NET5_0_OR_GREATER
+        if(!Enum.IsDefined(countExceedingBehaviour))
+#else
+        if(!Enum.IsDefined(typeof(CountExceedingBehaviour), countExceedingBehaviour))
+#endif
+        {
+#if NET5_0_OR_GREATER
+            string[] names = Enum.GetNames<CountExceedingBehaviour>();
+#else
+            string[] names = Enum.GetNames(typeof(CountExceedingBehaviour));
+#endif
+            throw new ArgumentException($"{nameof(CountExceedingBehaviour)} does not define an option with the value '{countExceedingBehaviour}'. Valid options are {string.Join(", ", names)}.", nameof(countExceedingBehaviour));
+        }
+    }
+
+    internal static void ThrowIfInvalid(this StringSplitOptions options,
+#if NET8_0_OR_GREATER
+        [CallerArgumentExpression(nameof(options))] 
+#endif
+    string? paramName = null)
+    {
+        if((options & NegatedCombinationOfAllValidStringSplitOptions) != 0)
+        {
+            throw new ArgumentException("Value of flag is invalid.", paramName);
         }
     }
 
@@ -60,6 +114,7 @@ static class ExceptionHelpers
             ThrowNegative(value, paramName);
         }
     }
+
 #else
     internal static void ThrowIfOutOfArrayBounds(int value, int upperBound,
 #if NET8_0_OR_GREATER
