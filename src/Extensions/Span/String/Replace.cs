@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !NET8_0_OR_GREATER // support for this method has been added in .Net 8. Just include it for backward-compatibility. 
+
+using System;
 
 namespace SpanExtensions
 {
@@ -23,3 +25,4 @@ namespace SpanExtensions
         }
     }
 }
+#endif
