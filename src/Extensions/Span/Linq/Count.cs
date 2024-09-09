@@ -4,7 +4,6 @@ namespace SpanExtensions
 {
     public static partial class SpanExtensions
     {
-#if !NET8_0_OR_GREATER // support for this method has been added in .Net 8. Just include it for backward-compatibility. 
         /// <summary>
         /// Returns the number of elements in a <see cref="Span{T}"/>.
         /// </summary>
@@ -16,7 +15,7 @@ namespace SpanExtensions
         {
             return ReadOnlySpanExtensions.Count<T>(source);
         }
-#endif
+
         /// <summary>
         /// Returns a number that represents how many elements in the specified sequence satisfy a condition.
         /// </summary>
