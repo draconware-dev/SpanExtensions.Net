@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres not (yet) to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.4.2] - 2024-10-29
+
+### Added 
+
+- `(Readonly-)Span<T>.Count(...)` overloads to all versions before .Net 8 matching these introduced in .Net 8.
+
+### Changed 
+
+- blocked compilation on .Net 9 due to known incompatibilities, which are to be resolved in version 1.5. 
+
 ## [1.4.1] - 2024-9-9
 
 ### Fixed 

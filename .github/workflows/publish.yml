@@ -4,6 +4,10 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
+    - '**.sln'
 
 permissions:
   contents: write

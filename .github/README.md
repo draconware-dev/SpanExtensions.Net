@@ -1,6 +1,8 @@
 # SpanExtensions
 
-[![NuGet Badge](https://buildstats.info/nuget/SpanExtensions.Net)](https://www.nuget.org/packages/SpanExtensions.Net)
+[![NuGet Version](https://img.shields.io/nuget/v/SpanExtensions.Net)](https://www.nuget.org/packages/SpanExtensions.Net)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/SpanExtensions.Net)](https://www.nuget.org/packages/SpanExtensions.Net)
+[![GitHub License](https://img.shields.io/github/license/draconware-dev/SpanExtensions.Net)](https://github.com/draconware-dev/SpanExtensions.Net/blob/main/LICENSE)
 
 ## About
 **`ReadonlySpan<T>`** and **`Span<T>`** are great Types in _C#_, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.  

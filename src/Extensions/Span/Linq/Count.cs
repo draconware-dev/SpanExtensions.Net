@@ -29,5 +29,29 @@ namespace SpanExtensions
         {
             return ReadOnlySpanExtensions.Count(source, predicate);
         }
+
+#if !NET8_0_OR_GREATER
+        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="source"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="source">A <see cref="Span{T}"/> whose elements are to be counted.</param>
+        /// <param name="value">The value for which to search.</param>
+        /// <returns>The number of elements eqaul to <paramref name="value"/> in <paramref name="source"/>.</returns>
+        /// <exception cref="OverflowException">The number of elements in <paramref name="source"/> is larger than <see cref="int.MaxValue"/>.</exception>
+        public static int Count<T>(this Span<T> source, T value) where T : IEquatable<T>
+        {
+            return ReadOnlySpanExtensions.Count(source, value);
+        }
+
+        /// <summary>Counts the number of times the specified <paramref name="value"/> occurs in the <paramref name="source"/>.</summary>
+        /// <typeparam name="T">The element type of the span.</typeparam>
+        /// <param name="source">A <see cref="Span{T}"/> whose elements are to be counted.</param>
+        /// <param name="value">The value for which to search.</param>
+        /// <returns>The number of elements eqaul to <paramref name="value"/> in <paramref name="source"/>.</returns>
+        /// <exception cref="OverflowException">The number of elements in <paramref name="source"/> is larger than <see cref="int.MaxValue"/>.</exception>
+        public static int Count<T>(this Span<T> source, ReadOnlySpan<T> value) where T : IEquatable<T>
+        {
+            return ReadOnlySpanExtensions.Count(source, value);
+        }
+#endif
     }
 }
