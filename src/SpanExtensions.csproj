@@ -27,6 +27,10 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
+	
+	<Target Name="BlokcCompilationDotNet9Onwards" BeforeTargets="Compile">
+		<Error Condition="'$(TargetFramework)' == 'net9.0'" Text="Error: This project does not support versions past .NET 8. Please upgrade to the latest version of SpanExtensions.Net. Due to the introduction of the new variable-length Split methods in .Net 9, the rich set of Split extension methods provided by this package has been removed in favour of the new built-in versions. If you wish to continue using our rich set of methds over the new Split versions, they are still available under 'ReadOnlySpanExtensions.Split(...)' and 'SpanExtensions.Split(...)' respectively." />
+	</Target>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>portable</DebugType>
