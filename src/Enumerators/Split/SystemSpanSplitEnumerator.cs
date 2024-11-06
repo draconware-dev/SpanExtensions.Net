@@ -2,9 +2,13 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
+#if !NET9_0_OR_GREATER
+
 namespace System
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static partial class MemoryExtensions
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     {
         /// <summary>
         /// Enables enumerating each split within a <see cref="ReadOnlySpan{T}"/> that has been divided using one or more separators.
@@ -108,9 +112,9 @@ namespace System
                     mode = (SpanSplitEnumeratorMode)(-1);
                     return true;
                 }
-           
+
                 Current = new Range(Current.End.Value + length, Current.Start.Value + index);
-                
+
                 return true;
             }
         }
@@ -125,3 +129,5 @@ namespace System
         }
     }
 }
+
+#endif

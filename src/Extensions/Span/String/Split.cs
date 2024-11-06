@@ -6,7 +6,6 @@ namespace SpanExtensions
 {
     public static partial class SpanExtensions
     {
-
         /// <summary>
         /// Splits a <see cref="Span{T}"/> into multiple ReadOnlySpans based on the specified <paramref name="delimiter"/>.
         /// </summary>
