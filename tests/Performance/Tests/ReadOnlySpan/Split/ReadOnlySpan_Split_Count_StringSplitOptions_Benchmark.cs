@@ -11,7 +11,7 @@ namespace SpanExtensions.Tests.Performance
         {
             int iterations = 0;
 
-            foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options))
+            foreach(ReadOnlySpan<char> part in ReadOnlySpanExtensions.Split(value, delimiter, count, options))
             {
                 iterations++;
             }
@@ -39,7 +39,7 @@ namespace SpanExtensions.Tests.Performance
         {
             int iterations = 0;
 
-            foreach(ReadOnlySpan<char> part in value.Split(delimiter, count, options, CountExceedingBehaviour.CutRemainingElements))
+            foreach(ReadOnlySpan<char> part in ReadOnlySpanExtensions.Split(value, delimiter, count, options, CountExceedingBehaviour.CutRemainingElements))
             {
                 iterations++;
             }
