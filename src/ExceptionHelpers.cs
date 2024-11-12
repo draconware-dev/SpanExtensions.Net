@@ -23,7 +23,7 @@ static class ExceptionHelpers
             combination |= flag;
         }
 
-        NegatedCombinationOfAllValidStringSplitOptions = (StringSplitOptions) ~combination;
+        NegatedCombinationOfAllValidStringSplitOptions = (StringSplitOptions)~combination;
     }
 
     internal static void ThrowIfGreaterThanOrEqual<T>(T value, T other,

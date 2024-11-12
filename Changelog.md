@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres not (yet) to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5] - 2024-11-12
+
+### Added
+
+- implementations of the newly introduced Span.Split methods from .Net 9 for any version prior to .Net 9 to maintain backwards-compatibility across .Net versions.
+
+### Changed 
+
+- Split extension methods to refer to new split implementations compatible to the ones in .Net 9 and made .Net 9 split methods the default from that version onwards. The original split methods are still accessible as static methods.
+- original Split methods are no longer available without passing span as a parameter.
 
 ## [1.4.2] - 2024-10-29
 

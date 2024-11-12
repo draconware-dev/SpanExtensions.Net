@@ -14,7 +14,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 var expected = EmptyNestedCharArray;
 
-                var actual = emptySpan.Split('a', options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(emptySpan, 'a', options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -27,7 +27,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 var expected = NestedABBAArray;
 
-                var actual = source.Split('c', options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'c', options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -40,7 +40,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [];
 
-                var actual = source.Split(delimiter, 0, options, countExceedingBehaviour).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, delimiter, 0, options, countExceedingBehaviour).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -52,7 +52,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 var expected = NestedABBAArray;
 
-                var actual = source.Split('a', 1, StringSplitOptions.None).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'a', 1, StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -64,7 +64,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a'], [], ['a']];
 
-                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -77,7 +77,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a'], ['a']];
 
-                var actual = source.Split('b', options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -89,7 +89,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [[], ['a', 'a']];
 
-                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -102,7 +102,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -114,7 +114,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a'], []];
 
-                var actual = source.Split('b', StringSplitOptions.None).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -127,7 +127,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -138,7 +138,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiter, count, StringSplitOptions.None).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, delimiter, count, StringSplitOptions.None).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -149,7 +149,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiter, count).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, delimiter, count).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -161,7 +161,7 @@ namespace SpanExtensions.Tests.UnitTests
             {
                 ReadOnlySpan<char> source = sourceString;
 
-                var actual = source.Split(delimiter, count, StringSplitOptions.None, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, delimiter, count, StringSplitOptions.None, CountExceedingBehaviour.CutRemainingElements).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -174,7 +174,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', 2, options).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 2, options).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -186,7 +186,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a'], ['a']];
 
-                var actual = source.Split('b', StringSplitOptions.TrimEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', StringSplitOptions.TrimEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -198,7 +198,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [];
 
-                var actual = source.Split('_', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, '_', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -210,7 +210,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -222,7 +222,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [];
 
-                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -234,7 +234,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['b', 'a', 'a']];
 
-                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 1, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -246,7 +246,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 2, StringSplitOptions.RemoveEmptyEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -258,7 +258,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [];
 
-                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -270,7 +270,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['b', '\t', 'a', 'a']];
 
-                var actual = source.Split('b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 1, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -282,7 +282,7 @@ namespace SpanExtensions.Tests.UnitTests
 
                 char[][] expected = [['a', 'a']];
 
-                var actual = source.Split('b', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
+                var actual = ReadOnlySpanExtensions.Split(source, 'b', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToSystemEnumerable();
 
                 AssertEqual(expected, actual);
             }
@@ -290,19 +290,19 @@ namespace SpanExtensions.Tests.UnitTests
             [Fact]
             public void NegativeCountThrowsArgumentOutOfRangeException()
             {
-                Assert.Throws<ArgumentOutOfRangeException>(() => "aabb".AsSpan().Split('b', -1, StringSplitOptions.None));
+                Assert.Throws<ArgumentOutOfRangeException>(() => ReadOnlySpanExtensions.Split("aabb".AsSpan(), 'b', -1, StringSplitOptions.None));
             }
 
             [Fact]
             public void UndefinedCountExceedingBehaviourOptionThrowsArgumentException()
             {
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', 1, StringSplitOptions.None, InvalidCountExceedingBehaviour));
+                Assert.Throws<ArgumentException>(() => ReadOnlySpanExtensions.Split("aabb".AsSpan(), 'b', 1, StringSplitOptions.None, InvalidCountExceedingBehaviour));
             }
 
             [Fact]
             public void UndefinedStringSplitOptionsThrowsArgumentException()
             {
-                Assert.Throws<ArgumentException>(() => "aabb".AsSpan().Split('b', InvalidStringSplitOptions));
+                Assert.Throws<ArgumentException>(() => ReadOnlySpanExtensions.Split("aabb".AsSpan(), 'b', InvalidStringSplitOptions));
             }
         }
     }
