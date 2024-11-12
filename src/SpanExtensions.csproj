@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
+		<TargetFrameworks>net9.0;net8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -22,15 +22,11 @@
 		<PackageTags>Span;Performance;Extension;String</PackageTags>
 		<PackageReleaseNotes>https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md</PackageReleaseNotes> 
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.4.2</Version>
+		<Version>1.5</Version>
 		<PackageId>SpanExtensions.Net</PackageId>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageIcon>icon.png</PackageIcon>
 	</PropertyGroup>
-	
-	<Target Name="BlokcCompilationDotNet9Onwards" BeforeTargets="Compile">
-		<Error Condition="'$(TargetFramework)' == 'net9.0'" Text="Error: This project does not support versions past .NET 8. Please upgrade to the latest version of SpanExtensions.Net. Due to the introduction of the new variable-length Split methods in .Net 9, the rich set of Split extension methods provided by this package has been removed in favour of the new built-in versions. If you wish to continue using our rich set of methds over the new Split versions, they are still available under 'ReadOnlySpanExtensions.Split(...)' and 'SpanExtensions.Split(...)' respectively." />
-	</Target>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DebugType>portable</DebugType>
