@@ -88,17 +88,17 @@ namespace SpanExtensions
                 switch(mode)
                 {
                     case SpanSplitEnumeratorMode.Delimiter:
-                        index = Span[Current.Start..].IndexOf(Delimiter);
+                        index = Span[nextStartIndex..].IndexOf(Delimiter);
                         length = 1;
                         break;
 
                     case SpanSplitEnumeratorMode.Any:
-                        index = Span[Current.Start..].IndexOfAny(DelimiterSpan);
+                        index = Span[nextStartIndex..].IndexOfAny(DelimiterSpan);
                         length = 1;
                         break;
 
                     case SpanSplitEnumeratorMode.Sequence:
-                        index = Span[Current.Start..].IndexOf(DelimiterSpan);
+                        index = Span[nextStartIndex..].IndexOf(DelimiterSpan);
                         length = DelimiterSpan.Length;
                         break;
 
@@ -109,7 +109,7 @@ namespace SpanExtensions
 
 #if NET8_0
                     case SpanSplitEnumeratorMode.SearchValues:
-                        index = Span[Current.Start..].IndexOfAny(SearchValues);
+                        index = Span[nextStartIndex..].IndexOfAny(SearchValues);
                         length = 1;
                         break;
 #endif
