@@ -1,66 +1,66 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFrameworks>net9.0;net8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
-		<ImplicitUsings>disable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<Platforms>AnyCPU</Platforms>
-		<Title>Span Extensions</Title>
-		<Authors>dragon-cs</Authors>
-		<Company>draconware</Company>
-		<Description>
-			ReadonlySpan&lt;T&gt; and Span&lt;T&gt; are great Types in C#, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.
+    <PropertyGroup>
+        <TargetFrameworks>net9.0;net8.0;net7.0;net6.0;net5.0;netstandard2.1</TargetFrameworks>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+        <Platforms>AnyCPU</Platforms>
+        <Title>Span Extensions</Title>
+        <Authors>dragon-cs</Authors>
+        <Company>draconware</Company>
+        <Description>
+            ReadonlySpan&lt;T&gt; and Span&lt;T&gt; are great Types in C#, but unfortunately working with them can sometimes be sort of a hassle and some use cases seem straight up impossible, even though they are not.
 
-			SpanExtensions.Net aims to help developers use ReadonlySpan&lt;T&gt; and Span&lt;T&gt; more productively, efficiently and safely and write overall more performant Programs.
+            SpanExtensions.Net aims to help developers use ReadonlySpan&lt;T&gt; and Span&lt;T&gt; more productively, efficiently and safely and write overall more performant Programs.
 
-			Never again switch back to using string instead of ReadonlySpan&lt;T&gt;, just because the method you seek is not supported.
-		</Description>
-		<RepositoryUrl>https://github.com/draconware-dev/SpanExtensions.Net</RepositoryUrl>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright (c) 2024 draconware-dev</Copyright>
-		<PackageTags>Span;Performance;Extension;String</PackageTags>
-		<PackageReleaseNotes>https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md</PackageReleaseNotes> 
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<Version>1.5</Version>
-		<PackageId>SpanExtensions.Net</PackageId>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>icon.png</PackageIcon>
-	</PropertyGroup>
+            Never again switch back to using string instead of ReadonlySpan&lt;T&gt;, just because the method you seek is not supported.
+        </Description>
+        <RepositoryUrl>https://github.com/draconware-dev/SpanExtensions.Net</RepositoryUrl>
+        <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) 2024 draconware-dev</Copyright>
+        <PackageTags>Span;Performance;Extension;String</PackageTags>
+        <PackageReleaseNotes>https://github.com/draconware-dev/SpanExtensions.Net/blob/main/Changelog.md</PackageReleaseNotes> 
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <Version>1.5.1</Version>
+        <PackageId>SpanExtensions.Net</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-		<DebugType>portable</DebugType>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+        <DebugType>portable</DebugType>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<None Include="README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\LICENSE">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="README.md">
+          <Pack>True</Pack>
+          <PackagePath>\</PackagePath>
+        </None>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <None Include="icon.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
+    <ItemGroup>
+      <None Include="icon.png">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>
