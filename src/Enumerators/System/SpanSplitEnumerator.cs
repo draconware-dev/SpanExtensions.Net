@@ -23,27 +23,35 @@ namespace System
             readonly SearchValues<T> SearchValues = null!;
 #endif
 
+            int currentStartIndex;
+            int currentEndIndex;
+            int nextStartIndex;
             /// <summary>
             /// Gets the current element of the enumeration.
             /// </summary>
             /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
-            public Range Current { get; internal set; }
+            public readonly Range Current => new Range(currentStartIndex, currentEndIndex);
 
             internal SpanSplitEnumerator(ReadOnlySpan<T> source, T delimiter)
             {
                 Span = source;
                 Delimiter = delimiter;
-                Current = new Range(0, 0);
                 DelimiterSpan = default;
                 mode = SpanSplitEnumeratorMode.Delimiter;
+                currentStartIndex = 0;
+                currentEndIndex = 0;
+                nextStartIndex = 0;
             }
+
             internal SpanSplitEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> delimiter, SpanSplitEnumeratorMode mode)
             {
                 Span = source;
                 DelimiterSpan = delimiter;
-                Current = new Range(0, 0);
                 Delimiter = default!;
                 this.mode = mode;
+                currentStartIndex = 0;
+                currentEndIndex = 0;
+                nextStartIndex = 0;
             }
 
 #if NET8_0
@@ -52,9 +60,11 @@ namespace System
                 Span = source;
                 Delimiter = default!;
                 SearchValues = searchValues;
-                Current = new Range(0, 0);
                 DelimiterSpan = default;
                 mode = SpanSplitEnumeratorMode.Delimiter;
+                currentStartIndex = 0;
+                currentEndIndex = 0;
+                nextStartIndex = 0;
             }
 #endif
             /// <summary>
@@ -106,15 +116,20 @@ namespace System
                         return false;
                 }
 
+                currentStartIndex = nextStartIndex;
+                
                 if(index < 0)
                 {
-                    Current = new Range(Span.Length, Span.Length);
+                    currentEndIndex = Span.Length;
+                    nextStartIndex = Span.Length;
+                    
                     mode = (SpanSplitEnumeratorMode)(-1);
                     return true;
                 }
 
-                Current = new Range(Current.End.Value + length, Current.Start.Value + index);
-
+                currentEndIndex = currentStartIndex + index;
+                nextStartIndex = currentEndIndex + length;
+                
                 return true;
             }
         }
