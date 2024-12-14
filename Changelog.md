@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres not (yet) to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2024-12-14
+
+### Fixed
+
+- incorrect ranges returned by the range-based Split method for versions prior to .Net 9.
+
+### Changed 
+
+- moved MemoryExtensions containing range-based Split method for versions prior to .Net 9 from `System` to `SpanExtensions`.
+- grammatical issues in some documentation comments.
+
 ## [1.5] - 2024-11-12
 
 ### Added
