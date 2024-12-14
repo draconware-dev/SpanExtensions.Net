@@ -1,10 +1,11 @@
-﻿using System.Buffers;
+﻿using System;
+using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 #if !NET9_0_OR_GREATER
 
-namespace System
+namespace SpanExtensions
 {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static partial class MemoryExtensions
@@ -144,5 +145,4 @@ namespace System
         }
     }
 }
-
 #endif
