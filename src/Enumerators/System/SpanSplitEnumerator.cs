@@ -30,7 +30,7 @@ namespace SpanExtensions
             /// <summary>
             /// Gets the current element of the enumeration.
             /// </summary>
-            /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
+            /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element within the source span.</returns>
             public readonly Range Current => new Range(currentStartIndex, currentEndIndex);
 
             internal SpanSplitEnumerator(ReadOnlySpan<T> source, T delimiter)
