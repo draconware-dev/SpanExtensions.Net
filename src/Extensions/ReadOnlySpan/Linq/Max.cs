@@ -1306,10 +1306,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static Half Max<T>(this ReadOnlySpan<T> source, Func<T, Half> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             Half max = selector(first);
@@ -1600,10 +1597,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static byte Max<T>(this ReadOnlySpan<T> source, Func<T, byte> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             byte max = selector(first);
@@ -1632,10 +1626,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static ushort Max<T>(this ReadOnlySpan<T> source, Func<T, ushort> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             ushort max = selector(first);
@@ -1664,10 +1655,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static uint Max<T>(this ReadOnlySpan<T> source, Func<T, uint> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             uint max = selector(first);
@@ -1696,10 +1684,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static ulong Max<T>(this ReadOnlySpan<T> source, Func<T, ulong> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             ulong max = selector(first);

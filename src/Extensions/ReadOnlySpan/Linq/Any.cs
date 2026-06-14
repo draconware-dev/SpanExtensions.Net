@@ -14,6 +14,8 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="predicate"/> is null.</exception>
         public static bool Any<T>(this ReadOnlySpan<T> source, Predicate<T> predicate)
         {
+            ExceptionHelpers.ThrowIfNull(predicate, nameof(predicate));
+
             for(int i = 0; i < source.Length; i++)
             {
                 if(predicate(source[i]))

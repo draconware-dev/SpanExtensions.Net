@@ -27,10 +27,7 @@ namespace SpanExtensions
         /// <exception cref="OverflowException">The number of elements in <paramref name="source"/> is larger than <see cref="int.MaxValue"/>.</exception>
         public static int Count<T>(this ReadOnlySpan<T> source, Predicate<T> predicate)
         {
-            if(predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            ExceptionHelpers.ThrowIfNull(predicate, nameof(predicate));
 
             int count = 0;
 

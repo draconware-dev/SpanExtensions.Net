@@ -31,10 +31,8 @@ namespace SpanExtensions
         /// <exception cref="InvalidOperationException">No element satisfies the condition in <paramref name="predicate"/>. -or- <paramref name="source"/> is empty.</exception>
         public static T Last<T>(this ReadOnlySpan<T> source, Predicate<T> predicate)
         {
-            if(predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
+            ExceptionHelpers.ThrowIfNull(predicate, nameof(predicate));
+
             if(source.IsEmpty)
             {
                 throw new InvalidOperationException($"{nameof(source)} cannot be empty.");

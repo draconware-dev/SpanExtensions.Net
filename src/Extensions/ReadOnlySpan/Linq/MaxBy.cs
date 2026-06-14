@@ -19,10 +19,8 @@ namespace SpanExtensions
         /// <remarks>If <paramref name="source"/> is empty and <typeparamref name="TSource"/> is a non-nullable struct, such as a primitive type, an <see cref="InvalidOperationException"/> is thrown.</remarks>
         public static TSource MaxBy<TSource, TKey>(this ReadOnlySpan<TSource> source, Func<TSource, TKey> keySelector) where TKey : IComparable<TKey>
         {
-            if(keySelector is null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
+            ExceptionHelpers.ThrowIfNull(keySelector, nameof(keySelector));
+
             if(source.IsEmpty)
             {
                 throw new InvalidOperationException($"{nameof(source)} is empty");
@@ -56,14 +54,9 @@ namespace SpanExtensions
         /// <remarks>If <paramref name="source"/> is empty and <typeparamref name="TSource"/> is a non-nullable struct, such as a primitive type, an <see cref="InvalidOperationException"/> is thrown.</remarks>
         public static TSource MaxBy<TSource, TKey>(this ReadOnlySpan<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            if(keySelector is null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-            if(comparer is null)
-            {
-                throw new ArgumentNullException(nameof(comparer));
-            }
+            ExceptionHelpers.ThrowIfNull(keySelector, nameof(keySelector));
+            ExceptionHelpers.ThrowIfNull(comparer, nameof(comparer));
+
             if(source.IsEmpty)
             {
                 throw new InvalidOperationException($"{nameof(source)} is empty");

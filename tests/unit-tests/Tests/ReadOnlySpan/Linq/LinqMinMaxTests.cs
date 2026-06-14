@@ -25,7 +25,7 @@
             var Samples10 = GetSampleSetInts(10);
             var Samples100 = GetSampleSetInts(100);
             var Samples1000 = GetSampleSetInts(1000);
-            
+
             int max10 = Samples10.Max();
             int max100 = Samples100.Max();
             int max1000 = Samples1000.Max();
@@ -60,11 +60,11 @@
         {
             Random random = new Random(count);
 
-            int[] sample = new int[count];   
+            int[] sample = new int[count];
 
             for(int i = 0; i < count; i++)
             {
-                sample[i] = random.Next(); 
+                sample[i] = random.Next();
             }
 
             return sample;

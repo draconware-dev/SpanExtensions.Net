@@ -14,6 +14,8 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="source"/> or <paramref name="condition"/> is null.</exception>
         public static ReadOnlySpan<T> TakeWhile<T>(this ReadOnlySpan<T> source, Predicate<T> condition)
         {
+            ExceptionHelpers.ThrowIfNull(condition, nameof(condition));
+
             int count = 0;
             while(count < source.Length)
             {

@@ -115,7 +115,7 @@ namespace SpanExtensions
 
                 return result;
             }
-            
+
             if(Vector64.IsHardwareAccelerated && Vector64<T>.IsSupported && source.Length > Vector64<T>.Count * 4)
             {
                 ref T current = ref MemoryMarshal.GetReference(source);
@@ -152,13 +152,13 @@ namespace SpanExtensions
             for(int i = 1; i < source.Length; i++)
             {
                 T current = source[i];
-                
+
                 if(current.CompareTo(min) < 0)
                 {
                     min = current;
                 }
             }
-            
+
             return min;
         }
 #else
@@ -1561,10 +1561,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static byte Min<T>(this ReadOnlySpan<T> source, Func<T, byte> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             byte min = selector(first);
@@ -1590,10 +1587,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static ushort Min<T>(this ReadOnlySpan<T> source, Func<T, ushort> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             ushort min = selector(first);
@@ -1619,10 +1613,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static uint Min<T>(this ReadOnlySpan<T> source, Func<T, uint> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             uint min = selector(first);
@@ -1648,10 +1639,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static ulong Min<T>(this ReadOnlySpan<T> source, Func<T, ulong> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             ulong min = selector(first);
@@ -1677,7 +1665,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static sbyte Min<T>(this ReadOnlySpan<T> source, Func<T, sbyte> selector)
         {
-            if(selector is null)
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
             {
                 throw new ArgumentNullException(nameof(selector));
             }
@@ -1706,10 +1694,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static short Min<T>(this ReadOnlySpan<T> source, Func<T, short> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             short min = selector(first);
@@ -1735,11 +1720,8 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static int Min<T>(this ReadOnlySpan<T> source, Func<T, int> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
+            
             T first = source[0];
             int min = selector(first);
             for(int i = 1; i < source.Length; i++)
@@ -1764,10 +1746,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static long Min<T>(this ReadOnlySpan<T> source, Func<T, long> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             long min = selector(first);
@@ -1793,10 +1772,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static float Min<T>(this ReadOnlySpan<T> source, Func<T, float> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             float min = selector(first);
@@ -1822,10 +1798,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static double Min<T>(this ReadOnlySpan<T> source, Func<T, double> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             double min = selector(first);
@@ -1851,11 +1824,8 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static decimal Min<T>(this ReadOnlySpan<T> source, Func<T, decimal> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
+            
             T first = source[0];
             decimal min = selector(first);
             for(int i = 1; i < source.Length; i++)
@@ -1880,10 +1850,7 @@ namespace SpanExtensions
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         public static BigInteger Min<T>(this ReadOnlySpan<T> source, Func<T, BigInteger> selector)
         {
-            if(selector is null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
+            ExceptionHelpers.ThrowIfNull(selector, nameof(selector));
 
             T first = source[0];
             BigInteger min = selector(first);
