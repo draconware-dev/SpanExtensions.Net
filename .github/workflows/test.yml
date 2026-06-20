@@ -9,7 +9,7 @@ on:
     paths:
     - '**.cs'
     - '**.csproj'
-    - '**.sln'
+    - '**.slnx'
 
 jobs:
   test:

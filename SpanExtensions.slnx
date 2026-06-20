@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="src/SpanExtensions.csproj">
+    <BuildType Project="Release" />
+  </Project>
+  <Project Path="tests/Performance/PerformanceTests.csproj">
+    <BuildType Project="Release" />
+  </Project>
+  <Project Path="tests/unit-tests/UnitTests.csproj" />
+</Solution>
